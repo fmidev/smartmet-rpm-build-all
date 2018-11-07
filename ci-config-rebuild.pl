@@ -53,16 +53,12 @@ sub genconfigpart($) {
 			}
 		}
 
-		$::testrules{$module} = "test-$module:
-		<<: *test-defaults
-		";
-		$::buildrules{$module} = "build-$module:
-		<<: *build-defaults
-		";
+		$::testrules{$module} = "test-$module:\n  <<: *test_defaults\n";
+		$::buildrules{$module} = "build-$module:\n  <<: *build_defaults\n";
 		$::jobs{"test-$module"} = "        requires:
-        - build-" . join( "\n        - build-", @testreq ) . "\n";
-		$::jobs{"build-$module"} = "       requires:
-        - build-" . join( "\n        - build-", @buildreq ) . "\n";
+          - build-" . join( "\n          - build-", @testreq ) . "\n";
+		$::jobs{"build-$module"} = "        requires:
+          - build-" . join( "\n          - build-", @buildreq ) . "\n";
 		close(FH);
 	}
 }
@@ -74,6 +70,43 @@ mkdir($::specdir);
 #  Recursively call the requirements
 genconfigpart("smartmet-server");
 
+print "aliases:
+&build_defaults:
+  build:
+    docker:
+      - image: fmidev/smartmet-cibase:latest
+    steps:
+      - checkout
+      - run:
+          name: Install build dependencies
+          command: ci-build deps
+      - run:
+          name: Build RPM
+          command: ci-build rpm
+      - persist_to_workspace:
+          root: /dist
+          paths: ./*.rpm
+&test_defaults:
+  test:
+    docker:
+      - image: fmidev/smartmet-cibase:latest
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /dist
+      - run:
+          name: Installation test
+          command: sudo yum install -y /dist/*.rpm
+      - run:
+          name: Test prepare
+          command: ci-build testprep
+      - run:
+          name: Test
+          command: ci-build test
+      - store_artifacts:
+          path: /dist
+          destination: dist/
+version: 2\n";
 print "jobs:
 ";
 foreach my $rule ( sort keys %::buildrules ) {
@@ -84,8 +117,9 @@ foreach my $rule ( sort keys %::testrules ) {
 }
 print "
 workflows:
-	jobs:
+  version: 2
+  jobs:
 ";
 foreach my $job ( sort keys %::jobs ) {
-	print "      - ".$job.":\n".$::jobs{$job};
+	print "    - ".$job.":\n".$::jobs{$job};
 }
