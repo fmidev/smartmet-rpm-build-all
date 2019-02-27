@@ -1,54 +1,73 @@
-aliases:
-&build-defaults:
-  build:
-    docker:
-      - image: fmidev/smartmet-cibase:latest
-    steps:
-      - checkout
-      - run:
-          name: Install build dependencies
-          command: ci-build deps
-      - run:
-          name: Build RPM
-          command: ci-build rpm
-      - persist_to_workspace:
-          root: /dist
-          paths: ./*.rpm
-&test-defaults:
-  test:
-    docker:
-      - image: fmidev/smartmet-cibase:latest
-    steps:
-      - checkout
-      - attach_workspace:
-          at: /dist
-      - run:
-          name: Installation test
-          command: sudo yum install -y /dist/*.rpm
-      - run:
-          name: Test prepare
-          command: ci-build testprep
-      - run:
-          name: Test
-          command: ci-build test
-      - store_artifacts:
-          path: /dist
-          destination: dist/
-version: 2
-jobs:
-build-smartmet-server:
-  <<: *build-defaults
-test-smartmet-server:
-  <<: *test-defaults
+version: 2.1
 
+#  build:
+#   docker:
+#   - image: fmidev/smartmet-cibase:latest
+
+commands:
+ build-default:
+  description: Default build and save artifacts for other steps
+  steps:
+   - checkout
+   - run:
+      name: Install build dependencies
+      command: ci-build deps
+   - run:
+      name: Build RPM
+      command: ci-build rpm
+   - persist_to_workspace:
+      root: /dist
+      paths: ./*.rpm
+ test-default:
+  description: Default test and save tested artifacts
+  steps:
+   - checkout
+   - attach_workspace:
+      at: /dist
+   - run:
+      name: Installation test
+      command: sudo yum install -y /dist/*.rpm
+   - run:
+      name: Test prepare
+      command: ci-build testprep
+   - run:
+      name: Test
+      command: ci-build test
+   - store_artifacts:
+      path: /dist
+      destination: dist/
+
+build-defaults: &build-defaults
+  docker:
+   - image: fmidev/smarmet-cibase:latest
+  steps:
+   - build-default
+
+test-defaults: &test-defaults
+  docker:
+   - image: fmidev/smarmet-cibase:latest
+  steps:
+   - test-default
+   
+jobs:
+ build-smartmet-server: 
+  <<: *build-defaults
+ test-smartmet-server: 
+  << *test-defaults
+ build-smartmet-library-macgyver:
+  <<: *build-defaults
+ build-smartmet-library-spine:
+  <<: *build-defaults
+  
 workflows:
-  version: 2
+ version: 2.1
+ build-test-and-archive:
   jobs:
-    - build-smartmet-server:
-        requires:
-          - build-smartmet-library-macgyver-devel
-          - build-smartmet-library-spine-devel
-    - test-smartmet-server:
-        requires:
-          - build-smartmet-library-macgyver
-          - build-smartmet-library-spine
+   - build-smartmet-server:
+      requires:
+       - build-smartmet-library-macgyver
+       - build-smartmet-library-spine
+   - test-smartmet-server:
+      requires:
+       - build-smartmet-library-macgyver
+       - build-smartmet-library-spine
