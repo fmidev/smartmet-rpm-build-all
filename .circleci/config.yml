@@ -7,13 +7,17 @@ commands:
    - checkout
    - run:
       name: Checkout module for $CIRCLE_JOB
-      command: $CIRCLE_WORKING_DIRECTORY/getsource.sh
+      command: |
+        pwd
+        ls
+        echo $CIRCLE_WORKING_DIRECTORY
+        ./getsource.sh
    - run:
       name: Install build dependencies
-      command: ci-build deps
+      command: cd /tmp/build && ci-build deps
    - run:
       name: Build RPM
-      command: ci-build rpm
+      command: cd /tmp/build && ci-build rpm
    - persist_to_workspace:
       root: /dist
       paths: ./*.rpm
