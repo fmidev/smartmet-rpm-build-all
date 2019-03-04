@@ -24,14 +24,17 @@ commands:
    - attach_workspace:
       at: /dist
    - run:
+      name: Checkout module for $CIRCLE_JOB
+      command: ./getsource.sh
+   - run:
       name: Installation test
       command: sudo yum install -y /dist/*.rpm
    - run:
       name: Test prepare
-      command: ci-build testprep
+      command: cd /tmp/build && ci-build testprep
    - run:
       name: Test
-      command: ci-build test
+      command: cd /tmp/build && ci-build test
    - store_artifacts:
       path: /dist
       destination: dist/
