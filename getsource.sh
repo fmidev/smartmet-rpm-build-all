@@ -9,19 +9,26 @@
 # CIRCLE_WORKING_DIRECTORY
 
 for i in CI CIRCLECI CIRCLE_BRANCH CIRCLE_REPOSITORY_URL CIRCLE_WORKING_DIRECTORY CIRCLE_JOB ; do
-	if [ -z "$$i" ] ; then
+	if [ -z "${!i}" ] ; then
 		echo "Environment variable $i needs to be set and non-empty" >&2
 		exit 2
 	else
-		echo "$i: $$i"
+		echo "$i:" ${!i}
 	fi
 done
+
+# Inside the container, we have to use HTTPS as ssh keys are not in place
+if ! grep -q '^https:' ; then
+    repobase='https://github.com/fmidev'
+else
+    repobase=`echo $CIRCLE_REPOSITORY_URL | sed -e "s%/[^/]*\$%%"`
+fi
 
 # Assume /tmp/build is unique to this container
 cd /tmp
 mkdir -p build
 jobbase=`echo $CIRCLE_JOB | sed -e 's/^.*smartmet-/smartmet-/'`
-repo=`echo $CIRCLE_REPOSITORY_URL | sed -e "s%[^/]*\$%$jobbase%"`
+repo="$repobase/$jobbase"
 echo "Checking out $repo"
 # Check out same branch first, fallback to devel and then to master
 git clone -b "$CIRCLE_BRANCH" "$repo" build || 

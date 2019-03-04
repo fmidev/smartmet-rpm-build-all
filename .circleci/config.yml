@@ -7,11 +7,7 @@ commands:
    - checkout
    - run:
       name: Checkout module for $CIRCLE_JOB
-      command: |
-        pwd
-        ls
-        echo $CIRCLE_WORKING_DIRECTORY
-        ./getsource.sh
+      command: ./getsource.sh
    - run:
       name: Install build dependencies
       command: cd /tmp/build && ci-build deps
