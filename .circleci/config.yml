@@ -1,14 +1,13 @@
 version: 2.1
 
-#  build:
-#   docker:
-#   - image: fmidev/smartmet-cibase:latest
-
 commands:
  build-default:
   description: Default build and save artifacts for other steps
   steps:
    - checkout
+   - run:
+      name: Checkout module for $CIRCLE_JOB
+      command: $CIRCLE_WORKING_DIRECTORY/getsource.sh
    - run:
       name: Install build dependencies
       command: ci-build deps
@@ -36,38 +35,16 @@ commands:
    - store_artifacts:
       path: /dist
       destination: dist/
-
-build-defaults: &build-defaults
-  docker:
-   - image: fmidev/smarmet-cibase:latest
-  steps:
-   - build-default
-
-test-defaults: &test-defaults
-  docker:
-   - image: fmidev/smarmet-cibase:latest
-  steps:
-   - test-default
-   
+ 
 jobs:
- build-smartmet-server: 
-  <<: *build-defaults
- test-smartmet-server: 
-  << *test-defaults
- build-smartmet-library-macgyver:
-  <<: *build-defaults
- build-smartmet-library-spine:
-  <<: *build-defaults
-  
+  build-smartmet-library-newbase:
+    docker:
+     - image: fmidev/smartmet-cibase:latest
+    steps:
+     - build-default
+
 workflows:
- version: 2.1
- build-test-and-archive:
-  jobs:
-   - build-smartmet-server:
-      requires:
-       - build-smartmet-library-macgyver
-       - build-smartmet-library-spine
-   - test-smartmet-server:
-      requires:
-       - build-smartmet-library-macgyver
-       - build-smartmet-library-spine
+  version: 2-1
+  build-test-and-archive:
+    jobs:
+    - build-smartmet-library-newbase
