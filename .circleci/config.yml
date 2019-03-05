@@ -45,13 +45,26 @@ commands:
       destination: dist/
  
 jobs:
+# Ordinarily lines starting with # are comments
+# However, config rebuilder uses lines between #build..#end (and #test, #dep respectively) as a sort of template
+# on how to regenerate that part of the dependency list
+#template build
   build-smartmet-library-newbase:
     executor: fmi-executor
     steps:
      - build-default
+#end
+#template test
+  test-smartmet-library-newbase:
+    executor: fmi-executor
+    steps:
+     - test-default
+#end
 
 workflows:
   version: 2-1
   build-test-and-archive:
     jobs:
+#template deptree
     - build-smartmet-library-newbase
+#end
