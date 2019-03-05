@@ -1,5 +1,10 @@
 version: 2.1
 
+executors:
+ fmi-executor:
+  docker:
+   - image: fmidev/smartmet-cibase:latest
+
 commands:
  build-default:
   description: Default build and save artifacts for other steps
@@ -41,8 +46,7 @@ commands:
  
 jobs:
   build-smartmet-library-newbase:
-    docker:
-     - image: fmidev/smartmet-cibase:latest
+    executor: fmi-executor
     steps:
      - build-default
 
