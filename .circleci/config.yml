@@ -46,8 +46,8 @@ commands:
  
 jobs:
 # Ordinarily lines starting with # are comments
-# However, config rebuilder uses lines between #build..#end (and #test, #dep respectively) as a sort of template
-# on how to regenerate that part of the dependency list
+# Config rebuilder uses lines between #template .. #end as a sort of template
+# Only the first rule is actually used by config rebuilder
 #template build
   build-smartmet-library-newbase:
     executor: fmi-executor
@@ -62,9 +62,10 @@ jobs:
 #end
 
 workflows:
-  version: 2-1
+  version: 2.1
   build-test-and-archive:
     jobs:
+# Dependency tree will be completely rebuilt by config-rebuilder but template still needed for indentation lookup
 #template deptree
     - build-smartmet-library-newbase
 #end
