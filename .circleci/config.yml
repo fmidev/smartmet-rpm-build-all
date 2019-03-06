@@ -136,18 +136,24 @@ workflows:
     - build-smartmet-timezones
     - test-smartmet-library-gis:
        requires:
+        - build-smartmet-library-gis
         - test-smartmet-library-macgyver
     - test-smartmet-library-macgyver:
        requires:
+        - build-smartmet-library-macgyver
         - test-smartmet-library-regression
         - test-smartmet-timezones
     - test-smartmet-library-newbase:
        requires:
+        - build-smartmet-library-newbase
         - test-smartmet-library-regression
         - test-smartmet-timezones
-    - test-smartmet-library-regression
+    - test-smartmet-library-regression:
+       requires:
+        - build-smartmet-library-regression
     - test-smartmet-library-spine:
        requires:
+        - build-smartmet-library-spine
         - test-smartmet-library-gis
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
@@ -155,7 +161,10 @@ workflows:
         - test-smartmet-timezones
     - test-smartmet-server:
        requires:
+        - build-smartmet-server
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
-    - test-smartmet-timezones
+    - test-smartmet-timezones:
+       requires:
+        - build-smartmet-timezones
 #end

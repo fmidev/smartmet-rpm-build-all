@@ -146,13 +146,15 @@ while (<STDIN>) {
 				foreach my $module ( sort keys %::testdeps ) {
 					my $value = $::testdeps{$module};
 					my $c     = ' ' x $currenttemplateindent . "- test-$module";
+					$c .= ":\n"
+					  . ( ' ' x ( $currenttemplateindent + 3 ) )
+					  . "requires:\n"
+					  . ( ' ' x ( $currenttemplateindent + 4 ) )
+					  . "- build-$module\n";
 					if ( $value && scalar @$value > 0 ) {
-						$c .= ":\n" . ( ' ' x ( $currenttemplateindent + 3 ) ) . "requires:\n";
 						foreach my $dep (@$value) {
 							$c .= ( ' ' x ( $currenttemplateindent + 4 ) ) . "- test-$dep\n";
 						}
-					} else {
-						$c .= "\n";
 					}
 					print $c;
 				}
