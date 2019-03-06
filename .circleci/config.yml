@@ -49,13 +49,61 @@ jobs:
 # Config rebuilder uses lines between #template .. #end as a sort of template
 # Only the first rule is actually used by config rebuilder
 #template build
+  build-smartmet-library-gis:
+    executor: fmi-executor
+    steps:
+     - build-default
+  build-smartmet-library-macgyver:
+    executor: fmi-executor
+    steps:
+     - build-default
   build-smartmet-library-newbase:
+    executor: fmi-executor
+    steps:
+     - build-default
+  build-smartmet-library-regression:
+    executor: fmi-executor
+    steps:
+     - build-default
+  build-smartmet-library-spine:
+    executor: fmi-executor
+    steps:
+     - build-default
+  build-smartmet-server:
+    executor: fmi-executor
+    steps:
+     - build-default
+  build-smartmet-timezones:
     executor: fmi-executor
     steps:
      - build-default
 #end
 #template test
+  test-smartmet-library-gis:
+    executor: fmi-executor
+    steps:
+     - test-default
+  test-smartmet-library-macgyver:
+    executor: fmi-executor
+    steps:
+     - test-default
   test-smartmet-library-newbase:
+    executor: fmi-executor
+    steps:
+     - test-default
+  test-smartmet-library-regression:
+    executor: fmi-executor
+    steps:
+     - test-default
+  test-smartmet-library-spine:
+    executor: fmi-executor
+    steps:
+     - test-default
+  test-smartmet-server:
+    executor: fmi-executor
+    steps:
+     - test-default
+  test-smartmet-timezones:
     executor: fmi-executor
     steps:
      - test-default
@@ -65,7 +113,49 @@ workflows:
   version: 2.1
   build-test-and-archive:
     jobs:
-# Dependency tree will be completely rebuilt by config-rebuilder but template still needed for indentation lookup
+# Dependency tree will be completely rebuilt by config-rebuilder
+# Template still needed for indentation lookup and placement
 #template deptree
+    - build-smartmet-library-gis:
+       requires:
+        - test-smartmet-library-macgyver
+    - build-smartmet-library-macgyver:
+       requires:
+        - test-smartmet-timezones
     - build-smartmet-library-newbase
+    - build-smartmet-library-regression
+    - build-smartmet-library-spine:
+       requires:
+        - test-smartmet-library-gis
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-newbase
+    - build-smartmet-server:
+       requires:
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-spine
+    - build-smartmet-timezones
+    - test-smartmet-library-gis:
+       requires:
+        - test-smartmet-library-macgyver
+    - test-smartmet-library-macgyver:
+       requires:
+        - test-smartmet-library-regression
+        - test-smartmet-timezones
+    - test-smartmet-library-newbase:
+       requires:
+        - test-smartmet-library-regression
+        - test-smartmet-timezones
+    - test-smartmet-library-regression
+    - test-smartmet-library-spine:
+       requires:
+        - test-smartmet-library-gis
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-newbase
+        - test-smartmet-library-regression
+        - test-smartmet-timezones
+    - test-smartmet-server:
+       requires:
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-spine
+    - test-smartmet-timezones
 #end

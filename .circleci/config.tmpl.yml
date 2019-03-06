@@ -1,0 +1,72 @@
+version: 2.1
+
+executors:
+ fmi-executor:
+  docker:
+   - image: fmidev/smartmet-cibase:latest
+
+commands:
+ build-default:
+  description: Default build and save artifacts for other steps
+  steps:
+   - checkout
+   - run:
+      name: Checkout module for $CIRCLE_JOB
+      command: ./getsource.sh
+   - run:
+      name: Install build dependencies
+      command: cd /tmp/build && ci-build deps
+   - run:
+      name: Build RPM
+      command: cd /tmp/build && ci-build rpm
+   - persist_to_workspace:
+      root: /dist
+      paths: ./*.rpm
+ test-default:
+  description: Default test and save tested artifacts
+  steps:
+   - checkout
+   - attach_workspace:
+      at: /dist
+   - run:
+      name: Checkout module for $CIRCLE_JOB
+      command: ./getsource.sh
+   - run:
+      name: Installation test
+      command: sudo yum install -y /dist/*.rpm
+   - run:
+      name: Test prepare
+      command: cd /tmp/build && ci-build testprep
+   - run:
+      name: Test
+      command: cd /tmp/build && ci-build test
+   - store_artifacts:
+      path: /dist
+      destination: dist/
+ 
+jobs:
+# Ordinarily lines starting with # are comments
+# Config rebuilder uses lines between #template .. #end as a sort of template
+# Only the first rule is actually used by config rebuilder
+#template build
+  build-smartmet-library-newbase:
+    executor: fmi-executor
+    steps:
+     - build-default
+#end
+#template test
+  test-smartmet-library-newbase:
+    executor: fmi-executor
+    steps:
+     - test-default
+#end
+
+workflows:
+  version: 2.1
+  build-test-and-archive:
+    jobs:
+# Dependency tree will be completely rebuilt by config-rebuilder
+# Template still needed for indentation lookup and placement
+#template deptree
+    - build-smartmet-library-newbase
+#end

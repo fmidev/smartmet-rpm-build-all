@@ -89,57 +89,107 @@ scan("smartmet-server");
 my $currenttemplate        = "";
 my $currenttemplatename    = "";
 my $currenttemplatestartln = 0;    # Save start line number for use in error prints
-my $lineno                 = 1;
+my $currenttemplateindent  = 0;
+my $lineno                 = 0;
 
 while (<STDIN>) {
 	my $ln = $_;
+	$lineno++;
 
 	# Start of template? Save line to buffer and go to next line
 	if ( $ln =~ m/^#template (\S+)/ ) {
 		if ($currenttemplatename) {
 			die "error: $currenttemplatename already started on line $lineno - enclosing templates not allowed\n";
 		}
-		$currenttemplatename = $1;
-		$currenttemplate     = $ln;
-		next;
-	}
+		$currenttemplatename    = $1;
+		$currenttemplate        = "";
+		$currenttemplateindent  = 0;
+		$currenttemplatestartln = $lineno;
 
-	# End of template? Print out lines in buffer and end template
-	if ( $ln =~ m/^#end/ ) {
+		# Debug
+		# print STDERR "****** Encountered template $currenttemplatename, going to next line\n";
+	} elsif ( $ln =~ m/^#end/ ) {
+
+		# End of template? Print out lines in buffer and end template
 		if ( !$currenttemplatename ) {
 			print STDERR "warning: #end clause without recognized template beginning on line $lineno\n";
 		} else {
-			print "# We should actually expand the template $currenttemplatename here\n";
-			print $currenttemplate;
-		}
-		$currenttemplatename = "";
-		$currenttemplate     = "";
-	}
+			if ( $currenttemplatename eq "build" ) {
+				foreach my $module ( sort keys %::builddeps ) {
+					my $c = $currenttemplate;
+					$c =~ s/smartmet-[a-z0-9-]+/$module/sg;
+					print $c;
+				}
+			} elsif ( $currenttemplatename eq "test" ) {
+				foreach my $module ( sort keys %::testdeps ) {
+					my $c = $currenttemplate;
+					$c =~ s/smartmet-[a-z0-9-]+/$module/sg;
+					print $c;
+				}
+			} elsif ( $currenttemplatename eq "deptree" ) {
 
-	# In template? ( But not end, that would have been detected previously) Save line in buffer and go to next line
-	if ($currenttemplatename) {
+				# Building the workflow dependency tree is a bit special: we don't actually use the
+				# the template for anythig except detecting the indentation
+				foreach my $module ( sort keys %::builddeps ) {
+					my $value = $::builddeps{$module};
+					my $c     = ' ' x $currenttemplateindent . "- build-$module";
+					if ( $value && scalar @$value > 0 ) {
+						$c .= ":\n" . ( ' ' x ( $currenttemplateindent + 3 ) ) . "requires:\n";
+						foreach my $dep (@$value) {
+							$c .= ( ' ' x ( $currenttemplateindent + 4 ) ) . "- test-$dep\n";
+						}
+					} else {
+						$c .= "\n";
+					}
+					print $c;
+				}
+				foreach my $module ( sort keys %::testdeps ) {
+					my $value = $::testdeps{$module};
+					my $c     = ' ' x $currenttemplateindent . "- test-$module";
+					if ( $value && scalar @$value > 0 ) {
+						$c .= ":\n" . ( ' ' x ( $currenttemplateindent + 3 ) ) . "requires:\n";
+						foreach my $dep (@$value) {
+							$c .= ( ' ' x ( $currenttemplateindent + 4 ) ) . "- test-$dep\n";
+						}
+					} else {
+						$c .= "\n";
+					}
+					print $c;
+				}
+			} else {
+				print $currenttemplate;
+			}
+		}
+		$currenttemplatename   = "";
+		$currenttemplate       = "";
+		$currenttemplateindent = 0;
+	} elsif ($currenttemplatename) {
+
+		# In template? ( But not end, that would have been detected previously) Save line in buffer and go to next line
+		if ( $currenttemplateindent < 0 ) {
+			next;    # Reading repetitive lines
+		}
+		if ( $ln =~ m/^( +)/ ) {
+
+			# Only check lines which are not completely whitespace or just a commeent
+			if ( $ln !~ m/^\s*$/ || $ln !~ m/^\s*#.*$/ ) {
+				my $indentation = length $1;    # How many spaces we have
+				if ( $indentation <= $currenttemplateindent ) {
+
+					# If indentation is now the same or less, ignore this and the rest until template end.
+					# They are just repetition of the same jobs/workflow parts
+					$currenttemplateindent = -1;
+					next;
+				}
+				if ( $currenttemplateindent == 0 ) {
+					$currenttemplateindent = $indentation;
+				}
+			}
+		}
 		$currenttemplate .= $ln;
 		next;
 	}
 
 	print $ln;
-	$lineno++;
 }
 
-#
-#print "jobs:
-#";
-#foreach my $rule ( sort keys %::buildrules ) {
-#	print $::buildrules{$rule};
-#}
-#foreach my $rule ( sort keys %::testrules ) {
-#	print $::testrules{$rule};
-#}
-#print "
-#workflows:
-#  version: 2
-#  jobs:
-#";
-#foreach my $job ( sort keys %::jobs ) {
-#	print "    - ".$job.":\n".$::jobs{$job};
-#}
