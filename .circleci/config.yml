@@ -1,4 +1,4 @@
-#timestamp Fri Mar  8 19:41:21 EET 2019
+#timestamp Fri Mar  8 20:02:37 EET 2019
 version: 2.1
 
 executors:
@@ -14,6 +14,21 @@ commands:
       name: Disable smartmet packages coming from FMI repo
       command: sudo sed -e 's/gpgcheck=0/gpgcheck=0\nexclude=smartmet-*/' -i /etc/yum.repos.d/smartmet-open.repo
    - checkout
+   - attach_workspace:
+      at: /dist
+   - run:
+      name: Create repository out of dependant RPMs
+      command: |
+        sudo mkdir -p /repo
+        sudo ln -s /dist/*.rpm /repo/
+        sudo createrepo_c /repo
+        sudo touch /etc/yum.repos.d/localrepo.repo
+        sudo chmod 666 /etc/yum.repos.d/localrepo.repo
+        echo '[localrepo]' > /etc/yum.repos.d/localrepo.repo
+        echo name="Local Repository" >> /etc/yum.repos.d/localrepo.repo
+        echo gpgcheck=0 >> /etc/yum.repos.d/localrepo.repo
+        echo enabled=1 >> /etc/yum.repos.d/localrepo.repo
+        echo baseurl=file:///repo >> /etc/yum.repos.d/localrepo.repo
    - run:
       name: Checkout module for $CIRCLE_JOB
       command: ./getsource.sh
@@ -40,7 +55,7 @@ commands:
    - attach_workspace:
       at: /dist
    - run:
-      name: Create repository out of current files
+      name: Create repository out of dependant RPMs
       command: |
         sudo mkdir -p /repo
         sudo ln -s /dist/*.rpm /repo/
