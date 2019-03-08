@@ -7,42 +7,65 @@ executors:
 
 commands:
  build-default:
-  description: Default build and save artifacts for other steps
+  description: Build and save artifacts for other steps
   steps:
+   - run:
+      name: Disable smartmet packages coming from FMI repo
+      command: sudo sed -e 's/gpgcheck=0/gpgcheck=0\nexclude=smartmet-*/' -i /etc/yum.repos.d/smartmet-open.repo
    - checkout
    - run:
       name: Checkout module for $CIRCLE_JOB
       command: ./getsource.sh
    - run:
       name: Install build dependencies
-      command: cd /tmp/build && ci-build deps
+      command: |
+        cd /tmp/build
+        ci-build deps
    - run:
       name: Build RPM
-      command: cd /tmp/build && ci-build rpm
+      command: |
+        cd /tmp/build
+        ci-build rpm
    - persist_to_workspace:
       root: /dist
       paths: ./*.rpm
  test-default:
-  description: Default test and save tested artifacts
+  description: Test
   steps:
+   - run:
+      name: Disable smartmet packages coming from FMI repo
+      command: sudo sed -e 's/gpgcheck=0/gpgcheck=0\nexclude=smartmet-*/' -i /etc/yum.repos.d/smartmet-open.repo
    - checkout
    - attach_workspace:
       at: /dist
+   - run:
+      name: Create repository out of current files
+      command: |
+        sudo mkdir -p /repo
+        sudo ln -s /dist/*.rpm /repo/
+        sudo createrepo_c /repo
+        sudo touch /etc/yum.repos.d/localrepo.repo
+        sudo chmod 666 /etc/yum.repos.d/localrepo.repo
+        echo '[localrepo]' > /etc/yum.repos.d/localrepo.repo
+        echo name="Local Repository" >> /etc/yum.repos.d/localrepo.repo
+        echo gpgcheck=0 >> /etc/yum.repos.d/localrepo.repo
+        echo enabled=1 >> /etc/yum.repos.d/localrepo.repo
+        echo baseurl=file:///repo >> /etc/yum.repos.d/localrepo.repo
    - run:
       name: Checkout module for $CIRCLE_JOB
       command: ./getsource.sh
    - run:
       name: Installation test
-      command: sudo yum install -y /dist/*.rpm
+      command: |
+        cd /tmp/build
+        lst=`basename *.spec .spec`.lst  # RPM list file
+        ( cd /dist ; for i in `cat $lst | fgrep -v .src.rpm` ; do sudo yum install -y $i ; done )
    - run:
       name: Test prepare
       command: cd /tmp/build && ci-build testprep
    - run:
       name: Test
       command: cd /tmp/build && ci-build test
-   - store_artifacts:
-      path: /dist
-      destination: dist/
  
 jobs:
 # Ordinarily lines starting with # are comments
@@ -78,6 +101,18 @@ jobs:
     steps:
      - build-default
 #end
+  archive:
+    executor: fmi-executor
+    steps:
+     - checkout
+     - attach_workspace:
+        at: /dist
+     - run:
+        name: Create repository
+        command: createrepo_c /dist
+     - store_artifacts:
+        path: /dist
+        destination: dist/
 #template test
   test-smartmet-library-gis:
     executor: fmi-executor
