@@ -29,7 +29,7 @@ commands:
         ci-build rpm
    - persist_to_workspace:
       root: /dist
-      paths: ./*.rpm
+      paths: ./*
  test-default:
   description: Test
   steps:
