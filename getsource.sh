@@ -18,7 +18,7 @@ for i in CI CIRCLECI CIRCLE_BRANCH CIRCLE_REPOSITORY_URL CIRCLE_WORKING_DIRECTOR
 done
 
 # Inside the container, we have to use HTTPS as ssh keys are not in place
-if ! grep -q '^https:' ; then
+if ! ( echo $repobase | grep -q '^https:' ) ; then
     repobase='https://github.com/fmidev'
 else
     repobase=`echo $CIRCLE_REPOSITORY_URL | sed -e "s%/[^/]*\$%%"`
