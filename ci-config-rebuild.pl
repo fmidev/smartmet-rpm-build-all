@@ -95,6 +95,11 @@ my $lineno                 = 0;
 while (<STDIN>) {
 	my $ln = $_;
 	$lineno++;
+	
+	# Special tags
+	if ( $ln =~ m/^#timestamp/ ) {
+		$ln="#timestamp ".`LC_ALL=C date`;
+	}
 
 	# Start of template? Save line to buffer and go to next line
 	if ( $ln =~ m/^#template (\S+)/ ) {
