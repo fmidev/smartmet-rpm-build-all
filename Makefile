@@ -4,3 +4,7 @@
 	circleci config validate tmp.yml
 	mkdir -p .circleci
 	mv tmp.yml .circleci/config.yml
+
+force:
+	touch ci-config-rebuild.pl
+	make
