@@ -34,3 +34,5 @@ echo "Checking out $repo"
 git clone -b "$CIRCLE_BRANCH" "$repo" build || 
 git clone -b devel "$repo" build ||
 git clone -b master "$repo" build
+cd build
+echo Checked out branch "`git branch --no-color | cut -f 2 -d ' '`"
