@@ -108,10 +108,11 @@ jobs:
         at: /dist
      - run:
         name: Create repository
-        command: createrepo_c /dist
+        command: |
+          rm -f /dist/*.lst
+          createrepo_c /dist
      - store_artifacts:
         path: /dist
-        destination: dist/
 #end
 
 workflows:

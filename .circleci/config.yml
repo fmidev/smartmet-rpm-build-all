@@ -1,4 +1,4 @@
-#timestamp Thu Mar 14 15:02:32 EET 2019
+#timestamp Thu Mar 14 16:56:23 EET 2019
 version: 2.1
 
 executors:
@@ -164,10 +164,11 @@ jobs:
         at: /dist
      - run:
         name: Create repository
-        command: createrepo_c /dist
+        command: |
+          rm -f /dist/*.lst
+          createrepo_c /dist
      - store_artifacts:
         path: /dist
-        destination: dist/
 #end
 
 workflows:
