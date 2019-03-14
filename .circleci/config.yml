@@ -1,4 +1,4 @@
-#timestamp Wed Mar 13 17:59:53 EET 2019
+#timestamp Thu Mar 14 15:02:32 EET 2019
 version: 2.1
 
 executors:
@@ -121,18 +121,6 @@ jobs:
     steps:
      - build-default
 #end
-  archive:
-    executor: fmi-executor
-    steps:
-     - checkout
-     - attach_workspace:
-        at: /dist
-     - run:
-        name: Create repository
-        command: createrepo_c /dist
-     - store_artifacts:
-        path: /dist
-        destination: dist/
 #template test
   test-smartmet-library-gis:
     executor: fmi-executor
@@ -166,6 +154,20 @@ jobs:
     executor: fmi-executor
     steps:
      - test-default
+#end
+#template archive
+  archive:
+    executor: fmi-executor
+    steps:
+     - checkout
+     - attach_workspace:
+        at: /dist
+     - run:
+        name: Create repository
+        command: createrepo_c /dist
+     - store_artifacts:
+        path: /dist
+        destination: dist/
 #end
 
 workflows:
@@ -232,4 +234,22 @@ workflows:
     - test-smartmet-timezones:
        requires:
         - build-smartmet-timezones
+    - archive:
+       requires:
+        - build-smartmet-library-gis
+        - build-smartmet-library-macgyver
+        - build-smartmet-library-newbase
+        - build-smartmet-library-regression
+        - build-smartmet-library-spine
+        - build-smartmet-server
+        - build-smartmet-test-data-gis
+        - build-smartmet-timezones
+        - test-smartmet-library-gis
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-newbase
+        - test-smartmet-library-regression
+        - test-smartmet-library-spine
+        - test-smartmet-server
+        - test-smartmet-test-data-gis
+        - test-smartmet-timezones
 #end

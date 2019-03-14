@@ -93,6 +93,13 @@ jobs:
     steps:
      - build-default
 #end
+#template test
+  test-smartmet-library-newbase:
+    executor: fmi-executor
+    steps:
+     - test-default
+#end
+#template archive
   archive:
     executor: fmi-executor
     steps:
@@ -105,11 +112,6 @@ jobs:
      - store_artifacts:
         path: /dist
         destination: dist/
-#template test
-  test-smartmet-library-newbase:
-    executor: fmi-executor
-    steps:
-     - test-default
 #end
 
 workflows:

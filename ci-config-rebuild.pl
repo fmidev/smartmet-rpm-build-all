@@ -40,9 +40,9 @@ sub scan($) {
 		open( FH, "$::specdir/$module.spec" )
 		  or die("Unable to read $::specdir/$module.spec: $!");
 		while (<FH>) {
-			if (    $_ =~ m/^(Requires:)(.*)$/
-				 || $_ =~ m/^#(TestRequires:)(.*)$/
-				 || $_ =~ m/^(BuildRequires:)(.*)$/ )
+			if (   $_ =~ m/^(Requires:)(.*)$/
+				|| $_ =~ m/^#(TestRequires:)(.*)$/
+				|| $_ =~ m/^(BuildRequires:)(.*)$/ )
 			{
 				my $tag = $1;
 				my $b   = $2;
@@ -53,7 +53,8 @@ sub scan($) {
 				if ( $b =~ m/^smartmet-/ ) {
 					if ( $tag =~ m/^BuildRequires/ ) {
 						$buildreq{$b} = 1;
-					} else {
+					}
+					else {
 						$testreq{$b} = 1;
 					}
 				}
@@ -91,14 +92,15 @@ my $currenttemplatename    = "";
 my $currenttemplatestartln = 0;    # Save start line number for use in error prints
 my $currenttemplateindent  = 0;
 my $lineno                 = 0;
+my $archivejobname         = "";
 
 while (<STDIN>) {
 	my $ln = $_;
 	$lineno++;
-	
+
 	# Special tags
 	if ( $ln =~ m/^#timestamp/ ) {
-		$ln="#timestamp ".`LC_ALL=C date`;
+		$ln = "#timestamp " . `LC_ALL=C date`;
 	}
 
 	# Start of template? Save line to buffer and go to next line
@@ -113,25 +115,37 @@ while (<STDIN>) {
 
 		# Debug
 		# print STDERR "****** Encountered template $currenttemplatename, going to next line\n";
-	} elsif ( $ln =~ m/^#end/ ) {
+	}
+	elsif ( $ln =~ m/^#end/ ) {
 
 		# End of template? Print out lines in buffer and end template
 		if ( !$currenttemplatename ) {
 			print STDERR "warning: #end clause without recognized template beginning on line $lineno\n";
-		} else {
+		}
+		else {
 			if ( $currenttemplatename eq "build" ) {
 				foreach my $module ( sort keys %::builddeps ) {
 					my $c = $currenttemplate;
 					$c =~ s/smartmet-[a-z0-9-]+/$module/sg;
 					print $c;
 				}
-			} elsif ( $currenttemplatename eq "test" ) {
+			}
+			elsif ( $currenttemplatename eq "test" ) {
 				foreach my $module ( sort keys %::testdeps ) {
 					my $c = $currenttemplate;
 					$c =~ s/smartmet-[a-z0-9-]+/$module/sg;
 					print $c;
 				}
-			} elsif ( $currenttemplatename eq "deptree" ) {
+			}
+			elsif ( $currenttemplatename eq "archive" ) {
+
+				# Archiving template is passed as is, only read the job name from it for dependency tree setup
+				if ( $currenttemplate =~ m/\s*([^ :]*)/ ) {
+					$archivejobname = $1;
+				}
+				print $currenttemplate;
+			}
+			elsif ( $currenttemplatename eq "deptree" ) {
 
 				# Building the workflow dependency tree is a bit special: we don't actually use the
 				# the template for anythig except detecting the indentation
@@ -143,7 +157,8 @@ while (<STDIN>) {
 						foreach my $dep (@$value) {
 							$c .= ( ' ' x ( $currenttemplateindent + 4 ) ) . "- test-$dep\n";
 						}
-					} else {
+					}
+					else {
 						$c .= "\n";
 					}
 					print $c;
@@ -163,14 +178,32 @@ while (<STDIN>) {
 					}
 					print $c;
 				}
-			} else {
+				if ($archivejobname) {
+					# Archive job requires that we build and test all modules first
+					my $c =
+					    ' ' x $currenttemplateindent . "- "
+					  . $archivejobname . ":\n"
+					  . ( ' ' x ( $currenttemplateindent + 3 ) )
+					  . "requires:\n";
+					foreach my $dep ( sort keys %::builddeps ) {
+						$c .= ( ' ' x ( $currenttemplateindent + 4 ) ) . "- build-$dep\n";
+					}
+					foreach my $dep ( sort keys %::testdeps ) {
+						$c .= ( ' ' x ( $currenttemplateindent + 4 ) ) . "- test-$dep\n";
+					}
+
+					print $c;
+				}
+			}
+			else {
 				print $currenttemplate;
 			}
 		}
 		$currenttemplatename   = "";
 		$currenttemplate       = "";
 		$currenttemplateindent = 0;
-	} elsif ($currenttemplatename) {
+	}
+	elsif ($currenttemplatename) {
 
 		# In template? ( But not end, that would have been detected previously) Save line in buffer and go to next line
 		if ( $currenttemplateindent < 0 ) {
