@@ -84,9 +84,20 @@ commands:
       command: cd /tmp/build && ci-build test
  
 jobs:
-# Ordinarily lines starting with # are comments
+# Ordinarily lines starting with # are comments but some are not
+##
+  check:
+    executor: fmi-executor
+    steps:
+     - checkout
+     - run:
+        name: Check that config.yml is current
+        command: |
+          circleci version || ( curl -fLSs https://circle.ci/cli | sudo bash )
+          make -v >/dev/null || sudo yum install -y make
+          sudo yum install -y perl-Data-Dumper || true
+          make check
 # Config rebuilder uses lines between #template .. #end as a sort of template
-# Only the first rule is actually used by config rebuilder
 #template build
   build-smartmet-library-newbase:
     executor: fmi-executor

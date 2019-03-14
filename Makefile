@@ -8,3 +8,10 @@
 force:
 	touch ci-config-rebuild.pl
 	make
+
+check:
+	cp .circleci/config.yml .circleci/config.check
+	make
+	@if ! cmp -s .circleci/config.check .circleci/config.yml ; then echo;echo "ERROR: config.yml is old. Forgot to run make? Run make, commit and push" ; echo ; false ; fi
+	@rm -f .circleci/config.check
+	@echo; echo Config.yml is current
