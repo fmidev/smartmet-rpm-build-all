@@ -84,8 +84,15 @@ commands:
       command: cd /tmp/build && ci-build test
  
 jobs:
-# Ordinarily lines starting with # are comments but some are not
-##
+# Ordinarily lines starting with # are comments but config preprocessing recognizes certain directives
+# Config rebuilder uses lines between #template .. #end as a sort of template, currently:
+# build: a template for a build task, smartmet-* are replaced with respective module
+# test: a template for a test task, smartmet-* are replaced with respective module
+# pre: starts a block for jobs which should be run before everything else(i.e. check config rebuilding, common workspace setup)
+# post: starts a block for jobs which should be run after everything else(i.e. collect artifacts, setup repository)
+# If you need multiple pre/post processing jobs(unlikely, you could just put in more steps), make several templates
+#template pre
+# These job(s) will be run before anything else in the workflow
   check:
     executor: fmi-executor
     steps:
@@ -97,7 +104,7 @@ jobs:
           make -v >/dev/null || sudo yum install -y make
           sudo yum install -y perl-Data-Dumper || true
           make check
-# Config rebuilder uses lines between #template .. #end as a sort of template
+#end
 #template build
   build-smartmet-library-newbase:
     executor: fmi-executor
@@ -110,7 +117,7 @@ jobs:
     steps:
      - test-default
 #end
-#template archive
+#template post
   archive:
     executor: fmi-executor
     steps:
