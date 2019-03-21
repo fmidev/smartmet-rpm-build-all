@@ -1,4 +1,5 @@
 #timestamp Thu Mar 21 11:26:29 EET 2019
+# Will be removed on next config rebuild
 version: 2.1
 
 executors:
