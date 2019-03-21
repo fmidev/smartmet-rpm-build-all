@@ -150,7 +150,10 @@ jobs:
           make force
      - run:
         name: Commit changed config.yml to trigger full build
-        command: git commit -m "Config rebuild on `date`" .circleci/config.yml
+        command: |
+          git config --global --get user.email || git config --global user.email "noreply-smartmet-autobuilder@fmi.fi"
+          git config --global --get user.name || git config --global user.name "Smartmet server CI config autobuilder"
+          git commit -m "Config rebuild on `date`" .circleci/config.yml
 
 workflows:
   version: 2.1
