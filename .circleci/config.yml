@@ -1,4 +1,4 @@
-#timestamp Thu Mar 21 12:15:40 EET 2019
+#timestamp Thu Mar 21 12:18:19 EET 2019
 version: 2.1
 
 executors:
@@ -210,6 +210,7 @@ jobs:
           git config --global --get user.email || git config --global user.email "noreply-smartmet-autobuilder@fmi.fi"
           git config --global --get user.name || git config --global user.name "Smartmet server CI config autobuilder"
           git commit -m "Config rebuild on `date`" .circleci/config.yml
+          git push
 
 workflows:
   version: 2.1
