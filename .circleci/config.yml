@@ -1,4 +1,4 @@
-#timestamp Thu Mar 21 12:30:30 EET 2019
+#timestamp Thu Mar 21 12:31:51 EET 2019
 version: 2.1
 
 executors:
@@ -232,92 +232,92 @@ workflows:
 # Dependency tree will be completely rebuilt by config-rebuilder
 # Template still needed for indentation lookup and placement
 #template deptree
-   - preprep
-   - build-smartmet-library-gis:
-      requires:
-       - preprep
-       - test-smartmet-library-macgyver
-   - build-smartmet-library-macgyver:
-      requires:
-       - preprep
-       - test-smartmet-timezones
-   - build-smartmet-library-newbase:
-      requires:
-       - preprep
-   - build-smartmet-library-regression:
-      requires:
-       - preprep
-   - build-smartmet-library-spine:
-      requires:
-       - preprep
-       - test-smartmet-library-gis
-       - test-smartmet-library-macgyver
-       - test-smartmet-library-newbase
-   - build-smartmet-server:
-      requires:
-       - preprep
-       - test-smartmet-library-macgyver
-       - test-smartmet-library-spine
-   - build-smartmet-test-data-gis:
-      requires:
-       - preprep
-   - build-smartmet-timezones:
-      requires:
-       - preprep
-   - test-smartmet-library-gis:
-      requires:
-       - build-smartmet-library-gis
-       - test-smartmet-library-macgyver
-       - test-smartmet-library-regression
-       - test-smartmet-test-data-gis
-   - test-smartmet-library-macgyver:
-      requires:
-       - build-smartmet-library-macgyver
-       - test-smartmet-library-regression
-       - test-smartmet-timezones
-   - test-smartmet-library-newbase:
-      requires:
-       - build-smartmet-library-newbase
-       - test-smartmet-library-regression
-       - test-smartmet-timezones
-   - test-smartmet-library-regression:
-      requires:
-       - build-smartmet-library-regression
-   - test-smartmet-library-spine:
-      requires:
-       - build-smartmet-library-spine
-       - test-smartmet-library-gis
-       - test-smartmet-library-macgyver
-       - test-smartmet-library-newbase
-       - test-smartmet-library-regression
-       - test-smartmet-timezones
-   - test-smartmet-server:
-      requires:
-       - build-smartmet-server
-       - test-smartmet-library-macgyver
-       - test-smartmet-library-spine
-   - test-smartmet-test-data-gis:
-      requires:
-       - build-smartmet-test-data-gis
-   - test-smartmet-timezones:
-      requires:
-       - build-smartmet-timezones
-   - archive:
-      requires:
-       - build-smartmet-library-gis
-       - build-smartmet-library-macgyver
-       - build-smartmet-library-newbase
-       - build-smartmet-library-regression
-       - build-smartmet-library-spine
-       - build-smartmet-server
-       - build-smartmet-test-data-gis
-       - build-smartmet-timezones
-       - test-smartmet-library-gis
-       - test-smartmet-library-macgyver
-       - test-smartmet-library-newbase
-       - test-smartmet-library-regression
-       - test-smartmet-library-spine
-       - test-smartmet-server
-       - test-smartmet-test-data-gis
-       - test-smartmet-timezones
+    - preprep
+    - build-smartmet-library-gis:
+       requires:
+        - preprep
+        - test-smartmet-library-macgyver
+    - build-smartmet-library-macgyver:
+       requires:
+        - preprep
+        - test-smartmet-timezones
+    - build-smartmet-library-newbase:
+       requires:
+        - preprep
+    - build-smartmet-library-regression:
+       requires:
+        - preprep
+    - build-smartmet-library-spine:
+       requires:
+        - preprep
+        - test-smartmet-library-gis
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-newbase
+    - build-smartmet-server:
+       requires:
+        - preprep
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-spine
+    - build-smartmet-test-data-gis:
+       requires:
+        - preprep
+    - build-smartmet-timezones:
+       requires:
+        - preprep
+    - test-smartmet-library-gis:
+       requires:
+        - build-smartmet-library-gis
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-regression
+        - test-smartmet-test-data-gis
+    - test-smartmet-library-macgyver:
+       requires:
+        - build-smartmet-library-macgyver
+        - test-smartmet-library-regression
+        - test-smartmet-timezones
+    - test-smartmet-library-newbase:
+       requires:
+        - build-smartmet-library-newbase
+        - test-smartmet-library-regression
+        - test-smartmet-timezones
+    - test-smartmet-library-regression:
+       requires:
+        - build-smartmet-library-regression
+    - test-smartmet-library-spine:
+       requires:
+        - build-smartmet-library-spine
+        - test-smartmet-library-gis
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-newbase
+        - test-smartmet-library-regression
+        - test-smartmet-timezones
+    - test-smartmet-server:
+       requires:
+        - build-smartmet-server
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-spine
+    - test-smartmet-test-data-gis:
+       requires:
+        - build-smartmet-test-data-gis
+    - test-smartmet-timezones:
+       requires:
+        - build-smartmet-timezones
+    - archive:
+       requires:
+        - build-smartmet-library-gis
+        - build-smartmet-library-macgyver
+        - build-smartmet-library-newbase
+        - build-smartmet-library-regression
+        - build-smartmet-library-spine
+        - build-smartmet-server
+        - build-smartmet-test-data-gis
+        - build-smartmet-timezones
+        - test-smartmet-library-gis
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-newbase
+        - test-smartmet-library-regression
+        - test-smartmet-library-spine
+        - test-smartmet-server
+        - test-smartmet-test-data-gis
+        - test-smartmet-timezones
 #end
