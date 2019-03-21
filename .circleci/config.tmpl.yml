@@ -176,5 +176,5 @@ workflows:
 # Dependency tree will be completely rebuilt by config-rebuilder
 # Template still needed for indentation lookup and placement
 #template deptree
-   - build-smartmet-library-newbase
+    - build-smartmet-library-newbase
 #end
