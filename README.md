@@ -10,21 +10,31 @@ is an YUM repository and set of RPMs that is tested and working.
 
 The CI should run this approximately daily.
 
-## Triggering the build daily
+## Triggering on change to this repository
 
-A separate module smartmet-rpmbuild-all-trigger rebuilds the config for this module and pushes changes to GitHub.
-That should trigger a rebuild. If there are no changes, cleartext timestamp inside the config 
-is nonetheless updated to force a rebuild.
+If you change, commit and push anything, a full rebuild is triggered. If you are merely developing nuances of the
+CI build system (and do not intend to build everything), please work in a separate branch or push upstream only
+when ready.
 
-A full rebuild is also triggered if any changes are pushed to Github.
+Due to the automatic daily updates of the config.yml anyway, you are also likely to encounter merge conflicts.
+You should resolve these by overwriting config.yml with anything make generates. This will be done daily anyway(see below).
 
-NOTE: Do not use a workflow schedule trigger here, use it instead in the trigger module.
+## Scheduled builds
+
+In .circleci/config.yml, there is a scheduled workflow which is run every night.
+The only purpose of this workflow is to force a minor(or major, if there have been a lot of dependency changes
+in RPMs) change in config.yml and push it to GitHub.
+This will trigger a full rebuild.
 
 ## CI configuration build
 
 CI configuration in .circleci/config.yml is generated from the template file in the same directory.
-CircleCI is unable to regenerate the config file and restart. Thus it is either regenerated manually or by a separate
-module.
+When you modify the template, CircleCI itself is unable to regenerate the config file and restart.
+
+You should run make and commit and push both .circleci/config.yml and .circleci/config.tmpl.yml .
+This will trigger a full rebuild.
+
+Testing individual jobs is possible with careful use of the local CirleCI simulation tool.
 
 Template and resulting CircleCI config use features of CirleCI 2.1 to simplify individual jobs.
 It is recommended that you make changes to specified execution environment and commands instead of the job templates
@@ -74,10 +84,16 @@ dependency building process.
 
 ## Branches
 
-Currently this module is designed to work with master only and will build the master branch of all smartmet-modules.
-Branching and using the same branch name for other modules is possible but has not been tested and likely has errors.
-For the time being, daily automatic builds for anything besides master would not be working anyway as there is no
-other branch which would have all needed modules.
+WARNING: Operation with branches has not been tested as there are no other branches with a full set of modules except master.
+
+If you wish to run nightly builds and/or need to test he full rebuild process on your branches, you can branch
+this repository and modify the configuration template. Currently the scheduled workflow is only enabled for master and devel
+branches but you can easily modify this in your own branch. However, when developing, you can always force a full
+rebuild by calling make force , git commit and git push .
+
+As the other modules(that is, the full dependency tree) is checked out during the process, there might not be a module
+for your branch in everything. Thus there is a fallback first to devel and then master branch which will be used for
+fetching dependant repositories.
 
 ## Internals
 
@@ -104,7 +120,6 @@ The final repo files are created after all jobs are really done.
 
 ## Other modules
 
-* docker-smartmet-cibase: definition for a base CI build docker image. Rebuilt every day on Dokcer hub
-* smartmet-rpm-build-all-trigger
+* docker-smartmet-cibase: definition for a base CI build docker image
 * smartmet-build-utils (useful if you need local builds)
 * other smartmet modules
