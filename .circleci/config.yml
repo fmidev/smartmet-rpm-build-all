@@ -1,4 +1,4 @@
-#timestamp Thu Mar 21 11:09:09 EET 2019
+#timestamp Thu Mar 21 11:26:29 EET 2019
 version: 2.1
 
 executors:
@@ -190,7 +190,7 @@ jobs:
 
 workflows:
   version: 2.1
-  build-test-and-archive:
+  on-commit:
    jobs:
 # Dependency tree will be completely rebuilt by config-rebuilder
 # Template still needed for indentation lookup and placement
@@ -284,3 +284,4 @@ workflows:
         - test-smartmet-test-data-gis
         - test-smartmet-timezones
 #end
+

@@ -11,7 +11,10 @@ force:
 
 check:
 	cp .circleci/config.yml .circleci/config.check
-	make
-	@if ! cmp -s .circleci/config.check .circleci/config.yml ; then echo;echo "ERROR: config.yml is old. Forgot to run make? Run make, commit and push" ; echo ; false ; fi
-	@rm -f .circleci/config.check
+	make force
+	sed -e 's/^#timestamp.*//' < .circleci/config.yml > .circleci/config.check2
+	mv .circleci/config.check .circleci/config.yml
+	sed -e 's/^#timestamp.*//' < .circleci/config.yml > .circleci/config.check
+	@if ! cmp -s .circleci/config.check .circleci/config.check2 ; then echo;echo "ERROR: config.yml is old. Forgot to run make? Run make, commit and push" ; echo ; false ; fi
+	@rm -f .circleci/config.check .circleci/config.check2
 	@echo; echo Config.yml is current
