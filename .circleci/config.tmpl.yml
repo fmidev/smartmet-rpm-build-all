@@ -104,6 +104,7 @@ jobs:
      - test-default
 #end
 #template pre
+# This job runs before we build anything
   preprep:
     executor: fmi-executor
     steps:
@@ -112,11 +113,12 @@ jobs:
         name: Check that config.yml is current
         command: |
           circleci version || ( curl -fLSs https://circle.ci/cli | sudo bash )
-          make -v >/dev/null || sudo yum install -y make
+          make -v >/dev/null 2>&1 || sudo yum install -y make
           sudo yum install -y perl-Data-Dumper || true
           make check
 #end
 #template post
+# This job runs after everything is built and tested
   archive:
     executor: fmi-executor
     steps:
@@ -131,9 +133,40 @@ jobs:
      - store_artifacts:
         path: /dist
 #end
+# This is only triggered by the scheduled workflow
+  rebuild_config:
+    executor: fmi-executor
+    steps:
+     - checkout
+     - add_ssh_keys:
+         fingerprints:
+          - "SHA256:Fi/Kn2XEO65HE+LE4p09TZw3rnWkHtMiRkYovG1O1LA"
+     - run:
+        name: Rebuild CirleCI configuration
+        command: |
+          circleci version || ( curl -fLSs https://circle.ci/cli | sudo bash )
+          make -v >/dev/null 2>&1 || sudo yum install -y make
+          sudo yum install -y perl-Data-Dumper || true
+          make force
+     - run:
+        name: Commit changed config.yml to trigger full build
+        command: git commit -m "Config rebuild on `date`" .circleci/config.yml
 
 workflows:
   version: 2.1
+  scheduled:
+   triggers:
+    - schedule:
+       cron: "10 4 * * *"
+       filters:
+        branches:
+         only:
+         # You could leave the branch list empty but building for master and devel for now
+         # You can always add your branch here, if you branch this repository
+          - master
+          - devel
+   jobs:
+    - rebuild_config
   on-commit:
    jobs:
 # Dependency tree will be completely rebuilt by config-rebuilder
@@ -141,4 +174,3 @@ workflows:
 #template deptree
     - build-smartmet-library-newbase
 #end
-
