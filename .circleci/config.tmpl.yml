@@ -91,20 +91,6 @@ jobs:
 # pre: starts a block for jobs which should be run before everything else(i.e. check config rebuilding, common workspace setup)
 # post: starts a block for jobs which should be run after everything else(i.e. collect artifacts, setup repository)
 # If you need multiple pre/post processing jobs(unlikely, you could just put in more steps), make several templates
-#template pre
-# These job(s) will be run before anything else in the workflow
-  check:
-    executor: fmi-executor
-    steps:
-     - checkout
-     - run:
-        name: Check that config.yml is current
-        command: |
-          circleci version || ( curl -fLSs https://circle.ci/cli | sudo bash )
-          make -v >/dev/null || sudo yum install -y make
-          sudo yum install -y perl-Data-Dumper || true
-          make check
-#end
 #template build
   build-smartmet-library-newbase:
     executor: fmi-executor
@@ -116,6 +102,19 @@ jobs:
     executor: fmi-executor
     steps:
      - test-default
+#end
+#template pre
+  preprep:
+    executor: fmi-executor
+    steps:
+     - checkout
+     - run:
+        name: Check that config.yml is current
+        command: |
+          circleci version || ( curl -fLSs https://circle.ci/cli | sudo bash )
+          make -v >/dev/null || sudo yum install -y make
+          sudo yum install -y perl-Data-Dumper || true
+          make check
 #end
 #template post
   archive:
@@ -136,7 +135,7 @@ jobs:
 workflows:
   version: 2.1
   build-test-and-archive:
-    jobs:
+   jobs:
 # Dependency tree will be completely rebuilt by config-rebuilder
 # Template still needed for indentation lookup and placement
 #template deptree

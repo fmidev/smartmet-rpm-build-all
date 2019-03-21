@@ -136,7 +136,7 @@ while (<STDIN>) {
 			} elsif ( $currenttemplatename eq "pre" || $currenttemplatename eq "post" ) {
 
 				# Pre an post template is passed as is, only read the job name for dependency tree setup
-				# Remove comments
+				# Remove comments before checking the job name
 				my $c = $currenttemplate;
 				$c =~ s/#.*//m;
 				if ( $c =~ m/\s*([^ :]*)/s ) {
@@ -153,15 +153,18 @@ while (<STDIN>) {
 
 				# Building the workflow dependency tree is a bit special: we don't actually use the
 				# the template for anythig except detecting the indentation
+				foreach my $module ( sort @prejobs ) {
+					print ' ' x $currenttemplateindent . "- $module\n";
+				}
 				foreach my $module ( sort keys %::builddeps ) {
 					my $value = $::builddeps{$module};
 					my $c     = ' ' x $currenttemplateindent . "- build-$module";
 					if ( ($value && scalar @$value > 0) || (scalar @prejobs >0) ) {
 						$c .= ":\n" . ( ' ' x ( $currenttemplateindent + 3 ) ) . "requires:\n";
-                        foreach my $dep (@prejobs) {
+                        foreach my $dep (sort @prejobs) {
                             $c .= ( ' ' x ( $currenttemplateindent + 4 ) ) . "- $dep\n";
                         }
-						foreach my $dep (@$value) {
+						foreach my $dep (sort @$value) {
 							$c .= ( ' ' x ( $currenttemplateindent + 4 ) ) . "- test-$dep\n";
 						}
 					} else {

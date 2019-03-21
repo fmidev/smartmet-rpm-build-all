@@ -1,4 +1,4 @@
-#timestamp Mon Mar 18 09:16:41 EET 2019
+#timestamp Thu Mar 21 11:09:09 EET 2019
 version: 2.1
 
 executors:
@@ -91,20 +91,6 @@ jobs:
 # pre: starts a block for jobs which should be run before everything else(i.e. check config rebuilding, common workspace setup)
 # post: starts a block for jobs which should be run after everything else(i.e. collect artifacts, setup repository)
 # If you need multiple pre/post processing jobs(unlikely, you could just put in more steps), make several templates
-#template pre
-# These job(s) will be run before anything else in the workflow
-  check:
-    executor: fmi-executor
-    steps:
-     - checkout
-     - run:
-        name: Check that config.yml is current
-        command: |
-          circleci version || ( curl -fLSs https://circle.ci/cli | sudo bash )
-          make -v >/dev/null || sudo yum install -y make
-          sudo yum install -y perl-Data-Dumper || true
-          make check
-#end
 #template build
   build-smartmet-library-gis:
     executor: fmi-executor
@@ -173,6 +159,19 @@ jobs:
     steps:
      - test-default
 #end
+#template pre
+  preprep:
+    executor: fmi-executor
+    steps:
+     - checkout
+     - run:
+        name: Check that config.yml is current
+        command: |
+          circleci version || ( curl -fLSs https://circle.ci/cli | sudo bash )
+          make -v >/dev/null || sudo yum install -y make
+          sudo yum install -y perl-Data-Dumper || true
+          make check
+#end
 #template post
   archive:
     executor: fmi-executor
@@ -192,41 +191,42 @@ jobs:
 workflows:
   version: 2.1
   build-test-and-archive:
-    jobs:
+   jobs:
 # Dependency tree will be completely rebuilt by config-rebuilder
 # Template still needed for indentation lookup and placement
 #template deptree
+    - preprep
     - build-smartmet-library-gis:
        requires:
-        - check
+        - preprep
         - test-smartmet-library-macgyver
     - build-smartmet-library-macgyver:
        requires:
-        - check
+        - preprep
         - test-smartmet-timezones
     - build-smartmet-library-newbase:
        requires:
-        - check
+        - preprep
     - build-smartmet-library-regression:
        requires:
-        - check
+        - preprep
     - build-smartmet-library-spine:
        requires:
-        - check
+        - preprep
         - test-smartmet-library-gis
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
     - build-smartmet-server:
        requires:
-        - check
+        - preprep
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
     - build-smartmet-test-data-gis:
        requires:
-        - check
+        - preprep
     - build-smartmet-timezones:
        requires:
-        - check
+        - preprep
     - test-smartmet-library-gis:
        requires:
         - build-smartmet-library-gis
