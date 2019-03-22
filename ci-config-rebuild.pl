@@ -82,6 +82,19 @@ mkdir($::specdir);
 # Read it, collect build, install and test requirements and generate this part of yml
 #  Recursively call the requirements
 scan("smartmet-server");
+# This does not get all actually needed stuff, this should:
+# Mika Heiskanen [12:02 PM]
+# backend frontend wcs autocomplete timeseries meta admin download wms wfs
+scan("smartmet-plugin-backend");
+scan("smartmet-plugin-frontend");
+scan("smartmet-plugin-wcs");
+scan("smartmet-plugin-autocomplete");
+scan("smartmet-plugin-timeseries");
+scan("smartmet-plugin-meta");
+scan("smartmet-plugin-admin");
+scan("smartmet-plugin-download");
+scan("smartmet-plugin-wms");
+scan("smartmet-plugin-wfs");
 
 #print Dumper(\%::testdeps );
 #print Dumper(\%::builddeps );
