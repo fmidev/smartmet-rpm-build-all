@@ -1,4 +1,4 @@
-#timestamp Fri Mar 22 10:27:31 EET 2019
+#timestamp Sat Mar 23 04:10:32 UTC 2019
 version: 2.1
 
 executors:
@@ -192,6 +192,10 @@ jobs:
     executor: fmi-executor
     steps:
      - build-default
+  build-smartmet-regression:
+    executor: fmi-executor
+    steps:
+     - build-default
   build-smartmet-server:
     executor: fmi-executor
     steps:
@@ -307,6 +311,10 @@ jobs:
     steps:
      - test-default
   test-smartmet-plugin-wms:
+    executor: fmi-executor
+    steps:
+     - test-default
+  test-smartmet-regression:
     executor: fmi-executor
     steps:
      - test-default
@@ -565,6 +573,9 @@ workflows:
         - test-smartmet-library-giza
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
+    - build-smartmet-regression:
+       requires:
+        - preprep
     - build-smartmet-server:
        requires:
         - preprep
@@ -636,6 +647,7 @@ workflows:
     - test-smartmet-library-giza:
        requires:
         - build-smartmet-library-giza
+        - test-smartmet-regression
     - test-smartmet-library-locus:
        requires:
         - build-smartmet-library-locus
@@ -666,6 +678,8 @@ workflows:
     - test-smartmet-library-tron:
        requires:
         - build-smartmet-library-tron
+        - test-smartmet-library-gis
+        - test-smartmet-library-regression
     - test-smartmet-plugin-admin:
        requires:
         - build-smartmet-plugin-admin
@@ -758,6 +772,9 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
         - test-smartmet-server
+    - test-smartmet-regression:
+       requires:
+        - build-smartmet-regression
     - test-smartmet-server:
        requires:
         - build-smartmet-server
@@ -799,6 +816,7 @@ workflows:
         - build-smartmet-plugin-wcs
         - build-smartmet-plugin-wfs
         - build-smartmet-plugin-wms
+        - build-smartmet-regression
         - build-smartmet-server
         - build-smartmet-test-data-gis
         - build-smartmet-test-db
@@ -828,6 +846,7 @@ workflows:
         - test-smartmet-plugin-wcs
         - test-smartmet-plugin-wfs
         - test-smartmet-plugin-wms
+        - test-smartmet-regression
         - test-smartmet-server
         - test-smartmet-test-data-gis
         - test-smartmet-test-db
