@@ -1,4 +1,4 @@
-#timestamp Fri Mar 29 04:10:37 UTC 2019
+#timestamp Fri Mar 29 10:58:20 EET 2019
 version: 2.1
 
 executors:
@@ -9,6 +9,9 @@ executors:
 commands:
  build-default:
   description: Build and save artifacts for other steps
+  parameters: 
+   module:
+    type: string
   steps:
    - run:
       name: Disable smartmet packages coming from FMI repo
@@ -44,7 +47,7 @@ commands:
         ci-build rpm
    - persist_to_workspace:
       root: /dist
-      paths: ./*
+      paths: ./<< parameters.module >>-*
  test-default:
   description: Test
   steps:
@@ -95,119 +98,148 @@ jobs:
   build-smartmet-engine-authentication:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-engine-authentication
   build-smartmet-engine-contour:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-engine-contour
   build-smartmet-engine-geonames:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-engine-geonames
   build-smartmet-engine-gis:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-engine-gis
   build-smartmet-engine-observation:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-engine-observation
   build-smartmet-engine-querydata:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-engine-querydata
   build-smartmet-engine-sputnik:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-engine-sputnik
   build-smartmet-library-gis:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-library-gis
   build-smartmet-library-giza:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-library-giza
   build-smartmet-library-locus:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-library-locus
   build-smartmet-library-macgyver:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-library-macgyver
   build-smartmet-library-newbase:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-library-newbase
   build-smartmet-library-regression:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-library-regression
   build-smartmet-library-spine:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-library-spine
   build-smartmet-library-tron:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-library-tron
   build-smartmet-plugin-admin:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-plugin-admin
   build-smartmet-plugin-autocomplete:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-plugin-autocomplete
   build-smartmet-plugin-backend:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-plugin-backend
   build-smartmet-plugin-download:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-plugin-download
   build-smartmet-plugin-frontend:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-plugin-frontend
   build-smartmet-plugin-meta:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-plugin-meta
   build-smartmet-plugin-timeseries:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-plugin-timeseries
   build-smartmet-plugin-wcs:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-plugin-wcs
   build-smartmet-plugin-wfs:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-plugin-wfs
   build-smartmet-plugin-wms:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-plugin-wms
   build-smartmet-server:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-server
   build-smartmet-test-data-gis:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-test-data-gis
   build-smartmet-test-db:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-test-db
   build-smartmet-timezones:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-timezones
 #end
 #template test
   test-smartmet-engine-authentication:

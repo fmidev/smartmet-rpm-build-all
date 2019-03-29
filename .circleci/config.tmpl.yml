@@ -9,6 +9,9 @@ executors:
 commands:
  build-default:
   description: Build and save artifacts for other steps
+  parameters: 
+   module:
+    type: string
   steps:
    - run:
       name: Disable smartmet packages coming from FMI repo
@@ -44,7 +47,7 @@ commands:
         ci-build rpm
    - persist_to_workspace:
       root: /dist
-      paths: ./*
+      paths: ./<< parameters.module >>-*
  test-default:
   description: Test
   steps:
@@ -95,7 +98,8 @@ jobs:
   build-smartmet-library-newbase:
     executor: fmi-executor
     steps:
-     - build-default
+     - build-default:
+        module: smartmet-library-newbase
 #end
 #template test
   test-smartmet-library-newbase:
