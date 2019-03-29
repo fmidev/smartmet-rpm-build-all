@@ -1,4 +1,4 @@
-#timestamp Fri Mar 29 10:58:20 EET 2019
+#timestamp Fri Mar 29 16:58:59 EET 2019
 version: 2.1
 
 executors:
@@ -47,7 +47,10 @@ commands:
         ci-build rpm
    - persist_to_workspace:
       root: /dist
-      paths: ./<< parameters.module >>-*
+      paths:
+       - ./<< parameters.module >>-*.rpm
+       - ./<< parameters.module >>.lst
+
  test-default:
   description: Test
   steps:

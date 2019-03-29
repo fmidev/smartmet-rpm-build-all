@@ -47,7 +47,10 @@ commands:
         ci-build rpm
    - persist_to_workspace:
       root: /dist
-      paths: ./<< parameters.module >>-*
+      paths:
+       - ./<< parameters.module >>-*.rpm
+       - ./<< parameters.module >>.lst
+
  test-default:
   description: Test
   steps:
