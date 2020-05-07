@@ -1,4 +1,4 @@
-#timestamp Thu May  7 04:11:34 UTC 2020
+#timestamp Thu May  7 16:25:19 EEST 2020
 version: 2.1
 
 executors:
@@ -228,6 +228,11 @@ jobs:
     steps:
      - build-default:
         module: smartmet-server
+  build-smartmet-test-data:
+    executor: fmi-executor
+    steps:
+     - build-default:
+        module: smartmet-test-data
   build-smartmet-test-data-gis:
     executor: fmi-executor
     steps:
@@ -346,6 +351,10 @@ jobs:
     steps:
      - test-default
   test-smartmet-server:
+    executor: fmi-executor
+    steps:
+     - test-default
+  test-smartmet-test-data:
     executor: fmi-executor
     steps:
      - test-default
@@ -604,6 +613,9 @@ workflows:
         - preprep
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
+    - build-smartmet-test-data:
+       requires:
+        - preprep
     - build-smartmet-test-data-gis:
        requires:
         - preprep
@@ -665,6 +677,8 @@ workflows:
     - test-smartmet-library-gis:
        requires:
         - build-smartmet-library-gis
+        - test-smartmet-library-regression
+        - test-smartmet-test-data
     - test-smartmet-library-giza:
        requires:
         - build-smartmet-library-giza
@@ -799,6 +813,9 @@ workflows:
         - build-smartmet-server
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
+    - test-smartmet-test-data:
+       requires:
+        - build-smartmet-test-data
     - test-smartmet-test-data-gis:
        requires:
         - build-smartmet-test-data-gis
@@ -836,6 +853,7 @@ workflows:
         - build-smartmet-plugin-wfs
         - build-smartmet-plugin-wms
         - build-smartmet-server
+        - build-smartmet-test-data
         - build-smartmet-test-data-gis
         - build-smartmet-test-db
         - build-smartmet-timezones
@@ -865,6 +883,7 @@ workflows:
         - test-smartmet-plugin-wfs
         - test-smartmet-plugin-wms
         - test-smartmet-server
+        - test-smartmet-test-data
         - test-smartmet-test-data-gis
         - test-smartmet-test-db
         - test-smartmet-timezones
