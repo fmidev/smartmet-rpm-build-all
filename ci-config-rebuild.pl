@@ -95,6 +95,9 @@ scan("smartmet-plugin-admin");
 scan("smartmet-plugin-download");
 scan("smartmet-plugin-wms");
 scan("smartmet-plugin-wfs");
+scan("smartmet-qdtools");
+scan("smartmet-qdcontour");
+scan("smartmet-shapetools");
 
 #print Dumper(\%::testdeps );
 #print Dumper(\%::builddeps );

@@ -1,4 +1,4 @@
-#timestamp Thu Jun 11 04:12:09 UTC 2020
+#timestamp Thu Jun 11 16:28:25 EEST 2020
 version: 2.1
 
 executors:
@@ -133,6 +133,11 @@ jobs:
     steps:
      - build-default:
         module: smartmet-engine-sputnik
+  build-smartmet-library-calculator:
+    executor: fmi-executor
+    steps:
+     - build-default:
+        module: smartmet-library-calculator
   build-smartmet-library-gis:
     executor: fmi-executor
     steps:
@@ -143,6 +148,11 @@ jobs:
     steps:
      - build-default:
         module: smartmet-library-giza
+  build-smartmet-library-imagine:
+    executor: fmi-executor
+    steps:
+     - build-default:
+        module: smartmet-library-imagine
   build-smartmet-library-locus:
     executor: fmi-executor
     steps:
@@ -163,6 +173,11 @@ jobs:
     steps:
      - build-default:
         module: smartmet-library-regression
+  build-smartmet-library-smarttools:
+    executor: fmi-executor
+    steps:
+     - build-default:
+        module: smartmet-library-smarttools
   build-smartmet-library-spine:
     executor: fmi-executor
     steps:
@@ -223,11 +238,26 @@ jobs:
     steps:
      - build-default:
         module: smartmet-plugin-wms
+  build-smartmet-qdcontour:
+    executor: fmi-executor
+    steps:
+     - build-default:
+        module: smartmet-qdcontour
+  build-smartmet-qdtools:
+    executor: fmi-executor
+    steps:
+     - build-default:
+        module: smartmet-qdtools
   build-smartmet-server:
     executor: fmi-executor
     steps:
      - build-default:
         module: smartmet-server
+  build-smartmet-shapetools:
+    executor: fmi-executor
+    steps:
+     - build-default:
+        module: smartmet-shapetools
   build-smartmet-test-data:
     executor: fmi-executor
     steps:
@@ -278,11 +308,19 @@ jobs:
     executor: fmi-executor
     steps:
      - test-default
+  test-smartmet-library-calculator:
+    executor: fmi-executor
+    steps:
+     - test-default
   test-smartmet-library-gis:
     executor: fmi-executor
     steps:
      - test-default
   test-smartmet-library-giza:
+    executor: fmi-executor
+    steps:
+     - test-default
+  test-smartmet-library-imagine:
     executor: fmi-executor
     steps:
      - test-default
@@ -299,6 +337,10 @@ jobs:
     steps:
      - test-default
   test-smartmet-library-regression:
+    executor: fmi-executor
+    steps:
+     - test-default
+  test-smartmet-library-smarttools:
     executor: fmi-executor
     steps:
      - test-default
@@ -350,7 +392,19 @@ jobs:
     executor: fmi-executor
     steps:
      - test-default
+  test-smartmet-qdcontour:
+    executor: fmi-executor
+    steps:
+     - test-default
+  test-smartmet-qdtools:
+    executor: fmi-executor
+    steps:
+     - test-default
   test-smartmet-server:
+    executor: fmi-executor
+    steps:
+     - test-default
+  test-smartmet-shapetools:
     executor: fmi-executor
     steps:
      - test-default
@@ -488,12 +542,21 @@ workflows:
         - preprep
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
+    - build-smartmet-library-calculator:
+       requires:
+        - preprep
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-newbase
     - build-smartmet-library-gis:
        requires:
         - preprep
     - build-smartmet-library-giza:
        requires:
         - preprep
+    - build-smartmet-library-imagine:
+       requires:
+        - preprep
+        - test-smartmet-library-newbase
     - build-smartmet-library-locus:
        requires:
         - preprep
@@ -508,6 +571,10 @@ workflows:
     - build-smartmet-library-regression:
        requires:
         - preprep
+    - build-smartmet-library-smarttools:
+       requires:
+        - preprep
+        - test-smartmet-library-newbase
     - build-smartmet-library-spine:
        requires:
         - preprep
@@ -608,11 +675,34 @@ workflows:
         - test-smartmet-library-giza
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
+    - build-smartmet-qdcontour:
+       requires:
+        - preprep
+        - test-smartmet-library-imagine
+        - test-smartmet-library-newbase
+        - test-smartmet-library-tron
+    - build-smartmet-qdtools:
+       requires:
+        - preprep
+        - test-smartmet-library-calculator
+        - test-smartmet-library-gis
+        - test-smartmet-library-imagine
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-newbase
+        - test-smartmet-library-smarttools
+        - test-smartmet-library-spine
+        - test-smartmet-timezones
     - build-smartmet-server:
        requires:
         - preprep
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
+    - build-smartmet-shapetools:
+       requires:
+        - preprep
+        - test-smartmet-library-imagine
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-newbase
     - build-smartmet-test-data:
        requires:
         - preprep
@@ -674,6 +764,10 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
         - test-smartmet-server
+    - test-smartmet-library-calculator:
+       requires:
+        - build-smartmet-library-calculator
+        - test-smartmet-library-newbase
     - test-smartmet-library-gis:
        requires:
         - build-smartmet-library-gis
@@ -683,6 +777,10 @@ workflows:
        requires:
         - build-smartmet-library-giza
         - test-smartmet-library-regression
+    - test-smartmet-library-imagine:
+       requires:
+        - build-smartmet-library-imagine
+        - test-smartmet-library-newbase
     - test-smartmet-library-locus:
        requires:
         - build-smartmet-library-locus
@@ -702,6 +800,10 @@ workflows:
     - test-smartmet-library-regression:
        requires:
         - build-smartmet-library-regression
+    - test-smartmet-library-smarttools:
+       requires:
+        - build-smartmet-library-smarttools
+        - test-smartmet-library-newbase
     - test-smartmet-library-spine:
        requires:
         - build-smartmet-library-spine
@@ -808,11 +910,33 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
         - test-smartmet-server
+    - test-smartmet-qdcontour:
+       requires:
+        - build-smartmet-qdcontour
+        - test-smartmet-library-imagine
+        - test-smartmet-library-newbase
+    - test-smartmet-qdtools:
+       requires:
+        - build-smartmet-qdtools
+        - test-smartmet-library-calculator
+        - test-smartmet-library-gis
+        - test-smartmet-library-imagine
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-newbase
+        - test-smartmet-library-smarttools
+        - test-smartmet-library-spine
+        - test-smartmet-timezones
     - test-smartmet-server:
        requires:
         - build-smartmet-server
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
+    - test-smartmet-shapetools:
+       requires:
+        - build-smartmet-shapetools
+        - test-smartmet-library-imagine
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-newbase
     - test-smartmet-test-data:
        requires:
         - build-smartmet-test-data
@@ -834,12 +958,15 @@ workflows:
         - build-smartmet-engine-observation
         - build-smartmet-engine-querydata
         - build-smartmet-engine-sputnik
+        - build-smartmet-library-calculator
         - build-smartmet-library-gis
         - build-smartmet-library-giza
+        - build-smartmet-library-imagine
         - build-smartmet-library-locus
         - build-smartmet-library-macgyver
         - build-smartmet-library-newbase
         - build-smartmet-library-regression
+        - build-smartmet-library-smarttools
         - build-smartmet-library-spine
         - build-smartmet-library-tron
         - build-smartmet-plugin-admin
@@ -852,7 +979,10 @@ workflows:
         - build-smartmet-plugin-wcs
         - build-smartmet-plugin-wfs
         - build-smartmet-plugin-wms
+        - build-smartmet-qdcontour
+        - build-smartmet-qdtools
         - build-smartmet-server
+        - build-smartmet-shapetools
         - build-smartmet-test-data
         - build-smartmet-test-data-gis
         - build-smartmet-test-db
@@ -864,12 +994,15 @@ workflows:
         - test-smartmet-engine-observation
         - test-smartmet-engine-querydata
         - test-smartmet-engine-sputnik
+        - test-smartmet-library-calculator
         - test-smartmet-library-gis
         - test-smartmet-library-giza
+        - test-smartmet-library-imagine
         - test-smartmet-library-locus
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-regression
+        - test-smartmet-library-smarttools
         - test-smartmet-library-spine
         - test-smartmet-library-tron
         - test-smartmet-plugin-admin
@@ -882,7 +1015,10 @@ workflows:
         - test-smartmet-plugin-wcs
         - test-smartmet-plugin-wfs
         - test-smartmet-plugin-wms
+        - test-smartmet-qdcontour
+        - test-smartmet-qdtools
         - test-smartmet-server
+        - test-smartmet-shapetools
         - test-smartmet-test-data
         - test-smartmet-test-data-gis
         - test-smartmet-test-db
