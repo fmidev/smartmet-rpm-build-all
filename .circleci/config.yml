@@ -1,4 +1,4 @@
-#timestamp Thu Jun 11 16:28:25 EEST 2020
+#timestamp Fri Jun 12 04:11:21 UTC 2020
 version: 2.1
 
 executors:
@@ -768,6 +768,8 @@ workflows:
        requires:
         - build-smartmet-library-calculator
         - test-smartmet-library-newbase
+        - test-smartmet-library-regression
+        - test-smartmet-timezones
     - test-smartmet-library-gis:
        requires:
         - build-smartmet-library-gis
@@ -781,6 +783,7 @@ workflows:
        requires:
         - build-smartmet-library-imagine
         - test-smartmet-library-newbase
+        - test-smartmet-library-regression
     - test-smartmet-library-locus:
        requires:
         - build-smartmet-library-locus
