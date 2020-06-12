@@ -98,6 +98,8 @@ scan("smartmet-plugin-wfs");
 scan("smartmet-qdtools");
 scan("smartmet-qdcontour");
 scan("smartmet-shapetools");
+scan("smartmet-plugin-grid-admin");
+scan("smartmet-plugin-grid-gui");
 
 #print Dumper(\%::testdeps );
 #print Dumper(\%::builddeps );
