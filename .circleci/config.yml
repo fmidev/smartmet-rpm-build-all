@@ -1,4 +1,4 @@
-#timestamp Sun Jun 14 16:15:17 EEST 2020
+#timestamp Sun Jun 14 17:13:03 EEST 2020
 version: 2.1
 
 executors:
@@ -168,6 +168,11 @@ jobs:
     steps:
      - build-default:
         module: smartmet-library-imagine
+  build-smartmet-library-imagine2:
+    executor: fmi-executor
+    steps:
+     - build-default:
+        module: smartmet-library-imagine2
   build-smartmet-library-locus:
     executor: fmi-executor
     steps:
@@ -363,6 +368,10 @@ jobs:
     steps:
      - test-default
   test-smartmet-library-imagine:
+    executor: fmi-executor
+    steps:
+     - test-default
+  test-smartmet-library-imagine2:
     executor: fmi-executor
     steps:
      - test-default
@@ -631,6 +640,10 @@ workflows:
        requires:
         - preprep
         - test-smartmet-library-newbase
+    - build-smartmet-library-imagine2:
+       requires:
+        - preprep
+        - test-smartmet-library-newbase
     - build-smartmet-library-locus:
        requires:
         - preprep
@@ -775,6 +788,9 @@ workflows:
     - build-smartmet-qdcontour2:
        requires:
         - preprep
+        - test-smartmet-library-imagine2
+        - test-smartmet-library-newbase
+        - test-smartmet-library-tron
     - build-smartmet-qdtools:
        requires:
         - preprep
@@ -895,6 +911,11 @@ workflows:
     - test-smartmet-library-imagine:
        requires:
         - build-smartmet-library-imagine
+        - test-smartmet-library-newbase
+        - test-smartmet-library-regression
+    - test-smartmet-library-imagine2:
+       requires:
+        - build-smartmet-library-imagine2
         - test-smartmet-library-newbase
         - test-smartmet-library-regression
     - test-smartmet-library-locus:
@@ -1050,6 +1071,8 @@ workflows:
     - test-smartmet-qdcontour2:
        requires:
         - build-smartmet-qdcontour2
+        - test-smartmet-library-imagine2
+        - test-smartmet-library-newbase
     - test-smartmet-qdtools:
        requires:
         - build-smartmet-qdtools
@@ -1100,6 +1123,7 @@ workflows:
         - build-smartmet-library-grid-content
         - build-smartmet-library-grid-files
         - build-smartmet-library-imagine
+        - build-smartmet-library-imagine2
         - build-smartmet-library-locus
         - build-smartmet-library-macgyver
         - build-smartmet-library-newbase
@@ -1142,6 +1166,7 @@ workflows:
         - test-smartmet-library-grid-content
         - test-smartmet-library-grid-files
         - test-smartmet-library-imagine
+        - test-smartmet-library-imagine2
         - test-smartmet-library-locus
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase

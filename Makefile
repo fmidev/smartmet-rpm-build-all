@@ -7,6 +7,7 @@
 
 force:
 	touch ci-config-rebuild.pl
+	rm -f /tmp/specs/*
 	make
 
 check:

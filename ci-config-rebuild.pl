@@ -34,6 +34,7 @@ sub scan($) {
 
 	# Only scan modules not already scanned
 	if ( !$::builddeps{$module} ) {
+	        print STDERR "Processing $module...\n";
 		if ( !-r "$::specdir/$module.spec" ) {
 			getspec( $module, "master" );
 		}
@@ -51,6 +52,7 @@ sub scan($) {
 				$b =~ s/-devel$//;    # Remove devel end, will be produced as part of the binary package
 
 				if ( $b =~ m/^smartmet-/ ) {
+				        print STDERR "\t$tag $b\n";
 					if ( $tag =~ m/^BuildRequires/ ) {
 						$buildreq{$b} = 1;
 					} else {
@@ -96,8 +98,8 @@ scan("smartmet-shapetools");
 scan("smartmet-plugin-grid-admin");
 scan("smartmet-plugin-grid-gui");
 
-#print Dumper(\%::testdeps );
-#print Dumper(\%::builddeps );
+# print STDERR Dumper(\%::testdeps );
+# print STDERR Dumper(\%::builddeps );
 
 my $currenttemplate        = "";
 my $currenttemplatename    = "";
