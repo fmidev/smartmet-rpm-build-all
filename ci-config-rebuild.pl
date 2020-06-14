@@ -78,13 +78,7 @@ sub scan($) {
 
 mkdir($::specdir);
 
-# Fetch server spec
-# Read it, collect build, install and test requirements and generate this part of yml
-#  Recursively call the requirements
-scan("smartmet-server");
-# This does not get all actually needed stuff, this should:
-# Mika Heiskanen [12:02 PM]
-# backend frontend wcs autocomplete timeseries meta admin download wms wfs
+# Fetch node packages, then scan all their requirements
 scan("smartmet-plugin-backend");
 scan("smartmet-plugin-frontend");
 scan("smartmet-plugin-wcs");
