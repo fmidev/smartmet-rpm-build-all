@@ -91,6 +91,7 @@ scan("smartmet-plugin-wms");
 scan("smartmet-plugin-wfs");
 scan("smartmet-qdtools");
 scan("smartmet-qdcontour");
+scan("smartmet-qdcontour2");
 scan("smartmet-shapetools");
 scan("smartmet-plugin-grid-admin");
 scan("smartmet-plugin-grid-gui");
