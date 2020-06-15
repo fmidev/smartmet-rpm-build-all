@@ -1,4 +1,4 @@
-#timestamp Sun Jun 14 18:08:20 EEST 2020
+#timestamp Mon Jun 15 14:53:13 EEST 2020
 version: 2.1
 
 executors:
@@ -228,6 +228,11 @@ jobs:
     steps:
      - build-default:
         module: smartmet-plugin-download
+  build-smartmet-plugin-download-master-grid-support-BS-1661-new:
+    executor: fmi-executor
+    steps:
+     - build-default:
+        module: smartmet-plugin-download-master-grid-support-BS-1661-new
   build-smartmet-plugin-frontend:
     executor: fmi-executor
     steps:
@@ -253,6 +258,11 @@ jobs:
     steps:
      - build-default:
         module: smartmet-plugin-timeseries
+  build-smartmet-plugin-timeseries-master_grid_support:
+    executor: fmi-executor
+    steps:
+     - build-default:
+        module: smartmet-plugin-timeseries-master_grid_support
   build-smartmet-plugin-wcs:
     executor: fmi-executor
     steps:
@@ -263,11 +273,21 @@ jobs:
     steps:
      - build-default:
         module: smartmet-plugin-wfs
+  build-smartmet-plugin-wfs-grid_dev_new:
+    executor: fmi-executor
+    steps:
+     - build-default:
+        module: smartmet-plugin-wfs-grid_dev_new
   build-smartmet-plugin-wms:
     executor: fmi-executor
     steps:
      - build-default:
         module: smartmet-plugin-wms
+  build-smartmet-plugin-wms-grid_dev:
+    executor: fmi-executor
+    steps:
+     - build-default:
+        module: smartmet-plugin-wms-grid_dev
   build-smartmet-qdcontour:
     executor: fmi-executor
     steps:
@@ -419,6 +439,10 @@ jobs:
     executor: fmi-executor
     steps:
      - test-default
+  test-smartmet-plugin-download-master-grid-support-BS-1661-new:
+    executor: fmi-executor
+    steps:
+     - test-default
   test-smartmet-plugin-frontend:
     executor: fmi-executor
     steps:
@@ -439,6 +463,10 @@ jobs:
     executor: fmi-executor
     steps:
      - test-default
+  test-smartmet-plugin-timeseries-master_grid_support:
+    executor: fmi-executor
+    steps:
+     - test-default
   test-smartmet-plugin-wcs:
     executor: fmi-executor
     steps:
@@ -447,7 +475,15 @@ jobs:
     executor: fmi-executor
     steps:
      - test-default
+  test-smartmet-plugin-wfs-grid_dev_new:
+    executor: fmi-executor
+    steps:
+     - test-default
   test-smartmet-plugin-wms:
+    executor: fmi-executor
+    steps:
+     - test-default
+  test-smartmet-plugin-wms-grid_dev:
     executor: fmi-executor
     steps:
      - test-default
@@ -702,6 +738,14 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-spine
+    - build-smartmet-plugin-download-master-grid-support-BS-1661-new:
+       requires:
+        - preprep
+        - test-smartmet-engine-geonames
+        - test-smartmet-engine-querydata
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-newbase
+        - test-smartmet-library-spine
     - build-smartmet-plugin-frontend:
        requires:
         - preprep
@@ -741,6 +785,18 @@ workflows:
         - test-smartmet-engine-observation
         - test-smartmet-engine-querydata
         - test-smartmet-library-gis
+        - test-smartmet-library-locus
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-newbase
+        - test-smartmet-library-spine
+    - build-smartmet-plugin-timeseries-master_grid_support:
+       requires:
+        - preprep
+        - test-smartmet-engine-geonames
+        - test-smartmet-engine-gis
+        - test-smartmet-engine-observation
+        - test-smartmet-engine-querydata
+        - test-smartmet-library-gis
         - test-smartmet-library-grid-content
         - test-smartmet-library-grid-files
         - test-smartmet-library-locus
@@ -762,6 +818,18 @@ workflows:
         - test-smartmet-engine-contour
         - test-smartmet-engine-geonames
         - test-smartmet-engine-gis
+        - test-smartmet-engine-observation
+        - test-smartmet-engine-querydata
+        - test-smartmet-library-gis
+        - test-smartmet-library-locus
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-spine
+    - build-smartmet-plugin-wfs-grid_dev_new:
+       requires:
+        - preprep
+        - test-smartmet-engine-contour
+        - test-smartmet-engine-geonames
+        - test-smartmet-engine-gis
         - test-smartmet-engine-grid
         - test-smartmet-engine-observation
         - test-smartmet-engine-querydata
@@ -772,6 +840,19 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
     - build-smartmet-plugin-wms:
+       requires:
+        - preprep
+        - test-smartmet-engine-authentication
+        - test-smartmet-engine-contour
+        - test-smartmet-engine-geonames
+        - test-smartmet-engine-gis
+        - test-smartmet-engine-observation
+        - test-smartmet-engine-querydata
+        - test-smartmet-library-gis
+        - test-smartmet-library-giza
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-spine
+    - build-smartmet-plugin-wms-grid_dev:
        requires:
         - preprep
         - test-smartmet-engine-authentication
@@ -992,6 +1073,14 @@ workflows:
         - test-smartmet-library-newbase
         - test-smartmet-library-spine
         - test-smartmet-server
+    - test-smartmet-plugin-download-master-grid-support-BS-1661-new:
+       requires:
+        - build-smartmet-plugin-download-master-grid-support-BS-1661-new
+        - test-smartmet-engine-querydata
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-newbase
+        - test-smartmet-library-spine
+        - test-smartmet-server
     - test-smartmet-plugin-frontend:
        requires:
         - build-smartmet-plugin-frontend
@@ -1035,6 +1124,18 @@ workflows:
         - test-smartmet-library-newbase
         - test-smartmet-library-spine
         - test-smartmet-server
+    - test-smartmet-plugin-timeseries-master_grid_support:
+       requires:
+        - build-smartmet-plugin-timeseries-master_grid_support
+        - test-smartmet-engine-geonames
+        - test-smartmet-engine-gis
+        - test-smartmet-engine-querydata
+        - test-smartmet-library-gis
+        - test-smartmet-library-locus
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-newbase
+        - test-smartmet-library-spine
+        - test-smartmet-server
     - test-smartmet-plugin-wcs:
        requires:
         - build-smartmet-plugin-wcs
@@ -1047,6 +1148,19 @@ workflows:
     - test-smartmet-plugin-wfs:
        requires:
         - build-smartmet-plugin-wfs
+        - test-smartmet-engine-contour
+        - test-smartmet-engine-geonames
+        - test-smartmet-engine-gis
+        - test-smartmet-engine-observation
+        - test-smartmet-engine-querydata
+        - test-smartmet-library-gis
+        - test-smartmet-library-locus
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-spine
+        - test-smartmet-server
+    - test-smartmet-plugin-wfs-grid_dev_new:
+       requires:
+        - build-smartmet-plugin-wfs-grid_dev_new
         - test-smartmet-engine-contour
         - test-smartmet-engine-geonames
         - test-smartmet-engine-gis
@@ -1063,6 +1177,19 @@ workflows:
     - test-smartmet-plugin-wms:
        requires:
         - build-smartmet-plugin-wms
+        - test-smartmet-engine-authentication
+        - test-smartmet-engine-contour
+        - test-smartmet-engine-geonames
+        - test-smartmet-engine-gis
+        - test-smartmet-engine-querydata
+        - test-smartmet-library-gis
+        - test-smartmet-library-giza
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-spine
+        - test-smartmet-server
+    - test-smartmet-plugin-wms-grid_dev:
+       requires:
+        - build-smartmet-plugin-wms-grid_dev
         - test-smartmet-engine-authentication
         - test-smartmet-engine-contour
         - test-smartmet-engine-geonames
@@ -1147,14 +1274,18 @@ workflows:
         - build-smartmet-plugin-autocomplete
         - build-smartmet-plugin-backend
         - build-smartmet-plugin-download
+        - build-smartmet-plugin-download-master-grid-support-BS-1661-new
         - build-smartmet-plugin-frontend
         - build-smartmet-plugin-grid-admin
         - build-smartmet-plugin-grid-gui
         - build-smartmet-plugin-meta
         - build-smartmet-plugin-timeseries
+        - build-smartmet-plugin-timeseries-master_grid_support
         - build-smartmet-plugin-wcs
         - build-smartmet-plugin-wfs
+        - build-smartmet-plugin-wfs-grid_dev_new
         - build-smartmet-plugin-wms
+        - build-smartmet-plugin-wms-grid_dev
         - build-smartmet-qdcontour
         - build-smartmet-qdcontour2
         - build-smartmet-qdtools
@@ -1190,14 +1321,18 @@ workflows:
         - test-smartmet-plugin-autocomplete
         - test-smartmet-plugin-backend
         - test-smartmet-plugin-download
+        - test-smartmet-plugin-download-master-grid-support-BS-1661-new
         - test-smartmet-plugin-frontend
         - test-smartmet-plugin-grid-admin
         - test-smartmet-plugin-grid-gui
         - test-smartmet-plugin-meta
         - test-smartmet-plugin-timeseries
+        - test-smartmet-plugin-timeseries-master_grid_support
         - test-smartmet-plugin-wcs
         - test-smartmet-plugin-wfs
+        - test-smartmet-plugin-wfs-grid_dev_new
         - test-smartmet-plugin-wms
+        - test-smartmet-plugin-wms-grid_dev
         - test-smartmet-qdcontour
         - test-smartmet-qdcontour2
         - test-smartmet-qdtools

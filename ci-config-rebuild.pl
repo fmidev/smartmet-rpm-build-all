@@ -16,9 +16,9 @@ sub getspec($$$) {
 	$module =~ s%[.]git$%%;
 	$module =~ s%^.*/%%;
 
-	my $url = "https://raw.githubusercontent.com/fmidev/$module/$branch/$spec";
+	my $url = "https://raw.githubusercontent.com/fmidev/$module/$branch/$spec.spec";
 	print STDERR "\tFetching $url\n";
-	system( "curl", "-s", "-o", "$::specdir/$module$branch.spec", "$url" ) == 0
+	system( "curl", "-s", "-o", "$::specdir/$module$spec-$branch", "$url" ) == 0
 	  or die("Unable to fetch spec file for $module");
 }
 
@@ -32,19 +32,21 @@ sub scan($$$) {
 	my $branch = shift;
 	my $spec   = shift;
 
-	if(!$spec) { $spec = "$module.spec"; }
+	if(!$spec) { $spec = "$module"; }
+
+	my $moduleid = ($branch eq "master" ? $module : "$module-$branch");
 
 	my %buildreq = ();      # Contents from Buildrequires lines, use hashes to void duplicates
 	my %testreq  = ();      # Contents from Requires and #TestRequires lines
 
 	# Only scan modules not already scanned
-	if ( !$::builddeps{"$module"."$branch"} ) {
+	if ( !$::builddeps{"$moduleid"} ) {
 	        print STDERR "Processing $module branch $branch...\n";
-		if ( !-r "$::specdir/$module$branch.spec" ) {
+		if ( !-r "$::specdir/$module$spec-$branch" ) {
 			getspec( $module, $branch, $spec );
 		}
-		open( FH, "$::specdir/$module$branch.spec" )
-		  or die("Unable to read $::specdir/$module$branch.spec: $!");
+		open( FH, "$::specdir/$module$spec-$branch" )
+		  or die("Unable to read $::specdir/$module$spec-$branch: $!");
 		while (<FH>) {
 			if (    $_ =~ m/^(Requires:)(.*)$/
 				 || $_ =~ m/^#(TestRequires:)(.*)$/
@@ -59,14 +61,14 @@ sub scan($$$) {
 				if ( $b =~ m/^smartmet-/ ) {
 				        print STDERR "\t$tag $b\n";
 					if ( $tag =~ m/^BuildRequires/ ) {
-						$buildreq{$b} = 1;
+						$buildreq{"$b"} = 1;
 					} else {
-						$testreq{$b} = 1;
+						$testreq{"$b"} = 1;
 					}
 				}
 			}
-			$::builddeps{"$module"} = [ sort keys %buildreq ];
-			$::testdeps{"$module"}  = [ sort keys %testreq ];
+			$::builddeps{"$moduleid"} = [ sort keys %buildreq ];
+			$::testdeps{"$moduleid"}  = [ sort keys %testreq ];
 		}
 
 		#		$::testrules{$module}   = "test-$module:\n  <<: *test_defaults\n";
@@ -86,26 +88,26 @@ sub scan($$$) {
 mkdir($::specdir);
 
 # Fetch node packages, then scan all their requirements
-scan("smartmet-plugin-backend", "master", "smartmet-plugin-backend.spec");
-scan("smartmet-plugin-frontend", "master", "smartmet-plugin-frontend.spec");
-scan("smartmet-plugin-wcs", "master", "smartmet-plugin-wcs.spec");
-scan("smartmet-plugin-autocomplete", "master", "smartmet-plugin-autocomplete.spec");
-scan("smartmet-plugin-timeseries", "master", "smartmet-plugin-timeseries.spec");
-scan("smartmet-plugin-meta", "master", "smartmet-plugin-meta.spec");
-scan("smartmet-plugin-admin", "master", "smartmet-plugin-admin.spec");
-scan("smartmet-plugin-download", "master", "smartmet-plugin-download.spec");
-scan("smartmet-plugin-wms", "master", "smartmet-plugin-wms.spec");
-scan("smartmet-plugin-wfs", "master", "smartmet-plugin-wfs.spec");
-scan("smartmet-qdtools", "master", "smartmet-qdtools.spec");
-scan("smartmet-qdcontour", "master", "smartmet-qdcontour.spec");
-scan("smartmet-qdcontour2", "master", "smartmet-qdcontour2.spec");
-scan("smartmet-shapetools", "master", "smartmet-shapetools.spec");
-scan("smartmet-plugin-grid-admin", "master", "smartmet-plugin-grid-admin.spec");
-scan("smartmet-plugin-grid-gui", "master", "smartmet-plugin-grid-gui.spec");
-scan("smartmet-plugin-download","master-grid-support-BS-1661-new", "smartmet-plugin-gribdownload.spec");
-scan("smartmet-plugin-timeseries","master_grid_support", "smartmet-plugin-gribtimeseries.spec");
-scan("smartmet-plugin-wfs","grid_dev_new", "smartmet-plugin-gribwfs.spec");
-scan("smartmet-plugin-wms","grid_dev", "smartmet-plugin-gribwms.spec");
+scan("smartmet-plugin-backend", "master", "smartmet-plugin-backend");
+scan("smartmet-plugin-frontend", "master", "smartmet-plugin-frontend");
+scan("smartmet-plugin-wcs", "master", "smartmet-plugin-wcs");
+scan("smartmet-plugin-autocomplete", "master", "smartmet-plugin-autocomplete");
+scan("smartmet-plugin-timeseries", "master", "smartmet-plugin-timeseries");
+scan("smartmet-plugin-meta", "master", "smartmet-plugin-meta");
+scan("smartmet-plugin-admin", "master", "smartmet-plugin-admin");
+scan("smartmet-plugin-download", "master", "smartmet-plugin-download");
+scan("smartmet-plugin-wms", "master", "smartmet-plugin-wms");
+scan("smartmet-plugin-wfs", "master", "smartmet-plugin-wfs");
+scan("smartmet-qdtools", "master", "smartmet-qdtools");
+scan("smartmet-qdcontour", "master", "smartmet-qdcontour");
+scan("smartmet-qdcontour2", "master", "smartmet-qdcontour2");
+scan("smartmet-shapetools", "master", "smartmet-shapetools");
+scan("smartmet-plugin-grid-admin", "master", "smartmet-plugin-grid-admin");
+scan("smartmet-plugin-grid-gui", "master", "smartmet-plugin-grid-gui");
+scan("smartmet-plugin-download","master-grid-support-BS-1661-new", "smartmet-plugin-gribdownload");
+scan("smartmet-plugin-timeseries","master_grid_support", "smartmet-plugin-gribtimeseries");
+scan("smartmet-plugin-wfs","grid_dev_new", "smartmet-plugin-gribwfs");
+scan("smartmet-plugin-wms","grid_dev", "smartmet-plugin-gribwms");
 
 # print STDERR Dumper(\%::testdeps );
 # print STDERR Dumper(\%::builddeps );
