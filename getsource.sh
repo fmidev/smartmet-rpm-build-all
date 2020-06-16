@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # The following variables are needed
 # CI=true
 # CIRCLECI=true
