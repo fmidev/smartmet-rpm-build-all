@@ -1,4 +1,4 @@
-#timestamp Tue Jun 16 04:11:44 UTC 2020
+#timestamp Tue Jun 16 09:32:57 EEST 2020
 version: 2.1
 
 executors:
@@ -742,7 +742,10 @@ workflows:
        requires:
         - preprep
         - test-smartmet-engine-geonames
+        - test-smartmet-engine-grid
         - test-smartmet-engine-querydata
+        - test-smartmet-library-grid-content
+        - test-smartmet-library-grid-files
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-spine
@@ -794,6 +797,7 @@ workflows:
         - preprep
         - test-smartmet-engine-geonames
         - test-smartmet-engine-gis
+        - test-smartmet-engine-grid
         - test-smartmet-engine-observation
         - test-smartmet-engine-querydata
         - test-smartmet-library-gis
@@ -859,6 +863,7 @@ workflows:
         - test-smartmet-engine-contour
         - test-smartmet-engine-geonames
         - test-smartmet-engine-gis
+        - test-smartmet-engine-grid
         - test-smartmet-engine-observation
         - test-smartmet-engine-querydata
         - test-smartmet-library-gis
@@ -1076,6 +1081,7 @@ workflows:
     - test-smartmet-plugin-download-master-grid-support-BS-1661-new:
        requires:
         - build-smartmet-plugin-download-master-grid-support-BS-1661-new
+        - test-smartmet-engine-grid
         - test-smartmet-engine-querydata
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
@@ -1129,6 +1135,7 @@ workflows:
         - build-smartmet-plugin-timeseries-master_grid_support
         - test-smartmet-engine-geonames
         - test-smartmet-engine-gis
+        - test-smartmet-engine-grid
         - test-smartmet-engine-querydata
         - test-smartmet-library-gis
         - test-smartmet-library-locus
@@ -1194,6 +1201,7 @@ workflows:
         - test-smartmet-engine-contour
         - test-smartmet-engine-geonames
         - test-smartmet-engine-gis
+        - test-smartmet-engine-grid
         - test-smartmet-engine-querydata
         - test-smartmet-library-gis
         - test-smartmet-library-giza
