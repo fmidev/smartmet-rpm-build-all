@@ -1,4 +1,4 @@
-#timestamp Tue Jun 23 15:44:59 EEST 2020
+#timestamp Tue Jun 23 17:34:18 EEST 2020
 version: 2.1
 
 executors:
@@ -749,6 +749,10 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-spine
+       filters:
+         branches:
+           only:
+             - master-grid-support-BS-1661-new
     - build-smartmet-plugin-frontend:
        requires:
         - preprep
@@ -807,6 +811,10 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-spine
+       filters:
+         branches:
+           only:
+             - master_grid_support
     - build-smartmet-plugin-wcs:
        requires:
         - preprep
@@ -843,6 +851,10 @@ workflows:
         - test-smartmet-library-locus
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
+       filters:
+         branches:
+           only:
+             - grid_dev_new
     - build-smartmet-plugin-wms:
        requires:
         - preprep
@@ -872,6 +884,10 @@ workflows:
         - test-smartmet-library-grid-files
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
+       filters:
+         branches:
+           only:
+             - grid_dev
     - build-smartmet-qdcontour:
        requires:
         - preprep

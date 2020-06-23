@@ -229,9 +229,12 @@ while (<STDIN>)
 		}
 		foreach my $module ( sort keys %::builddeps )
 		{
+		    my $branchname = $::branchnames{$module};
+
 		    my $value = $::builddeps{$module};
 
 		    my $c     = ' ' x $currenttemplateindent . "- build-$module";
+
 		    if ( ($value && scalar @$value > 0) || (scalar @prejobs >0) )
 		    {
 			$c .= ":\n" . ( ' ' x ( $currenttemplateindent + 3 ) ) . "requires:\n";
@@ -248,6 +251,15 @@ while (<STDIN>)
 		    {
 			$c .= "\n";
 		    }
+
+		    if( $branchname ne "master")
+		    {
+			$c .= ( ' ' x ( $currenttemplateindent + 3 ) )  . "filters:\n";
+			$c .= ( ' ' x ( $currenttemplateindent + 5 ) ) . "branches:\n";
+			$c .= ( ' ' x ( $currenttemplateindent + 7 ) ) . "only:\n";
+			$c .= ( ' ' x ( $currenttemplateindent + 9 ) ) . "- $branchname\n";
+		    }
+
 		    print $c;
 		}
 		foreach my $module ( sort keys %::testdeps )
