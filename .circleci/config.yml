@@ -1,4 +1,4 @@
-#timestamp Tue Jun 16 09:32:57 EEST 2020
+#timestamp Tue Jun 23 15:43:26 EEST 2020
 version: 2.1
 
 executors:
@@ -232,7 +232,7 @@ jobs:
     executor: fmi-executor
     steps:
      - build-default:
-        module: smartmet-plugin-download-master-grid-support-BS-1661-new
+        module: smartmet-plugin-download
   build-smartmet-plugin-frontend:
     executor: fmi-executor
     steps:
@@ -262,7 +262,7 @@ jobs:
     executor: fmi-executor
     steps:
      - build-default:
-        module: smartmet-plugin-timeseries-master_grid_support
+        module: smartmet-plugin-timeseries
   build-smartmet-plugin-wcs:
     executor: fmi-executor
     steps:
@@ -277,7 +277,7 @@ jobs:
     executor: fmi-executor
     steps:
      - build-default:
-        module: smartmet-plugin-wfs-grid_dev_new
+        module: smartmet-plugin-wfs
   build-smartmet-plugin-wms:
     executor: fmi-executor
     steps:
@@ -287,7 +287,7 @@ jobs:
     executor: fmi-executor
     steps:
      - build-default:
-        module: smartmet-plugin-wms-grid_dev
+        module: smartmet-plugin-wms
   build-smartmet-qdcontour:
     executor: fmi-executor
     steps:
