@@ -1,4 +1,4 @@
-#timestamp Wed Aug 12 04:12:29 UTC 2020
+#timestamp Thu Aug 13 04:11:23 UTC 2020
 version: 2.1
 
 executors:
@@ -619,6 +619,7 @@ workflows:
     - build-smartmet-library-gis:
        requires:
         - preprep
+        - test-smartmet-library-macgyver
     - build-smartmet-library-giza:
        requires:
         - preprep
@@ -889,6 +890,7 @@ workflows:
     - test-smartmet-library-gis:
        requires:
         - build-smartmet-library-gis
+        - test-smartmet-library-macgyver
         - test-smartmet-library-regression
         - test-smartmet-test-data
     - test-smartmet-library-giza:
