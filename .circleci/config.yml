@@ -1,4 +1,4 @@
-#timestamp Thu Sep  3 04:11:39 UTC 2020
+#timestamp Fri Sep  4 04:11:41 UTC 2020
 version: 2.1
 
 executors:
@@ -801,7 +801,6 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-smarttools
-        - test-smartmet-library-spine
         - test-smartmet-timezones
     - build-smartmet-server:
        requires:
@@ -1084,7 +1083,6 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-smarttools
-        - test-smartmet-library-spine
         - test-smartmet-timezones
     - test-smartmet-server:
        requires:
