@@ -1,4 +1,4 @@
-#timestamp Tue Jun 23 18:31:57 EEST 2020
+#timestamp Wed Sep 16 15:41:04 EEST 2020
 version: 2.1
 
 executors:
@@ -44,7 +44,7 @@ commands:
       name: Build RPM
       command: |
         cd /tmp/build
-        ci-build rpm
+        CXX=clang++ ci-build rpm
    - persist_to_workspace:
       root: /dist
       paths:
@@ -619,6 +619,7 @@ workflows:
     - build-smartmet-library-gis:
        requires:
         - preprep
+        - test-smartmet-library-macgyver
     - build-smartmet-library-giza:
        requires:
         - preprep
@@ -800,7 +801,6 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-smarttools
-        - test-smartmet-library-spine
         - test-smartmet-timezones
     - build-smartmet-server:
        requires:
@@ -889,6 +889,7 @@ workflows:
     - test-smartmet-library-gis:
        requires:
         - build-smartmet-library-gis
+        - test-smartmet-library-macgyver
         - test-smartmet-library-regression
         - test-smartmet-test-data
     - test-smartmet-library-giza:
@@ -941,6 +942,7 @@ workflows:
        requires:
         - build-smartmet-library-smarttools
         - test-smartmet-library-newbase
+        - test-smartmet-library-regression
     - test-smartmet-library-spine:
        requires:
         - build-smartmet-library-spine
@@ -1082,7 +1084,6 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-smarttools
-        - test-smartmet-library-spine
         - test-smartmet-timezones
     - test-smartmet-server:
        requires:
