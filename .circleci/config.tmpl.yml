@@ -44,7 +44,7 @@ commands:
       name: Build RPM
       command: |
         cd /tmp/build
-        ci-build rpm
+        CXX=clang++ ci-build rpm
    - persist_to_workspace:
       root: /dist
       paths:
