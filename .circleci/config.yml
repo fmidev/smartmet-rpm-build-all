@@ -1,4 +1,4 @@
-#timestamp Thu Sep 17 12:51:26 EEST 2020
+#timestamp Thu Sep 17 15:50:14 EEST 2020
 version: 2.1
 
 executors:
@@ -44,7 +44,7 @@ commands:
       name: Build RPM
       command: |
         cd /tmp/build
-        CXX=clang++ ci-build rpm
+        ci-build rpm
    - persist_to_workspace:
       root: /dist
       paths:
@@ -87,7 +87,7 @@ commands:
       command: cd /tmp/build && ci-build testprep
    - run:
       name: Test
-      command: cd /tmp/build && CXX=clang++ ci-build test
+      command: cd /tmp/build && ci-build test
  
 jobs:
 # Ordinarily lines starting with # are comments but config preprocessing recognizes certain directives
