@@ -1,4 +1,4 @@
-#timestamp Wed Sep 16 15:44:15 EEST 2020
+#timestamp Thu Sep 17 12:50:48 EEST 2020
 version: 2.1
 
 executors:
@@ -87,7 +87,7 @@ commands:
       command: cd /tmp/build && ci-build testprep
    - run:
       name: Test
-      command: cd /tmp/build && ci-build test
+      command: cd /tmp/build && CXX=clang++ ci-build test
  
 jobs:
 # Ordinarily lines starting with # are comments but config preprocessing recognizes certain directives

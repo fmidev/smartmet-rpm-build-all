@@ -87,7 +87,7 @@ commands:
       command: cd /tmp/build && ci-build testprep
    - run:
       name: Test
-      command: cd /tmp/build && ci-build test
+      command: cd /tmp/build && CXX=clang++ ci-build test
  
 jobs:
 # Ordinarily lines starting with # are comments but config preprocessing recognizes certain directives
