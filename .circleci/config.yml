@@ -1,4 +1,4 @@
-#timestamp Wed Sep 30 04:11:50 UTC 2020
+#timestamp Thu Oct  1 04:11:55 UTC 2020
 version: 2.1
 
 executors:
@@ -1023,6 +1023,7 @@ workflows:
         - build-smartmet-plugin-timeseries
         - test-smartmet-engine-geonames
         - test-smartmet-engine-gis
+        - test-smartmet-engine-observation
         - test-smartmet-engine-querydata
         - test-smartmet-library-gis
         - test-smartmet-library-locus
@@ -1030,6 +1031,7 @@ workflows:
         - test-smartmet-library-newbase
         - test-smartmet-library-spine
         - test-smartmet-server
+        - test-smartmet-test-data
     - test-smartmet-plugin-wcs:
        requires:
         - build-smartmet-plugin-wcs
