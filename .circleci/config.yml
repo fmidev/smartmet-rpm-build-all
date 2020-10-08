@@ -1,4 +1,4 @@
-#timestamp Wed Oct  7 04:11:59 UTC 2020
+#timestamp Thu Oct  8 04:11:57 UTC 2020
 version: 2.1
 
 executors:
@@ -623,6 +623,7 @@ workflows:
     - build-smartmet-library-giza:
        requires:
         - preprep
+        - test-smartmet-library-macgyver
     - build-smartmet-library-grid-content:
        requires:
         - preprep
@@ -884,6 +885,7 @@ workflows:
     - test-smartmet-library-calculator:
        requires:
         - build-smartmet-library-calculator
+        - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-regression
         - test-smartmet-timezones
@@ -896,6 +898,7 @@ workflows:
     - test-smartmet-library-giza:
        requires:
         - build-smartmet-library-giza
+        - test-smartmet-library-macgyver
         - test-smartmet-library-regression
     - test-smartmet-library-grid-content:
        requires:
