@@ -1,4 +1,4 @@
-#timestamp Thu Sep 17 15:50:14 EEST 2020
+#timestamp Wed Oct 21 14:19:31 EEST 2020
 version: 2.1
 
 executors:
@@ -623,6 +623,7 @@ workflows:
     - build-smartmet-library-giza:
        requires:
         - preprep
+        - test-smartmet-library-macgyver
     - build-smartmet-library-grid-content:
        requires:
         - preprep
@@ -656,6 +657,7 @@ workflows:
     - build-smartmet-library-newbase:
        requires:
         - preprep
+        - test-smartmet-library-macgyver
     - build-smartmet-library-regression:
        requires:
         - preprep
@@ -883,6 +885,7 @@ workflows:
     - test-smartmet-library-calculator:
        requires:
         - build-smartmet-library-calculator
+        - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-regression
         - test-smartmet-timezones
@@ -895,6 +898,7 @@ workflows:
     - test-smartmet-library-giza:
        requires:
         - build-smartmet-library-giza
+        - test-smartmet-library-macgyver
         - test-smartmet-library-regression
     - test-smartmet-library-grid-content:
        requires:
@@ -933,6 +937,7 @@ workflows:
     - test-smartmet-library-newbase:
        requires:
         - build-smartmet-library-newbase
+        - test-smartmet-library-macgyver
         - test-smartmet-library-regression
         - test-smartmet-timezones
     - test-smartmet-library-regression:
@@ -1023,6 +1028,7 @@ workflows:
         - build-smartmet-plugin-timeseries
         - test-smartmet-engine-geonames
         - test-smartmet-engine-gis
+        - test-smartmet-engine-observation
         - test-smartmet-engine-querydata
         - test-smartmet-library-gis
         - test-smartmet-library-locus
@@ -1030,6 +1036,7 @@ workflows:
         - test-smartmet-library-newbase
         - test-smartmet-library-spine
         - test-smartmet-server
+        - test-smartmet-test-data
     - test-smartmet-plugin-wcs:
        requires:
         - build-smartmet-plugin-wcs
