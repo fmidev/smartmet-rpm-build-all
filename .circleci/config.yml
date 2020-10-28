@@ -1,4 +1,4 @@
-#timestamp Tue Oct 27 04:11:48 UTC 2020
+#timestamp Wed Oct 28 04:11:56 UTC 2020
 version: 2.1
 
 executors:
@@ -1037,6 +1037,7 @@ workflows:
         - test-smartmet-library-spine
         - test-smartmet-server
         - test-smartmet-test-data
+        - test-smartmet-test-db
     - test-smartmet-plugin-wcs:
        requires:
         - build-smartmet-plugin-wcs
