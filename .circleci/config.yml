@@ -1,4 +1,4 @@
-#timestamp Wed Oct 21 14:19:51 EEST 2020
+#timestamp Thu Nov  5 14:43:48 EET 2020
 version: 2.1
 
 executors:
@@ -223,6 +223,11 @@ jobs:
     steps:
      - build-default:
         module: smartmet-plugin-backend
+  build-smartmet-plugin-cross_section:
+    executor: fmi-executor
+    steps:
+     - build-default:
+        module: smartmet-plugin-cross_section
   build-smartmet-plugin-download:
     executor: fmi-executor
     steps:
@@ -412,6 +417,10 @@ jobs:
     steps:
      - test-default
   test-smartmet-plugin-backend:
+    executor: fmi-executor
+    steps:
+     - test-default
+  test-smartmet-plugin-cross_section:
     executor: fmi-executor
     steps:
      - test-default
@@ -697,6 +706,9 @@ workflows:
         - preprep
         - test-smartmet-engine-sputnik
         - test-smartmet-library-spine
+    - build-smartmet-plugin-cross_section:
+       requires:
+        - preprep
     - build-smartmet-plugin-download:
        requires:
         - preprep
@@ -978,20 +990,26 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
         - test-smartmet-server
+        - test-smartmet-test-data
     - test-smartmet-plugin-backend:
        requires:
         - build-smartmet-plugin-backend
         - test-smartmet-engine-sputnik
         - test-smartmet-library-spine
         - test-smartmet-server
+    - test-smartmet-plugin-cross_section:
+       requires:
+        - build-smartmet-plugin-cross_section
     - test-smartmet-plugin-download:
        requires:
         - build-smartmet-plugin-download
+        - test-smartmet-engine-geonames
         - test-smartmet-engine-querydata
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-spine
         - test-smartmet-server
+        - test-smartmet-test-data
     - test-smartmet-plugin-frontend:
        requires:
         - build-smartmet-plugin-frontend
@@ -1018,11 +1036,14 @@ workflows:
     - test-smartmet-plugin-meta:
        requires:
         - build-smartmet-plugin-meta
+        - test-smartmet-engine-geonames
         - test-smartmet-engine-observation
         - test-smartmet-engine-querydata
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
         - test-smartmet-server
+        - test-smartmet-test-data
+        - test-smartmet-test-db
     - test-smartmet-plugin-timeseries:
        requires:
         - build-smartmet-plugin-timeseries
@@ -1037,6 +1058,7 @@ workflows:
         - test-smartmet-library-spine
         - test-smartmet-server
         - test-smartmet-test-data
+        - test-smartmet-test-db
     - test-smartmet-plugin-wcs:
        requires:
         - build-smartmet-plugin-wcs
@@ -1142,6 +1164,7 @@ workflows:
         - build-smartmet-plugin-admin
         - build-smartmet-plugin-autocomplete
         - build-smartmet-plugin-backend
+        - build-smartmet-plugin-cross_section
         - build-smartmet-plugin-download
         - build-smartmet-plugin-frontend
         - build-smartmet-plugin-grid-admin
@@ -1185,6 +1208,7 @@ workflows:
         - test-smartmet-plugin-admin
         - test-smartmet-plugin-autocomplete
         - test-smartmet-plugin-backend
+        - test-smartmet-plugin-cross_section
         - test-smartmet-plugin-download
         - test-smartmet-plugin-frontend
         - test-smartmet-plugin-grid-admin

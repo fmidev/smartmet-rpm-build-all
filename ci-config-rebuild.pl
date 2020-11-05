@@ -111,6 +111,7 @@ scan("smartmet-plugin-frontend", "master", "smartmet-plugin-frontend");
 scan("smartmet-plugin-wcs", "master", "smartmet-plugin-wcs");
 scan("smartmet-plugin-autocomplete", "master", "smartmet-plugin-autocomplete");
 scan("smartmet-plugin-timeseries", "master", "smartmet-plugin-timeseries");
+scan("smartmet-plugin-cross_section", "master", "smartmet-plugin-cross_section");
 scan("smartmet-plugin-meta", "master", "smartmet-plugin-meta");
 scan("smartmet-plugin-admin", "master", "smartmet-plugin-admin");
 scan("smartmet-plugin-download", "master", "smartmet-plugin-download");
