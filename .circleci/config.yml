@@ -1,4 +1,4 @@
-#timestamp Wed Nov  4 04:11:36 UTC 2020
+#timestamp Thu Nov  5 04:11:42 UTC 2020
 version: 2.1
 
 executors:
@@ -978,6 +978,7 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
         - test-smartmet-server
+        - test-smartmet-test-data
     - test-smartmet-plugin-backend:
        requires:
         - build-smartmet-plugin-backend
@@ -987,11 +988,13 @@ workflows:
     - test-smartmet-plugin-download:
        requires:
         - build-smartmet-plugin-download
+        - test-smartmet-engine-geonames
         - test-smartmet-engine-querydata
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-spine
         - test-smartmet-server
+        - test-smartmet-test-data
     - test-smartmet-plugin-frontend:
        requires:
         - build-smartmet-plugin-frontend
@@ -1018,6 +1021,7 @@ workflows:
     - test-smartmet-plugin-meta:
        requires:
         - build-smartmet-plugin-meta
+        - test-smartmet-engine-geonames
         - test-smartmet-engine-observation
         - test-smartmet-engine-querydata
         - test-smartmet-library-macgyver
