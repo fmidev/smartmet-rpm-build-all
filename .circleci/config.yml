@@ -1,4 +1,4 @@
-#timestamp Thu Nov  5 04:11:42 UTC 2020
+#timestamp Fri Nov  6 04:12:25 UTC 2020
 version: 2.1
 
 executors:
@@ -848,10 +848,13 @@ workflows:
     - test-smartmet-engine-contour:
        requires:
         - build-smartmet-engine-contour
+        - test-smartmet-engine-querydata
         - test-smartmet-library-gis
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
+        - test-smartmet-library-regression
         - test-smartmet-library-spine
+        - test-smartmet-test-data
     - test-smartmet-engine-geonames:
        requires:
         - build-smartmet-engine-geonames
@@ -1008,8 +1011,10 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-spine
+        - test-smartmet-qdtools
         - test-smartmet-server
         - test-smartmet-test-data
+        - test-smartmet-test-db
     - test-smartmet-plugin-frontend:
        requires:
         - build-smartmet-plugin-frontend
