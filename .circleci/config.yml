@@ -1,4 +1,4 @@
-#timestamp Fri Nov  6 04:12:25 UTC 2020
+#timestamp Sat Nov  7 04:13:57 UTC 2020
 version: 2.1
 
 executors:
@@ -303,11 +303,6 @@ jobs:
     steps:
      - build-default:
         module: smartmet-test-data
-  build-smartmet-test-data-gis:
-    executor: fmi-executor
-    steps:
-     - build-default:
-        module: smartmet-test-data-gis
   build-smartmet-test-db:
     executor: fmi-executor
     steps:
@@ -481,10 +476,6 @@ jobs:
     steps:
      - test-default
   test-smartmet-test-data:
-    executor: fmi-executor
-    steps:
-     - test-default
-  test-smartmet-test-data-gis:
     executor: fmi-executor
     steps:
      - test-default
@@ -830,9 +821,6 @@ workflows:
     - build-smartmet-test-data:
        requires:
         - preprep
-    - build-smartmet-test-data-gis:
-       requires:
-        - preprep
     - build-smartmet-test-db:
        requires:
         - preprep
@@ -864,12 +852,13 @@ workflows:
         - test-smartmet-library-regression
         - test-smartmet-library-spine
         - test-smartmet-server
-        - test-smartmet-test-data-gis
+        - test-smartmet-test-data
         - test-smartmet-test-db
     - test-smartmet-engine-gis:
        requires:
         - build-smartmet-engine-gis
         - test-smartmet-library-gis
+        - test-smartmet-library-regression
         - test-smartmet-library-spine
     - test-smartmet-engine-grid:
        requires:
@@ -1133,9 +1122,6 @@ workflows:
     - test-smartmet-test-data:
        requires:
         - build-smartmet-test-data
-    - test-smartmet-test-data-gis:
-       requires:
-        - build-smartmet-test-data-gis
     - test-smartmet-test-db:
        requires:
         - build-smartmet-test-db
@@ -1185,7 +1171,6 @@ workflows:
         - build-smartmet-server
         - build-smartmet-shapetools
         - build-smartmet-test-data
-        - build-smartmet-test-data-gis
         - build-smartmet-test-db
         - build-smartmet-timezones
         - test-smartmet-engine-authentication
@@ -1229,7 +1214,6 @@ workflows:
         - test-smartmet-server
         - test-smartmet-shapetools
         - test-smartmet-test-data
-        - test-smartmet-test-data-gis
         - test-smartmet-test-db
         - test-smartmet-timezones
 #end
