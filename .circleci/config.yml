@@ -1,4 +1,4 @@
-#timestamp Mon Nov  9 04:12:13 UTC 2020
+#timestamp Tue Nov 10 04:11:52 UTC 2020
 version: 2.1
 
 executors:
@@ -979,10 +979,12 @@ workflows:
         - build-smartmet-plugin-autocomplete
         - test-smartmet-engine-geonames
         - test-smartmet-engine-querydata
+        - test-smartmet-engine-sputnik
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
         - test-smartmet-server
         - test-smartmet-test-data
+        - test-smartmet-test-db
     - test-smartmet-plugin-backend:
        requires:
         - build-smartmet-plugin-backend
