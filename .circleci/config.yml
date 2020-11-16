@@ -1,4 +1,4 @@
-#timestamp Mon Nov 16 04:11:38 UTC 2020
+#timestamp Mon Nov 16 13:49:47 EET 2020
 version: 2.1
 
 executors:
@@ -203,6 +203,11 @@ jobs:
     steps:
      - build-default:
         module: smartmet-library-spine
+  build-smartmet-library-textgen:
+    executor: fmi-executor
+    steps:
+     - build-default:
+        module: smartmet-library-textgen
   build-smartmet-library-tron:
     executor: fmi-executor
     steps:
@@ -253,6 +258,11 @@ jobs:
     steps:
      - build-default:
         module: smartmet-plugin-meta
+  build-smartmet-plugin-textgen:
+    executor: fmi-executor
+    steps:
+     - build-default:
+        module: smartmet-plugin-textgen
   build-smartmet-plugin-timeseries:
     executor: fmi-executor
     steps:
@@ -399,6 +409,10 @@ jobs:
     executor: fmi-executor
     steps:
      - test-default
+  test-smartmet-library-textgen:
+    executor: fmi-executor
+    steps:
+     - test-default
   test-smartmet-library-tron:
     executor: fmi-executor
     steps:
@@ -436,6 +450,10 @@ jobs:
     steps:
      - test-default
   test-smartmet-plugin-meta:
+    executor: fmi-executor
+    steps:
+     - test-default
+  test-smartmet-plugin-textgen:
     executor: fmi-executor
     steps:
      - test-default
@@ -671,6 +689,12 @@ workflows:
         - test-smartmet-library-gis
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
+    - build-smartmet-library-textgen:
+       requires:
+        - preprep
+        - test-smartmet-library-calculator
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-newbase
     - build-smartmet-library-tron:
        requires:
         - preprep
@@ -739,6 +763,18 @@ workflows:
         - test-smartmet-engine-querydata
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
+    - build-smartmet-plugin-textgen:
+       requires:
+        - preprep
+        - test-smartmet-engine-geonames
+        - test-smartmet-engine-gis
+        - test-smartmet-engine-observation
+        - test-smartmet-engine-querydata
+        - test-smartmet-library-calculator
+        - test-smartmet-library-locus
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-spine
+        - test-smartmet-library-textgen
     - build-smartmet-plugin-timeseries:
        requires:
         - preprep
@@ -960,6 +996,12 @@ workflows:
         - test-smartmet-library-newbase
         - test-smartmet-library-regression
         - test-smartmet-timezones
+    - test-smartmet-library-textgen:
+       requires:
+        - build-smartmet-library-textgen
+        - test-smartmet-library-calculator
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-newbase
     - test-smartmet-library-tron:
        requires:
         - build-smartmet-library-tron
@@ -1040,6 +1082,19 @@ workflows:
         - test-smartmet-server
         - test-smartmet-test-data
         - test-smartmet-test-db
+    - test-smartmet-plugin-textgen:
+       requires:
+        - build-smartmet-plugin-textgen
+        - test-smartmet-engine-geonames
+        - test-smartmet-engine-gis
+        - test-smartmet-engine-observation
+        - test-smartmet-engine-querydata
+        - test-smartmet-library-calculator
+        - test-smartmet-library-locus
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-spine
+        - test-smartmet-library-textgen
+        - test-smartmet-server
     - test-smartmet-plugin-timeseries:
        requires:
         - build-smartmet-plugin-timeseries
@@ -1157,6 +1212,7 @@ workflows:
         - build-smartmet-library-regression
         - build-smartmet-library-smarttools
         - build-smartmet-library-spine
+        - build-smartmet-library-textgen
         - build-smartmet-library-tron
         - build-smartmet-plugin-admin
         - build-smartmet-plugin-autocomplete
@@ -1167,6 +1223,7 @@ workflows:
         - build-smartmet-plugin-grid-admin
         - build-smartmet-plugin-grid-gui
         - build-smartmet-plugin-meta
+        - build-smartmet-plugin-textgen
         - build-smartmet-plugin-timeseries
         - build-smartmet-plugin-wcs
         - build-smartmet-plugin-wfs
@@ -1200,6 +1257,7 @@ workflows:
         - test-smartmet-library-regression
         - test-smartmet-library-smarttools
         - test-smartmet-library-spine
+        - test-smartmet-library-textgen
         - test-smartmet-library-tron
         - test-smartmet-plugin-admin
         - test-smartmet-plugin-autocomplete
@@ -1210,6 +1268,7 @@ workflows:
         - test-smartmet-plugin-grid-admin
         - test-smartmet-plugin-grid-gui
         - test-smartmet-plugin-meta
+        - test-smartmet-plugin-textgen
         - test-smartmet-plugin-timeseries
         - test-smartmet-plugin-wcs
         - test-smartmet-plugin-wfs

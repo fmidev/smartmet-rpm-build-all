@@ -106,23 +106,24 @@ mkdir($::specdir);
 
 # Fetch node packages, then scan all their requirements
 
-scan("smartmet-plugin-backend", "master", "smartmet-plugin-backend");
-scan("smartmet-plugin-frontend", "master", "smartmet-plugin-frontend");
-scan("smartmet-plugin-wcs", "master", "smartmet-plugin-wcs");
-scan("smartmet-plugin-autocomplete", "master", "smartmet-plugin-autocomplete");
-scan("smartmet-plugin-timeseries", "master", "smartmet-plugin-timeseries");
-scan("smartmet-plugin-cross_section", "master", "smartmet-plugin-cross_section");
-scan("smartmet-plugin-meta", "master", "smartmet-plugin-meta");
 scan("smartmet-plugin-admin", "master", "smartmet-plugin-admin");
+scan("smartmet-plugin-autocomplete", "master", "smartmet-plugin-autocomplete");
+scan("smartmet-plugin-backend", "master", "smartmet-plugin-backend");
+scan("smartmet-plugin-cross_section", "master", "smartmet-plugin-cross_section");
 scan("smartmet-plugin-download", "master", "smartmet-plugin-download");
-scan("smartmet-plugin-wms", "master", "smartmet-plugin-wms");
-scan("smartmet-plugin-wfs", "master", "smartmet-plugin-wfs");
-scan("smartmet-qdtools", "master", "smartmet-qdtools");
-scan("smartmet-qdcontour", "master", "smartmet-qdcontour");
-scan("smartmet-qdcontour2", "master", "smartmet-qdcontour2");
-scan("smartmet-shapetools", "master", "smartmet-shapetools");
+scan("smartmet-plugin-frontend", "master", "smartmet-plugin-frontend");
 scan("smartmet-plugin-grid-admin", "master", "smartmet-plugin-grid-admin");
 scan("smartmet-plugin-grid-gui", "master", "smartmet-plugin-grid-gui");
+scan("smartmet-plugin-meta", "master", "smartmet-plugin-meta");
+scan("smartmet-plugin-textgen", "master", "smartmet-plugin-textgen");
+scan("smartmet-plugin-timeseries", "master", "smartmet-plugin-timeseries");
+scan("smartmet-plugin-wcs", "master", "smartmet-plugin-wcs");
+scan("smartmet-plugin-wfs", "master", "smartmet-plugin-wfs");
+scan("smartmet-plugin-wms", "master", "smartmet-plugin-wms");
+scan("smartmet-qdcontour", "master", "smartmet-qdcontour");
+scan("smartmet-qdcontour2", "master", "smartmet-qdcontour2");
+scan("smartmet-qdtools", "master", "smartmet-qdtools");
+scan("smartmet-shapetools", "master", "smartmet-shapetools");
 
 # scan("smartmet-plugin-download","master-grid-support-BS-1661-new", "smartmet-plugin-gribdownload");
 # scan("smartmet-plugin-timeseries","master_grid_support", "smartmet-plugin-gribtimeseries");
