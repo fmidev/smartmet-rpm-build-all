@@ -1,4 +1,4 @@
-#timestamp Mon Nov 16 13:49:47 EET 2020
+#timestamp Tue Nov 17 04:12:30 UTC 2020
 version: 2.1
 
 executors:
@@ -1002,6 +1002,8 @@ workflows:
         - test-smartmet-library-calculator
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
+        - test-smartmet-library-regression
+        - test-smartmet-timezones
     - test-smartmet-library-tron:
        requires:
         - build-smartmet-library-tron
