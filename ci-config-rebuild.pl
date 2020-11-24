@@ -50,18 +50,19 @@ sub scan($$$)
     # Only scan modules not already scanned
     if ( !$::builddeps{"$moduleid"} )
     {
-	print STDERR "Processing $module branch $branch...\n";
+	print STDERR "Processing $module branch $branch\n";
 	if ( !-r "$::specdir/$module$spec-$branch" )
 	{
 	    getspec( $module, $branch, $spec );
 	}
 	open( FH, "$::specdir/$module$spec-$branch" )
 	    or die("Unable to read $::specdir/$module$spec-$branch: $!");
-	while (<FH>)
+	
+	while (my $line = <FH>)
 	{
-	    if (    $_ =~ m/^(Requires:)(.*)$/
-		    || $_ =~ m/^#(TestRequires:)(.*)$/
-		    || $_ =~ m/^(BuildRequires:)(.*)$/ )
+	    if (    $line =~ m/^(Requires:)(.*)$/
+		    || $line =~ m/^#(TestRequires:)(.*)$/
+		    || $line =~ m/^(BuildRequires:)(.*)$/ )
 	    {
 		my $tag = $1;
 		my $b   = $2;
@@ -82,11 +83,14 @@ sub scan($$$)
 		    }
 		}
 	    }
-	    $::builddeps{"$moduleid"} = [ sort keys %buildreq ];
-	    $::testdeps{"$moduleid"}  = [ sort keys %testreq ];
-	    $::modulenames{"$moduleid"} = $module;
-	    $::branchnames{"$moduleid"} = $branch;
 	}
+
+	close(FH);
+
+	$::builddeps{"$moduleid"} = [ sort keys %buildreq ];
+	$::testdeps{"$moduleid"}  = [ sort keys %testreq ];
+	$::modulenames{"$moduleid"} = $module;
+	$::branchnames{"$moduleid"} = $branch;
 
 	#		$::testrules{$module}   = "test-$module:\n  <<: *test_defaults\n";
 	#		$::buildrules{$module}  = "build-$module:\n  <<: *build_defaults\n";
@@ -95,7 +99,6 @@ sub scan($$$)
 	#		$::jobs{"build-$module"} = "        requires:
 	#          - build-" . join( "\n          - build-", @buildreq ) . "\n";
 	
-	close(FH);
     }
 
     foreach my $mod ( keys %buildreq ) { scan($mod, "master"); }

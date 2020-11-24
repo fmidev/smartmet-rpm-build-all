@@ -1,4 +1,4 @@
-#timestamp Mon Nov 16 13:49:47 EET 2020
+#timestamp Tue Nov 24 11:14:50 EET 2020
 version: 2.1
 
 executors:
@@ -724,6 +724,11 @@ workflows:
     - build-smartmet-plugin-cross_section:
        requires:
         - preprep
+        - test-smartmet-engine-contour
+        - test-smartmet-engine-geonames
+        - test-smartmet-engine-querydata
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-spine
     - build-smartmet-plugin-download:
        requires:
         - preprep
@@ -910,6 +915,7 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
         - test-smartmet-server
+        - test-smartmet-test-data
     - test-smartmet-engine-querydata:
        requires:
         - build-smartmet-engine-querydata
@@ -1002,6 +1008,8 @@ workflows:
         - test-smartmet-library-calculator
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
+        - test-smartmet-library-regression
+        - test-smartmet-timezones
     - test-smartmet-library-tron:
        requires:
         - build-smartmet-library-tron
@@ -1036,6 +1044,14 @@ workflows:
     - test-smartmet-plugin-cross_section:
        requires:
         - build-smartmet-plugin-cross_section
+        - test-smartmet-engine-contour
+        - test-smartmet-engine-geonames
+        - test-smartmet-engine-querydata
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-spine
+        - test-smartmet-server
+        - test-smartmet-test-data
+        - test-smartmet-test-db
     - test-smartmet-plugin-download:
        requires:
         - build-smartmet-plugin-download
@@ -1092,9 +1108,12 @@ workflows:
         - test-smartmet-library-calculator
         - test-smartmet-library-locus
         - test-smartmet-library-macgyver
+        - test-smartmet-library-newbase
         - test-smartmet-library-spine
         - test-smartmet-library-textgen
         - test-smartmet-server
+        - test-smartmet-test-data
+        - test-smartmet-test-db
     - test-smartmet-plugin-timeseries:
        requires:
         - build-smartmet-plugin-timeseries
