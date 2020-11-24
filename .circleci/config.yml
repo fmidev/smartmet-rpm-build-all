@@ -1,4 +1,4 @@
-#timestamp Mon Nov 23 04:12:53 UTC 2020
+#timestamp Tue Nov 24 04:11:55 UTC 2020
 version: 2.1
 
 executors:
@@ -910,6 +910,7 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
         - test-smartmet-server
+        - test-smartmet-test-data
     - test-smartmet-engine-querydata:
        requires:
         - build-smartmet-engine-querydata
