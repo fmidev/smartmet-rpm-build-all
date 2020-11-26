@@ -20,7 +20,7 @@ for i in CI CIRCLECI CIRCLE_BRANCH CIRCLE_REPOSITORY_URL CIRCLE_WORKING_DIRECTOR
 done
 
 # Without this LFS requires authentication. Apparently fixed in Jan 2020 git
-GIT_LFS_SKIP_SMUDGE=1
+export GIT_LFS_SKIP_SMUDGE=1
 
 # Inside the container, we have to use HTTPS as ssh keys are not in place
 if ! ( echo $repobase | grep -q '^https:' ) ; then
