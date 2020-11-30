@@ -72,14 +72,17 @@ sub scan($$$)
 		
 		if ( $b =~ m/^smartmet-/ )
 		{
-		    print STDERR "\t$tag $b\n";
-		    if ( $tag =~ m/^BuildRequires/ )
+		    if ( $b != "smartmet-test-data" )  # do not build smartmet-test-data due to git-lfs limitations
 		    {
-			$buildreq{"$b"} = 1;
-		    }
-		    else
-		    {
-			$testreq{"$b"} = 1;
+			print STDERR "\t$tag $b\n";
+			if ( $tag =~ m/^BuildRequires/ )
+			{
+			    $buildreq{"$b"} = 1;
+			}
+			else
+			{
+			    $testreq{"$b"} = 1;
+			}
 		    }
 		}
 	    }
