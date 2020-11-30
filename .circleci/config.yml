@@ -1,4 +1,4 @@
-#timestamp Mon Nov 30 04:11:58 UTC 2020
+#timestamp Mon Nov 30 17:07:29 EET 2020
 version: 2.1
 
 executors:
@@ -308,11 +308,6 @@ jobs:
     steps:
      - build-default:
         module: smartmet-shapetools
-  build-smartmet-test-data:
-    executor: fmi-executor
-    steps:
-     - build-default:
-        module: smartmet-test-data
   build-smartmet-test-db:
     executor: fmi-executor
     steps:
@@ -490,10 +485,6 @@ jobs:
     steps:
      - test-default
   test-smartmet-shapetools:
-    executor: fmi-executor
-    steps:
-     - test-default
-  test-smartmet-test-data:
     executor: fmi-executor
     steps:
      - test-default
@@ -859,9 +850,6 @@ workflows:
         - test-smartmet-library-imagine
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
-    - build-smartmet-test-data:
-       requires:
-        - preprep
     - build-smartmet-test-db:
        requires:
         - preprep
@@ -883,7 +871,6 @@ workflows:
         - test-smartmet-library-newbase
         - test-smartmet-library-regression
         - test-smartmet-library-spine
-        - test-smartmet-test-data
     - test-smartmet-engine-geonames:
        requires:
         - build-smartmet-engine-geonames
@@ -893,7 +880,6 @@ workflows:
         - test-smartmet-library-regression
         - test-smartmet-library-spine
         - test-smartmet-server
-        - test-smartmet-test-data
         - test-smartmet-test-db
     - test-smartmet-engine-gis:
        requires:
@@ -915,7 +901,6 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
         - test-smartmet-server
-        - test-smartmet-test-data
     - test-smartmet-engine-querydata:
        requires:
         - build-smartmet-engine-querydata
@@ -940,7 +925,6 @@ workflows:
         - build-smartmet-library-gis
         - test-smartmet-library-macgyver
         - test-smartmet-library-regression
-        - test-smartmet-test-data
     - test-smartmet-library-giza:
        requires:
         - build-smartmet-library-giza
@@ -1033,7 +1017,6 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
         - test-smartmet-server
-        - test-smartmet-test-data
         - test-smartmet-test-db
     - test-smartmet-plugin-backend:
        requires:
@@ -1050,7 +1033,6 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
         - test-smartmet-server
-        - test-smartmet-test-data
         - test-smartmet-test-db
     - test-smartmet-plugin-download:
        requires:
@@ -1062,7 +1044,6 @@ workflows:
         - test-smartmet-library-spine
         - test-smartmet-qdtools
         - test-smartmet-server
-        - test-smartmet-test-data
         - test-smartmet-test-db
     - test-smartmet-plugin-frontend:
        requires:
@@ -1096,7 +1077,6 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
         - test-smartmet-server
-        - test-smartmet-test-data
         - test-smartmet-test-db
     - test-smartmet-plugin-textgen:
        requires:
@@ -1112,7 +1092,6 @@ workflows:
         - test-smartmet-library-spine
         - test-smartmet-library-textgen
         - test-smartmet-server
-        - test-smartmet-test-data
         - test-smartmet-test-db
     - test-smartmet-plugin-timeseries:
        requires:
@@ -1127,7 +1106,6 @@ workflows:
         - test-smartmet-library-newbase
         - test-smartmet-library-spine
         - test-smartmet-server
-        - test-smartmet-test-data
         - test-smartmet-test-db
     - test-smartmet-plugin-wcs:
        requires:
@@ -1166,7 +1144,6 @@ workflows:
         - test-smartmet-library-newbase
         - test-smartmet-library-spine
         - test-smartmet-server
-        - test-smartmet-test-data
         - test-smartmet-test-db
     - test-smartmet-qdcontour:
        requires:
@@ -1199,9 +1176,6 @@ workflows:
         - test-smartmet-library-imagine
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
-    - test-smartmet-test-data:
-       requires:
-        - build-smartmet-test-data
     - test-smartmet-test-db:
        requires:
         - build-smartmet-test-db
@@ -1252,7 +1226,6 @@ workflows:
         - build-smartmet-qdtools
         - build-smartmet-server
         - build-smartmet-shapetools
-        - build-smartmet-test-data
         - build-smartmet-test-db
         - build-smartmet-timezones
         - test-smartmet-engine-authentication
@@ -1297,7 +1270,6 @@ workflows:
         - test-smartmet-qdtools
         - test-smartmet-server
         - test-smartmet-shapetools
-        - test-smartmet-test-data
         - test-smartmet-test-db
         - test-smartmet-timezones
 #end
