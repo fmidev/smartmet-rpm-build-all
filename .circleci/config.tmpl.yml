@@ -31,7 +31,7 @@ commands:
         echo name="Local Repository" >> /etc/yum.repos.d/localrepo.repo
         echo gpgcheck=0 >> /etc/yum.repos.d/localrepo.repo
         echo enabled=1 >> /etc/yum.repos.d/localrepo.repo
-	echo priority=1 >> /etc/yum.repos.d/localrepo.repo
+        echo priority=1 >> /etc/yum.repos.d/localrepo.repo
         echo baseurl=file:///repo >> /etc/yum.repos.d/localrepo.repo
    - run:
       name: Checkout module for $CIRCLE_JOB
@@ -73,7 +73,7 @@ commands:
         echo name="Local Repository" >> /etc/yum.repos.d/localrepo.repo
         echo gpgcheck=0 >> /etc/yum.repos.d/localrepo.repo
         echo enabled=1 >> /etc/yum.repos.d/localrepo.repo
-	echo priority=1 >> /etc/yum.repos.d/localrepo.repo
+        echo priority=1 >> /etc/yum.repos.d/localrepo.repo
         echo baseurl=file:///repo >> /etc/yum.repos.d/localrepo.repo
    - run:
       name: Checkout module for $CIRCLE_JOB
