@@ -31,6 +31,7 @@ commands:
         echo name="Local Repository" >> /etc/yum.repos.d/localrepo.repo
         echo gpgcheck=0 >> /etc/yum.repos.d/localrepo.repo
         echo enabled=1 >> /etc/yum.repos.d/localrepo.repo
+	echo priority=1 >> /etc/yum.repos.d/localrepo.repo
         echo baseurl=file:///repo >> /etc/yum.repos.d/localrepo.repo
    - run:
       name: Checkout module for $CIRCLE_JOB
@@ -55,8 +56,8 @@ commands:
   description: Test
   steps:
    - run:
-      name: Disable smartmet packages coming from FMI repo
-      command: sudo sed -e 's/gpgcheck=0/gpgcheck=0\nexclude=smartmet-*/' -i /etc/yum.repos.d/smartmet-open.repo
+      name: Lower priority of packages coming from FMI repo
+      command: sudo sed -e 's/gpgcheck=0/gpgcheck=0\npriority=99/' -i /etc/yum.repos.d/smartmet-open.repo
    - checkout
    - attach_workspace:
       at: /dist
@@ -72,6 +73,7 @@ commands:
         echo name="Local Repository" >> /etc/yum.repos.d/localrepo.repo
         echo gpgcheck=0 >> /etc/yum.repos.d/localrepo.repo
         echo enabled=1 >> /etc/yum.repos.d/localrepo.repo
+	echo priority=1 >> /etc/yum.repos.d/localrepo.repo
         echo baseurl=file:///repo >> /etc/yum.repos.d/localrepo.repo
    - run:
       name: Checkout module for $CIRCLE_JOB
