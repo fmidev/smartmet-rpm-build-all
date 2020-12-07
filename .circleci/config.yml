@@ -1,4 +1,4 @@
-#timestamp Mon Dec  7 04:12:15 UTC 2020
+#timestamp Mon Dec  7 14:10:31 EET 2020
 version: 2.1
 
 executors:
@@ -1129,7 +1129,6 @@ workflows:
         - test-smartmet-library-gis
         - test-smartmet-library-locus
         - test-smartmet-library-macgyver
-        - test-smartmet-library-newbase
         - test-smartmet-library-spine
         - test-smartmet-server
         - test-smartmet-test-db
