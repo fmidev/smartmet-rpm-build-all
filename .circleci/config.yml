@@ -1,4 +1,4 @@
-#timestamp Mon Dec 28 11:37:50 EET 2020
+#timestamp Mon Dec 28 15:56:06 EET 2020
 version: 2.1
 
 executors:
@@ -270,11 +270,6 @@ jobs:
     steps:
      - build-default:
         module: smartmet-plugin-timeseries
-  build-smartmet-plugin-wcs:
-    executor: fmi-executor
-    steps:
-     - build-default:
-        module: smartmet-plugin-wcs
   build-smartmet-plugin-wfs:
     executor: fmi-executor
     steps:
@@ -455,10 +450,6 @@ jobs:
     steps:
      - test-default
   test-smartmet-plugin-timeseries:
-    executor: fmi-executor
-    steps:
-     - test-default
-  test-smartmet-plugin-wcs:
     executor: fmi-executor
     steps:
      - test-default
@@ -786,15 +777,6 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-spine
-    - build-smartmet-plugin-wcs:
-       requires:
-        - preprep
-        - test-smartmet-engine-gis
-        - test-smartmet-engine-querydata
-        - test-smartmet-library-gis
-        - test-smartmet-library-macgyver
-        - test-smartmet-library-newbase
-        - test-smartmet-library-spine
     - build-smartmet-plugin-wfs:
        requires:
         - preprep
@@ -1110,15 +1092,6 @@ workflows:
         - test-smartmet-library-spine
         - test-smartmet-server
         - test-smartmet-test-db
-    - test-smartmet-plugin-wcs:
-       requires:
-        - build-smartmet-plugin-wcs
-        - test-smartmet-engine-gis
-        - test-smartmet-engine-querydata
-        - test-smartmet-library-macgyver
-        - test-smartmet-library-newbase
-        - test-smartmet-library-spine
-        - test-smartmet-server
     - test-smartmet-plugin-wfs:
        requires:
         - build-smartmet-plugin-wfs
@@ -1222,7 +1195,6 @@ workflows:
         - build-smartmet-plugin-meta
         - build-smartmet-plugin-textgen
         - build-smartmet-plugin-timeseries
-        - build-smartmet-plugin-wcs
         - build-smartmet-plugin-wfs
         - build-smartmet-plugin-wms
         - build-smartmet-qdcontour
@@ -1266,7 +1238,6 @@ workflows:
         - test-smartmet-plugin-meta
         - test-smartmet-plugin-textgen
         - test-smartmet-plugin-timeseries
-        - test-smartmet-plugin-wcs
         - test-smartmet-plugin-wfs
         - test-smartmet-plugin-wms
         - test-smartmet-qdcontour

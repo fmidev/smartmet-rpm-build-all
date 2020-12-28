@@ -123,7 +123,7 @@ scan("smartmet-plugin-grid-gui", "master", "smartmet-plugin-grid-gui");
 scan("smartmet-plugin-meta", "master", "smartmet-plugin-meta");
 scan("smartmet-plugin-textgen", "master", "smartmet-plugin-textgen");
 scan("smartmet-plugin-timeseries", "master", "smartmet-plugin-timeseries");
-scan("smartmet-plugin-wcs", "master", "smartmet-plugin-wcs");
+# scan("smartmet-plugin-wcs", "master", "smartmet-plugin-wcs");
 scan("smartmet-plugin-wfs", "master", "smartmet-plugin-wfs");
 scan("smartmet-plugin-wms", "master", "smartmet-plugin-wms");
 scan("smartmet-qdcontour", "master", "smartmet-qdcontour");
