@@ -1,4 +1,4 @@
-#timestamp Mon Dec 28 04:12:06 UTC 2020
+#timestamp Mon Dec 28 11:37:50 EET 2020
 version: 2.1
 
 executors:
@@ -691,6 +691,7 @@ workflows:
     - build-smartmet-library-tron:
        requires:
         - preprep
+        - test-smartmet-library-macgyver
     - build-smartmet-plugin-admin:
        requires:
         - preprep
@@ -1000,6 +1001,7 @@ workflows:
        requires:
         - build-smartmet-library-tron
         - test-smartmet-library-gis
+        - test-smartmet-library-macgyver
         - test-smartmet-library-regression
     - test-smartmet-plugin-admin:
        requires:
