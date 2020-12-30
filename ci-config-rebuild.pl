@@ -70,7 +70,7 @@ sub scan($$$)
 		$b =~ s/\s.*$//;      # Remove ws+others after module name
 		$b =~ s/-devel$//;    # Remove devel end, will be produced as part of the binary package
 		
-		if ( $b =~ m/^smartmet-/ )
+		if ( $b =~ m/^smartmet-/ && $b ne $module )
 		{
 		    if ( $b ne "smartmet-test-data" )  # do not build smartmet-test-data due to git-lfs limitations
 		    {
