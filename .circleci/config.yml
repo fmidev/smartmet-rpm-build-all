@@ -1,4 +1,4 @@
-#timestamp Mon Dec 28 15:56:06 EET 2020
+#timestamp Wed Dec 30 07:21:40 EET 2020
 version: 2.1
 
 executors:
@@ -548,7 +548,7 @@ workflows:
   scheduled:
    triggers:
     - schedule:
-       cron: "10 4 * * *"
+       cron: "10 1 * * *"
        filters:
         branches:
          only:
@@ -806,12 +806,14 @@ workflows:
        requires:
         - preprep
         - test-smartmet-library-imagine
+        - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-tron
     - build-smartmet-qdcontour2:
        requires:
         - preprep
         - test-smartmet-library-imagine2
+        - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-tron
     - build-smartmet-qdtools:
@@ -1126,11 +1128,13 @@ workflows:
        requires:
         - build-smartmet-qdcontour
         - test-smartmet-library-imagine
+        - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
     - test-smartmet-qdcontour2:
        requires:
         - build-smartmet-qdcontour2
         - test-smartmet-library-imagine2
+        - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
     - test-smartmet-qdtools:
        requires:
