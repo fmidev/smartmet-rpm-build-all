@@ -1,4 +1,4 @@
-#timestamp Wed Jan 20 03:12:17 EET 2021
+#timestamp Thu Jan 21 03:12:01 EET 2021
 version: 2.1
 
 executors:
@@ -667,6 +667,7 @@ workflows:
     - build-smartmet-library-smarttools:
        requires:
         - preprep
+        - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
     - build-smartmet-library-spine:
        requires:
