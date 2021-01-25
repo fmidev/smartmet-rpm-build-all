@@ -1,4 +1,4 @@
-#timestamp Mon Jan 25 15:36:53 EET 2021
+#timestamp Mon Jan 25 19:34:58 EET 2021
 version: 2.1
 
 executors:
@@ -876,6 +876,7 @@ workflows:
         - test-smartmet-library-gis
         - test-smartmet-library-regression
         - test-smartmet-library-spine
+        - test-smartmet-test-db
     - test-smartmet-engine-grid:
        requires:
         - build-smartmet-engine-grid
