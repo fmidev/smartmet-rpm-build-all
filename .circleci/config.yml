@@ -1,4 +1,4 @@
-#timestamp Mon Jan 25 10:43:29 EET 2021
+#timestamp Mon Jan 25 15:36:53 EET 2021
 version: 2.1
 
 executors:
@@ -941,6 +941,7 @@ workflows:
     - test-smartmet-library-imagine2:
        requires:
         - build-smartmet-library-imagine2
+        - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-regression
     - test-smartmet-library-locus:
