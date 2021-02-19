@@ -1,4 +1,4 @@
-#timestamp Fri Feb 19 14:36:29 EET 2021
+#timestamp Fri Feb 19 19:35:56 EET 2021
 version: 2.1
 
 executors:
@@ -995,6 +995,7 @@ workflows:
        requires:
         - build-smartmet-library-textgen
         - test-smartmet-library-calculator
+        - test-smartmet-library-gis
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-regression
