@@ -1,4 +1,4 @@
-#timestamp Fri Feb 19 11:49:27 EET 2021
+#timestamp Fri Feb 19 14:36:29 EET 2021
 version: 2.1
 
 executors:
@@ -616,6 +616,7 @@ workflows:
     - build-smartmet-library-calculator:
        requires:
         - preprep
+        - test-smartmet-library-gis
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
     - build-smartmet-library-gis:
@@ -671,6 +672,7 @@ workflows:
     - build-smartmet-library-smarttools:
        requires:
         - preprep
+        - test-smartmet-library-gis
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
     - build-smartmet-library-spine:
@@ -683,6 +685,7 @@ workflows:
        requires:
         - preprep
         - test-smartmet-library-calculator
+        - test-smartmet-library-gis
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
     - build-smartmet-library-tron:
@@ -810,6 +813,7 @@ workflows:
     - build-smartmet-qdcontour:
        requires:
         - preprep
+        - test-smartmet-library-gis
         - test-smartmet-library-imagine
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
@@ -817,6 +821,7 @@ workflows:
     - build-smartmet-qdcontour2:
        requires:
         - preprep
+        - test-smartmet-library-gis
         - test-smartmet-library-imagine2
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
@@ -910,6 +915,7 @@ workflows:
     - test-smartmet-library-calculator:
        requires:
         - build-smartmet-library-calculator
+        - test-smartmet-library-gis
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-regression
@@ -1108,6 +1114,7 @@ workflows:
     - test-smartmet-plugin-wfs:
        requires:
         - build-smartmet-plugin-wfs
+        - test-smartmet-engine-contour
         - test-smartmet-engine-geonames
         - test-smartmet-engine-gis
         - test-smartmet-engine-observation
