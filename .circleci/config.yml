@@ -1,4 +1,4 @@
-#timestamp Fri Feb 19 03:11:38 EET 2021
+#timestamp Fri Feb 19 11:49:27 EET 2021
 version: 2.1
 
 executors:
@@ -1108,7 +1108,6 @@ workflows:
     - test-smartmet-plugin-wfs:
        requires:
         - build-smartmet-plugin-wfs
-        - test-smartmet-engine-contour
         - test-smartmet-engine-geonames
         - test-smartmet-engine-gis
         - test-smartmet-engine-observation
