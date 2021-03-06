@@ -1,4 +1,4 @@
-#timestamp Fri Mar  5 03:11:37 EET 2021
+#timestamp Sat Mar  6 03:11:49 EET 2021
 version: 2.1
 
 executors:
@@ -782,9 +782,12 @@ workflows:
         - preprep
         - test-smartmet-engine-geonames
         - test-smartmet-engine-gis
+        - test-smartmet-engine-grid
         - test-smartmet-engine-observation
         - test-smartmet-engine-querydata
         - test-smartmet-library-gis
+        - test-smartmet-library-grid-content
+        - test-smartmet-library-grid-files
         - test-smartmet-library-locus
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
@@ -1111,6 +1114,7 @@ workflows:
         - build-smartmet-plugin-timeseries
         - test-smartmet-engine-geonames
         - test-smartmet-engine-gis
+        - test-smartmet-engine-grid
         - test-smartmet-engine-observation
         - test-smartmet-engine-querydata
         - test-smartmet-library-gis
