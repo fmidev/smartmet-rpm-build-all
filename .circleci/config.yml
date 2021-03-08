@@ -1,4 +1,4 @@
-#timestamp Mon Mar  8 03:11:33 EET 2021
+#timestamp Mon Mar  8 16:29:15 EET 2021
 version: 2.1
 
 executors:
@@ -798,9 +798,12 @@ workflows:
         - test-smartmet-engine-contour
         - test-smartmet-engine-geonames
         - test-smartmet-engine-gis
+        - test-smartmet-engine-grid
         - test-smartmet-engine-observation
         - test-smartmet-engine-querydata
         - test-smartmet-library-gis
+        - test-smartmet-library-grid-content
+        - test-smartmet-library-grid-files
         - test-smartmet-library-locus
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
@@ -1130,11 +1133,15 @@ workflows:
         - test-smartmet-engine-contour
         - test-smartmet-engine-geonames
         - test-smartmet-engine-gis
+        - test-smartmet-engine-grid
         - test-smartmet-engine-observation
         - test-smartmet-engine-querydata
         - test-smartmet-library-gis
+        - test-smartmet-library-grid-content
+        - test-smartmet-library-grid-files
         - test-smartmet-library-locus
         - test-smartmet-library-macgyver
+        - test-smartmet-library-newbase
         - test-smartmet-library-spine
         - test-smartmet-server
         - test-smartmet-test-db
