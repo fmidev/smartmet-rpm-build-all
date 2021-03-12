@@ -1,4 +1,4 @@
-#timestamp Thu Mar 11 03:11:36 EET 2021
+#timestamp Fri Mar 12 03:11:41 EET 2021
 version: 2.1
 
 executors:
@@ -697,6 +697,7 @@ workflows:
         - preprep
         - test-smartmet-engine-contour
         - test-smartmet-engine-geonames
+        - test-smartmet-engine-grid
         - test-smartmet-engine-observation
         - test-smartmet-engine-querydata
         - test-smartmet-engine-sputnik
@@ -1025,6 +1026,7 @@ workflows:
        requires:
         - build-smartmet-plugin-admin
         - test-smartmet-engine-geonames
+        - test-smartmet-engine-grid
         - test-smartmet-engine-querydata
         - test-smartmet-engine-sputnik
         - test-smartmet-library-macgyver
