@@ -1,4 +1,4 @@
-#timestamp Fri Mar 26 03:11:40 EET 2021
+#timestamp Fri Mar 26 07:09:44 EET 2021
 version: 2.1
 
 executors:
@@ -15,7 +15,7 @@ commands:
   steps:
    - run:
       name: Disable smartmet packages coming from FMI repo
-      command: sudo sed -e 's/gpgcheck=0/gpgcheck=0\nexclude=smartmet-*/' -i /etc/yum.repos.d/smartmet-open.repo
+      command: sudo yum-config-manager --quiet --setopt="smartmet-open.exclude=smartmet-*" --save
    - checkout
    - attach_workspace:
       at: /dist
