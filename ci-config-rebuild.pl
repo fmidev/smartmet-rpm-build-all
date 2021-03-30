@@ -137,9 +137,10 @@ scan("smartmet-shapetools", "master", "smartmet-shapetools");
 # scan("smartmet-plugin-wfs","grid_dev_new", "smartmet-plugin-gribwfs");
 # scan("smartmet-plugin-wms","grid_dev", "smartmet-plugin-gribwms");
 
- 
 # print STDERR Dumper(\%::testdeps );
 # print STDERR Dumper(\%::builddeps );
+
+my $allmodules = join(" ", keys \%::builddeps);
 
 my $currenttemplate        = "";
 my $currenttemplatename    = "";
@@ -345,9 +346,11 @@ while (<STDIN>)
 		}
 	    }
 	}
+
 	$currenttemplate .= $ln;
 	next;
     }
     
+    $ln =~ s/<MODULES>/$allmodules/;
     print $ln;
 }

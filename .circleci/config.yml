@@ -1,4 +1,4 @@
-#timestamp Tue Mar 30 14:43:13 EEST 2021
+#timestamp Tue Mar 30 18:02:43 EEST 2021
 version: 2.1
 
 executors:
@@ -15,7 +15,7 @@ commands:
   steps:
    - run:
       name: Disable smartmet packages coming from FMI repo
-      command: sudo yum-config-manager --quiet --setopt="smartmet-open.exclude=smartmet-*" --save
+      command: sudo yum-config-manager --quiet --setopt="smartmet-open.exclude=smartmet-plugin-frontend smartmet-shapetools smartmet-library-grid-content smartmet-engine-observation smartmet-plugin-wms smartmet-library-giza smartmet-library-smarttools smartmet-engine-sputnik smartmet-library-macgyver smartmet-library-newbase smartmet-plugin-download smartmet-qdtools smartmet-library-gis smartmet-qdcontour2 smartmet-plugin-grid-gui smartmet-engine-gis smartmet-library-imagine smartmet-test-db smartmet-plugin-grid-admin smartmet-library-spine smartmet-server smartmet-engine-authentication smartmet-plugin-wfs smartmet-plugin-backend smartmet-qdcontour smartmet-engine-querydata smartmet-library-imagine2 smartmet-plugin-cross_section smartmet-timezones smartmet-library-tron smartmet-engine-contour smartmet-plugin-meta smartmet-plugin-admin smartmet-plugin-timeseries smartmet-library-locus smartmet-plugin-autocomplete smartmet-library-grid-files smartmet-plugin-textgen smartmet-library-textgen smartmet-library-calculator smartmet-library-regression smartmet-engine-grid smartmet-engine-geonames" --save
    - checkout
    - attach_workspace:
       at: /dist

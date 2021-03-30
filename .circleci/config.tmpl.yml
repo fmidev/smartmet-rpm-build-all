@@ -15,7 +15,7 @@ commands:
   steps:
    - run:
       name: Disable smartmet packages coming from FMI repo
-      command: sudo yum-config-manager --quiet --setopt="smartmet-open.exclude=smartmet-*" --save
+      command: sudo yum-config-manager --quiet --setopt="smartmet-open.exclude=<MODULES>" --save
    - checkout
    - attach_workspace:
       at: /dist
