@@ -140,7 +140,7 @@ scan("smartmet-shapetools", "master", "smartmet-shapetools");
 # print STDERR Dumper(\%::testdeps );
 # print STDERR Dumper(\%::builddeps );
 
-my $allmodules = join(" ", keys \%::builddeps);
+my $allmodules = join(" ", sort keys %{ \%::builddeps } );
 
 my $currenttemplate        = "";
 my $currenttemplatename    = "";

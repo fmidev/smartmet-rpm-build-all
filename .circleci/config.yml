@@ -1,4 +1,4 @@
-#timestamp Tue Mar 30 18:02:43 EEST 2021
+#timestamp Tue Mar 30 18:37:36 EEST 2021
 version: 2.1
 
 executors:
@@ -15,7 +15,7 @@ commands:
   steps:
    - run:
       name: Disable smartmet packages coming from FMI repo
-      command: sudo yum-config-manager --quiet --setopt="smartmet-open.exclude=smartmet-plugin-frontend smartmet-shapetools smartmet-library-grid-content smartmet-engine-observation smartmet-plugin-wms smartmet-library-giza smartmet-library-smarttools smartmet-engine-sputnik smartmet-library-macgyver smartmet-library-newbase smartmet-plugin-download smartmet-qdtools smartmet-library-gis smartmet-qdcontour2 smartmet-plugin-grid-gui smartmet-engine-gis smartmet-library-imagine smartmet-test-db smartmet-plugin-grid-admin smartmet-library-spine smartmet-server smartmet-engine-authentication smartmet-plugin-wfs smartmet-plugin-backend smartmet-qdcontour smartmet-engine-querydata smartmet-library-imagine2 smartmet-plugin-cross_section smartmet-timezones smartmet-library-tron smartmet-engine-contour smartmet-plugin-meta smartmet-plugin-admin smartmet-plugin-timeseries smartmet-library-locus smartmet-plugin-autocomplete smartmet-library-grid-files smartmet-plugin-textgen smartmet-library-textgen smartmet-library-calculator smartmet-library-regression smartmet-engine-grid smartmet-engine-geonames" --save
+      command: sudo yum-config-manager --quiet --setopt="smartmet-open.exclude=smartmet-engine-authentication smartmet-engine-contour smartmet-engine-geonames smartmet-engine-gis smartmet-engine-grid smartmet-engine-observation smartmet-engine-querydata smartmet-engine-sputnik smartmet-library-calculator smartmet-library-gis smartmet-library-giza smartmet-library-grid-content smartmet-library-grid-files smartmet-library-imagine smartmet-library-imagine2 smartmet-library-locus smartmet-library-macgyver smartmet-library-newbase smartmet-library-regression smartmet-library-smarttools smartmet-library-spine smartmet-library-textgen smartmet-library-tron smartmet-plugin-admin smartmet-plugin-autocomplete smartmet-plugin-backend smartmet-plugin-cross_section smartmet-plugin-download smartmet-plugin-frontend smartmet-plugin-grid-admin smartmet-plugin-grid-gui smartmet-plugin-meta smartmet-plugin-textgen smartmet-plugin-timeseries smartmet-plugin-wfs smartmet-plugin-wms smartmet-qdcontour smartmet-qdcontour2 smartmet-qdtools smartmet-server smartmet-shapetools smartmet-test-db smartmet-timezones" --save
    - checkout
    - attach_workspace:
       at: /dist
