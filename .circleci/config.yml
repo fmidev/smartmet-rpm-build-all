@@ -1,4 +1,4 @@
-#timestamp Mon Mar 29 04:11:29 EEST 2021
+#timestamp Tue Mar 30 04:11:27 EEST 2021
 version: 2.1
 
 executors:
@@ -310,6 +310,11 @@ jobs:
     steps:
      - build-default:
         module: smartmet-test-db
+  build-smartmet-test-grid:
+    executor: fmi-executor
+    steps:
+     - build-default:
+        module: smartmet-test-grid
   build-smartmet-timezones:
     executor: fmi-executor
     steps:
@@ -482,6 +487,10 @@ jobs:
     steps:
      - test-default
   test-smartmet-test-db:
+    executor: fmi-executor
+    steps:
+     - test-default
+  test-smartmet-test-grid:
     executor: fmi-executor
     steps:
      - test-default
@@ -867,6 +876,9 @@ workflows:
     - build-smartmet-test-db:
        requires:
         - preprep
+    - build-smartmet-test-grid:
+       requires:
+        - preprep
     - build-smartmet-timezones:
        requires:
         - preprep
@@ -1150,6 +1162,7 @@ workflows:
         - test-smartmet-library-spine
         - test-smartmet-server
         - test-smartmet-test-db
+        - test-smartmet-test-grid
     - test-smartmet-plugin-wms:
        requires:
         - build-smartmet-plugin-wms
@@ -1206,6 +1219,9 @@ workflows:
     - test-smartmet-test-db:
        requires:
         - build-smartmet-test-db
+    - test-smartmet-test-grid:
+       requires:
+        - build-smartmet-test-grid
     - test-smartmet-timezones:
        requires:
         - build-smartmet-timezones
@@ -1253,6 +1269,7 @@ workflows:
         - build-smartmet-server
         - build-smartmet-shapetools
         - build-smartmet-test-db
+        - build-smartmet-test-grid
         - build-smartmet-timezones
         - test-smartmet-engine-authentication
         - test-smartmet-engine-contour
@@ -1296,5 +1313,6 @@ workflows:
         - test-smartmet-server
         - test-smartmet-shapetools
         - test-smartmet-test-db
+        - test-smartmet-test-grid
         - test-smartmet-timezones
 #end
