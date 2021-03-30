@@ -72,8 +72,8 @@ sub scan($$$)
 		
 		if ( $b =~ m/^smartmet-/ && $b ne $module )
 		{
-		      # do not build smartmet-test-data etc due to git-lfs limitations, the source is not available etc
-		    if ( ($b ne "smartmet-test-data") && ($b ne "smartmet-test-grid") )
+		    # do not build smartmet-test-data etc due to git-lfs limitations, the source is not available etc
+		    if ( ($b ne "smartmet-test-data") && ($b ne "smartmet-test-grid") && ($b ne "smartmet-SFCGAL-libs") )
 		    {
 			print STDERR "\t$tag $b\n";
 			if ( $tag =~ m/^BuildRequires/ )

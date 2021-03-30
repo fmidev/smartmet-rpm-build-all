@@ -1,4 +1,4 @@
-#timestamp Tue Mar 30 14:38:34 EEST 2021
+#timestamp Tue Mar 30 14:43:13 EEST 2021
 version: 2.1
 
 executors:
@@ -100,11 +100,6 @@ jobs:
 # post: starts a block for jobs which should be run after everything else(i.e. collect artifacts, setup repository)
 # If you need multiple pre/post processing jobs(unlikely, you could just put in more steps), make several templates
 #template build
-  build-smartmet-SFCGAL-libs:
-    executor: fmi-executor
-    steps:
-     - build-default:
-        module: smartmet-SFCGAL-libs
   build-smartmet-engine-authentication:
     executor: fmi-executor
     steps:
@@ -322,10 +317,6 @@ jobs:
         module: smartmet-timezones
 #end
 #template test
-  test-smartmet-SFCGAL-libs:
-    executor: fmi-executor
-    steps:
-     - test-default
   test-smartmet-engine-authentication:
     executor: fmi-executor
     steps:
@@ -573,9 +564,6 @@ workflows:
 # Template still needed for indentation lookup and placement
 #template deptree
     - preprep
-    - build-smartmet-SFCGAL-libs:
-       requires:
-        - preprep
     - build-smartmet-engine-authentication:
        requires:
         - preprep
@@ -634,7 +622,6 @@ workflows:
     - build-smartmet-library-gis:
        requires:
         - preprep
-        - test-smartmet-SFCGAL-libs
         - test-smartmet-library-macgyver
     - build-smartmet-library-giza:
        requires:
@@ -883,9 +870,6 @@ workflows:
     - build-smartmet-timezones:
        requires:
         - preprep
-    - test-smartmet-SFCGAL-libs:
-       requires:
-        - build-smartmet-SFCGAL-libs
     - test-smartmet-engine-authentication:
        requires:
         - build-smartmet-engine-authentication
@@ -1227,7 +1211,6 @@ workflows:
         - build-smartmet-timezones
     - archive:
        requires:
-        - build-smartmet-SFCGAL-libs
         - build-smartmet-engine-authentication
         - build-smartmet-engine-contour
         - build-smartmet-engine-geonames
@@ -1271,7 +1254,6 @@ workflows:
         - build-smartmet-shapetools
         - build-smartmet-test-db
         - build-smartmet-timezones
-        - test-smartmet-SFCGAL-libs
         - test-smartmet-engine-authentication
         - test-smartmet-engine-contour
         - test-smartmet-engine-geonames
