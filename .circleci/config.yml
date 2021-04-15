@@ -1,4 +1,4 @@
-#timestamp Thu Apr 15 18:33:37 EEST 2021
+#timestamp Thu Apr 15 20:05:42 EEST 2021
 version: 2.1
 
 executors:
@@ -634,6 +634,7 @@ workflows:
     - build-smartmet-frontier:
        requires:
         - preprep
+        - test-smartmet-library-gis
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-tron
