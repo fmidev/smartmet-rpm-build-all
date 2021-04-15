@@ -1,4 +1,4 @@
-#timestamp Thu Apr 15 16:53:17 EEST 2021
+#timestamp Thu Apr 15 16:58:22 EEST 2021
 version: 2.1
 
 executors:
@@ -15,7 +15,7 @@ commands:
   steps:
    - run:
       name: Disable smartmet packages coming from FMI repo
-      command: sudo yum-config-manager --quiet --setopt="smartmet-open.exclude=smartmet-engine-authentication smartmet-engine-contour smartmet-engine-geonames smartmet-engine-gis smartmet-engine-grid smartmet-engine-observation smartmet-engine-querydata smartmet-engine-sputnik smartmet-library-calculator smartmet-library-gis smartmet-library-giza smartmet-library-grid-content smartmet-library-grid-files smartmet-library-imagine smartmet-library-imagine2 smartmet-library-locus smartmet-library-macgyver smartmet-library-newbase smartmet-library-regression smartmet-library-smarttools smartmet-library-spine smartmet-library-textgen smartmet-library-tron smartmet-plugin-admin smartmet-plugin-autocomplete smartmet-plugin-backend smartmet-plugin-cross_section smartmet-plugin-download smartmet-plugin-frontend smartmet-plugin-grid-admin smartmet-plugin-grid-gui smartmet-plugin-meta smartmet-plugin-textgen smartmet-plugin-timeseries smartmet-plugin-wfs smartmet-plugin-wms smartmet-qdcontour smartmet-qdcontour2 smartmet-qdtools smartmet-server smartmet-shapetools smartmet-test-db smartmet-timezones" --save
+      command: sudo yum-config-manager --quiet --setopt="smartmet-open.exclude=smartmet-engine-authentication smartmet-engine-contour smartmet-engine-geonames smartmet-engine-gis smartmet-engine-grid smartmet-engine-observation smartmet-engine-querydata smartmet-engine-sputnik smartmet-frontier smartmet-library-calculator smartmet-library-gis smartmet-library-giza smartmet-library-grid-content smartmet-library-grid-files smartmet-library-imagine smartmet-library-imagine2 smartmet-library-locus smartmet-library-macgyver smartmet-library-newbase smartmet-library-regression smartmet-library-smarttools smartmet-library-spine smartmet-library-textgen smartmet-library-tron smartmet-library-woml smartmet-plugin-admin smartmet-plugin-autocomplete smartmet-plugin-backend smartmet-plugin-cross_section smartmet-plugin-download smartmet-plugin-frontend smartmet-plugin-grid-admin smartmet-plugin-grid-gui smartmet-plugin-meta smartmet-plugin-textgen smartmet-plugin-timeseries smartmet-plugin-wfs smartmet-plugin-wms smartmet-qdcontour smartmet-qdcontour2 smartmet-qdtools smartmet-server smartmet-shapetools smartmet-test-db smartmet-timezones" --save
    - checkout
    - attach_workspace:
       at: /dist
@@ -140,6 +140,11 @@ jobs:
     steps:
      - build-default:
         module: smartmet-engine-sputnik
+  build-smartmet-frontier:
+    executor: fmi-executor
+    steps:
+     - build-default:
+        module: smartmet-frontier
   build-smartmet-library-calculator:
     executor: fmi-executor
     steps:
@@ -215,6 +220,11 @@ jobs:
     steps:
      - build-default:
         module: smartmet-library-tron
+  build-smartmet-library-woml:
+    executor: fmi-executor
+    steps:
+     - build-default:
+        module: smartmet-library-woml
   build-smartmet-plugin-admin:
     executor: fmi-executor
     steps:
@@ -349,6 +359,10 @@ jobs:
     executor: fmi-executor
     steps:
      - test-default
+  test-smartmet-frontier:
+    executor: fmi-executor
+    steps:
+     - test-default
   test-smartmet-library-calculator:
     executor: fmi-executor
     steps:
@@ -406,6 +420,10 @@ jobs:
     steps:
      - test-default
   test-smartmet-library-tron:
+    executor: fmi-executor
+    steps:
+     - test-default
+  test-smartmet-library-woml:
     executor: fmi-executor
     steps:
      - test-default
@@ -613,6 +631,13 @@ workflows:
         - preprep
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
+    - build-smartmet-frontier:
+       requires:
+        - preprep
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-newbase
+        - test-smartmet-library-tron
+        - test-smartmet-library-woml
     - build-smartmet-library-calculator:
        requires:
         - preprep
@@ -689,6 +714,10 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
     - build-smartmet-library-tron:
+       requires:
+        - preprep
+        - test-smartmet-library-macgyver
+    - build-smartmet-library-woml:
        requires:
         - preprep
         - test-smartmet-library-macgyver
@@ -928,6 +957,13 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
         - test-smartmet-server
+    - test-smartmet-frontier:
+       requires:
+        - build-smartmet-frontier
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-newbase
+        - test-smartmet-library-tron
+        - test-smartmet-library-woml
     - test-smartmet-library-calculator:
        requires:
         - build-smartmet-library-calculator
@@ -1023,6 +1059,10 @@ workflows:
         - test-smartmet-library-gis
         - test-smartmet-library-macgyver
         - test-smartmet-library-regression
+    - test-smartmet-library-woml:
+       requires:
+        - build-smartmet-library-woml
+        - test-smartmet-library-macgyver
     - test-smartmet-plugin-admin:
        requires:
         - build-smartmet-plugin-admin
@@ -1222,6 +1262,7 @@ workflows:
         - build-smartmet-engine-observation
         - build-smartmet-engine-querydata
         - build-smartmet-engine-sputnik
+        - build-smartmet-frontier
         - build-smartmet-library-calculator
         - build-smartmet-library-gis
         - build-smartmet-library-giza
@@ -1237,6 +1278,7 @@ workflows:
         - build-smartmet-library-spine
         - build-smartmet-library-textgen
         - build-smartmet-library-tron
+        - build-smartmet-library-woml
         - build-smartmet-plugin-admin
         - build-smartmet-plugin-autocomplete
         - build-smartmet-plugin-backend
@@ -1265,6 +1307,7 @@ workflows:
         - test-smartmet-engine-observation
         - test-smartmet-engine-querydata
         - test-smartmet-engine-sputnik
+        - test-smartmet-frontier
         - test-smartmet-library-calculator
         - test-smartmet-library-gis
         - test-smartmet-library-giza
@@ -1280,6 +1323,7 @@ workflows:
         - test-smartmet-library-spine
         - test-smartmet-library-textgen
         - test-smartmet-library-tron
+        - test-smartmet-library-woml
         - test-smartmet-plugin-admin
         - test-smartmet-plugin-autocomplete
         - test-smartmet-plugin-backend

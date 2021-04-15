@@ -124,18 +124,13 @@ scan("smartmet-plugin-grid-gui", "master", "smartmet-plugin-grid-gui");
 scan("smartmet-plugin-meta", "master", "smartmet-plugin-meta");
 scan("smartmet-plugin-textgen", "master", "smartmet-plugin-textgen");
 scan("smartmet-plugin-timeseries", "master", "smartmet-plugin-timeseries");
-# scan("smartmet-plugin-wcs", "master", "smartmet-plugin-wcs");
 scan("smartmet-plugin-wfs", "master", "smartmet-plugin-wfs");
 scan("smartmet-plugin-wms", "master", "smartmet-plugin-wms");
 scan("smartmet-qdcontour", "master", "smartmet-qdcontour");
 scan("smartmet-qdcontour2", "master", "smartmet-qdcontour2");
 scan("smartmet-qdtools", "master", "smartmet-qdtools");
 scan("smartmet-shapetools", "master", "smartmet-shapetools");
-
-# scan("smartmet-plugin-download","master-grid-support-BS-1661-new", "smartmet-plugin-gribdownload");
-# scan("smartmet-plugin-timeseries","master_grid_support", "smartmet-plugin-gribtimeseries");
-# scan("smartmet-plugin-wfs","grid_dev_new", "smartmet-plugin-gribwfs");
-# scan("smartmet-plugin-wms","grid_dev", "smartmet-plugin-gribwms");
+scan("smartmet-frontier", "master", "smartmet-frontier");
 
 # print STDERR Dumper(\%::testdeps );
 # print STDERR Dumper(\%::builddeps );
