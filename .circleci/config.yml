@@ -1,4 +1,4 @@
-#timestamp Thu Apr 15 04:11:29 EEST 2021
+#timestamp Thu Apr 15 16:53:17 EEST 2021
 version: 2.1
 
 executors:
@@ -959,6 +959,7 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-spine
+        - test-smartmet-library-tron
     - test-smartmet-library-imagine:
        requires:
         - build-smartmet-library-imagine
@@ -1175,12 +1176,14 @@ workflows:
         - test-smartmet-library-imagine
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
+        - test-smartmet-library-tron
     - test-smartmet-qdcontour2:
        requires:
         - build-smartmet-qdcontour2
         - test-smartmet-library-imagine2
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
+        - test-smartmet-library-tron
     - test-smartmet-qdtools:
        requires:
         - build-smartmet-qdtools
