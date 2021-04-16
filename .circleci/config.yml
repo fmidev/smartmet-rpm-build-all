@@ -1,4 +1,4 @@
-#timestamp Thu Apr 15 20:05:42 EEST 2021
+#timestamp Fri Apr 16 06:52:44 EEST 2021
 version: 2.1
 
 executors:
@@ -915,6 +915,7 @@ workflows:
         - test-smartmet-library-newbase
         - test-smartmet-library-regression
         - test-smartmet-library-spine
+        - test-smartmet-library-tron
     - test-smartmet-engine-geonames:
        requires:
         - build-smartmet-engine-geonames
