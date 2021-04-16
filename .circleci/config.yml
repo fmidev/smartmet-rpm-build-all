@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-#timestamp Fri Apr 16 06:52:44 EEST 2021
-=======
-#timestamp Fri Apr 16 04:11:31 EEST 2021
->>>>>>> 18d20409d0b54264997b9c9b016c4fbb59b48861
+#timestamp Fri Apr 16 06:53:46 EEST 2021
 version: 2.1
 
 executors:
