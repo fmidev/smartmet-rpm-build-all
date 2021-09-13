@@ -131,6 +131,7 @@ scan("smartmet-qdcontour2", "master", "smartmet-qdcontour2");
 scan("smartmet-qdtools", "master", "smartmet-qdtools");
 scan("smartmet-shapetools", "master", "smartmet-shapetools");
 scan("smartmet-frontier", "master", "smartmet-frontier");
+scan("smartmet-tools-grid", "master", "smartmet-tools-grid");
 
 # print STDERR Dumper(\%::testdeps );
 # print STDERR Dumper(\%::builddeps );
