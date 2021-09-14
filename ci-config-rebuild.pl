@@ -4,6 +4,14 @@ use strict;
 use Data::Dumper;
 $::specdir = "/tmp/specs";
 
+# Names to ignore (part of other packages or not being built on Circle-CI for any reason)
+my %ignore = (
+    "smartmet-test-data" => 1,
+    "smartmet-engine-grid-test" => 1,
+    "smartmet-SFCGAL-libs" => 1,
+    "smartmet-library-spine-plugin-test" => 1
+    );
+
 # usage: ci-config-rebuild [branch]
 
 # https://raw.githubusercontent.com/fmidev/smartmet-library-grid-files/master/smartmet-library-grid-files.spec
@@ -73,7 +81,7 @@ sub scan($$$)
 		if ( $b =~ m/^smartmet-/ && $b ne $module )
 		{
 		    # do not build smartmet-test-data etc due to git-lfs limitations, the source is not available etc
-		    if ( ($b ne "smartmet-test-data") && ($b ne "smartmet-engine-grid-test") && ($b ne "smartmet-SFCGAL-libs") )
+		    if ( ! $ignore{$b} )
 		    {
 			print STDERR "\t$tag $b\n";
 			if ( $tag =~ m/^BuildRequires/ )
