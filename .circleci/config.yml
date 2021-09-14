@@ -1,4 +1,4 @@
-#timestamp Mon Sep 13 10:59:07 EEST 2021
+#timestamp Tue Sep 14 04:12:07 EEST 2021
 version: 2.1
 
 executors:
@@ -15,7 +15,7 @@ commands:
   steps:
    - run:
       name: Disable smartmet packages coming from FMI repo
-      command: sudo yum-config-manager --quiet --setopt="smartmet-open.exclude=smartmet-engine-authentication smartmet-engine-contour smartmet-engine-geonames smartmet-engine-gis smartmet-engine-grid smartmet-engine-observation smartmet-engine-querydata smartmet-engine-sputnik smartmet-frontier smartmet-library-calculator smartmet-library-gis smartmet-library-giza smartmet-library-grid-content smartmet-library-grid-files smartmet-library-imagine smartmet-library-imagine2 smartmet-library-locus smartmet-library-macgyver smartmet-library-newbase smartmet-library-regression smartmet-library-smarttools smartmet-library-spine smartmet-library-textgen smartmet-library-tron smartmet-library-woml smartmet-plugin-admin smartmet-plugin-autocomplete smartmet-plugin-backend smartmet-plugin-cross_section smartmet-plugin-download smartmet-plugin-frontend smartmet-plugin-grid-admin smartmet-plugin-grid-gui smartmet-plugin-meta smartmet-plugin-textgen smartmet-plugin-timeseries smartmet-plugin-wfs smartmet-plugin-wms smartmet-qdcontour smartmet-qdcontour2 smartmet-qdtools smartmet-server smartmet-shapetools smartmet-test-db smartmet-timezones smartmet-tools-grid" --save
+      command: sudo yum-config-manager --quiet --setopt="smartmet-open.exclude=smartmet-engine-authentication smartmet-engine-contour smartmet-engine-geonames smartmet-engine-gis smartmet-engine-grid smartmet-engine-observation smartmet-engine-querydata smartmet-engine-sputnik smartmet-frontier smartmet-library-calculator smartmet-library-gis smartmet-library-giza smartmet-library-grid-content smartmet-library-grid-files smartmet-library-imagine smartmet-library-imagine2 smartmet-library-locus smartmet-library-macgyver smartmet-library-newbase smartmet-library-regression smartmet-library-smarttools smartmet-library-spine smartmet-library-spine-plugin-test smartmet-library-textgen smartmet-library-tron smartmet-library-woml smartmet-plugin-admin smartmet-plugin-autocomplete smartmet-plugin-backend smartmet-plugin-cross_section smartmet-plugin-download smartmet-plugin-frontend smartmet-plugin-grid-admin smartmet-plugin-grid-gui smartmet-plugin-meta smartmet-plugin-textgen smartmet-plugin-timeseries smartmet-plugin-wfs smartmet-plugin-wms smartmet-qdcontour smartmet-qdcontour2 smartmet-qdtools smartmet-server smartmet-shapetools smartmet-test-db smartmet-timezones smartmet-tools-grid" --save
    - checkout
    - attach_workspace:
       at: /dist
@@ -210,6 +210,11 @@ jobs:
     steps:
      - build-default:
         module: smartmet-library-spine
+  build-smartmet-library-spine-plugin-test:
+    executor: fmi-executor
+    steps:
+     - build-default:
+        module: smartmet-library-spine-plugin-test
   build-smartmet-library-textgen:
     executor: fmi-executor
     steps:
@@ -417,6 +422,10 @@ jobs:
     steps:
      - test-default
   test-smartmet-library-spine:
+    executor: fmi-executor
+    steps:
+     - test-default
+  test-smartmet-library-spine-plugin-test:
     executor: fmi-executor
     steps:
      - test-default
@@ -719,6 +728,9 @@ workflows:
         - test-smartmet-library-gis
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
+    - build-smartmet-library-spine-plugin-test:
+       requires:
+        - preprep
     - build-smartmet-library-textgen:
        requires:
         - preprep
@@ -923,6 +935,7 @@ workflows:
         - build-smartmet-engine-authentication
         - test-smartmet-library-regression
         - test-smartmet-library-spine
+        - test-smartmet-library-spine-plugin-test
         - test-smartmet-server
     - test-smartmet-engine-contour:
        requires:
@@ -1064,6 +1077,9 @@ workflows:
         - test-smartmet-library-newbase
         - test-smartmet-library-regression
         - test-smartmet-timezones
+    - test-smartmet-library-spine-plugin-test:
+       requires:
+        - build-smartmet-library-spine-plugin-test
     - test-smartmet-library-textgen:
        requires:
         - build-smartmet-library-textgen
@@ -1302,6 +1318,7 @@ workflows:
         - build-smartmet-library-regression
         - build-smartmet-library-smarttools
         - build-smartmet-library-spine
+        - build-smartmet-library-spine-plugin-test
         - build-smartmet-library-textgen
         - build-smartmet-library-tron
         - build-smartmet-library-woml
@@ -1348,6 +1365,7 @@ workflows:
         - test-smartmet-library-regression
         - test-smartmet-library-smarttools
         - test-smartmet-library-spine
+        - test-smartmet-library-spine-plugin-test
         - test-smartmet-library-textgen
         - test-smartmet-library-tron
         - test-smartmet-library-woml
