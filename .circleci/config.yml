@@ -1,4 +1,4 @@
-#timestamp Tue Sep 21 04:13:48 EEST 2021
+#timestamp Tue Sep 21 14:53:42 EEST 2021
 version: 2.1
 
 executors:
@@ -15,7 +15,7 @@ commands:
   steps:
    - run:
       name: Disable smartmet packages coming from FMI repo
-      command: sudo yum-config-manager --quiet --setopt="smartmet-open.exclude=smartmet-engine-authentication smartmet-engine-contour smartmet-engine-geonames smartmet-engine-gis smartmet-engine-grid smartmet-engine-observation smartmet-engine-querydata smartmet-engine-sputnik smartmet-frontier smartmet-library-calculator smartmet-library-gis smartmet-library-giza smartmet-library-grid-content smartmet-library-grid-files smartmet-library-imagine smartmet-library-imagine2 smartmet-library-locus smartmet-library-macgyver smartmet-library-newbase smartmet-library-regression smartmet-library-smarttools smartmet-library-spine smartmet-library-textgen smartmet-library-tron smartmet-library-woml smartmet-plugin-admin smartmet-plugin-autocomplete smartmet-plugin-backend smartmet-plugin-cross_section smartmet-plugin-download smartmet-plugin-frontend smartmet-plugin-grid-admin smartmet-plugin-grid-gui smartmet-plugin-meta smartmet-plugin-textgen smartmet-plugin-timeseries smartmet-plugin-wfs smartmet-plugin-wms smartmet-qdcontour smartmet-qdcontour2 smartmet-qdtools smartmet-server smartmet-shapetools smartmet-test-db smartmet-timezones smartmet-tools-grid" --save
+      command: sudo yum-config-manager --quiet --setopt="smartmet-open.exclude=smartmet-engine-authentication smartmet-engine-contour smartmet-engine-geonames smartmet-engine-gis smartmet-engine-grid smartmet-engine-observation smartmet-engine-querydata smartmet-engine-sputnik smartmet-frontier smartmet-library-calculator smartmet-library-gis smartmet-library-giza smartmet-library-grid-content smartmet-library-grid-files smartmet-library-imagine smartmet-library-imagine2 smartmet-library-locus smartmet-library-macgyver smartmet-library-newbase smartmet-library-regression smartmet-library-smarttools smartmet-library-spine smartmet-library-textgen smartmet-library-tron smartmet-library-woml smartmet-plugin-admin smartmet-plugin-autocomplete smartmet-plugin-backend smartmet-plugin-cross_section smartmet-plugin-download smartmet-plugin-frontend smartmet-plugin-grid-admin smartmet-plugin-grid-gui smartmet-plugin-meta smartmet-plugin-textgen smartmet-plugin-timeseries smartmet-plugin-wfs smartmet-plugin-wms smartmet-qdcontour smartmet-qdcontour2 smartmet-qdtools smartmet-server smartmet-shapetools smartmet-test-db smartmet-timezones smartmet-tools-grid smartmet-utils" --save
    - checkout
    - attach_workspace:
       at: /dist
@@ -330,6 +330,11 @@ jobs:
     steps:
      - build-default:
         module: smartmet-tools-grid
+  build-smartmet-utils:
+    executor: fmi-executor
+    steps:
+     - build-default:
+        module: smartmet-utils
 #end
 #template test
   test-smartmet-engine-authentication:
@@ -516,6 +521,10 @@ jobs:
     executor: fmi-executor
     steps:
      - test-default
+  test-smartmet-utils:
+    executor: fmi-executor
+    steps:
+     - test-default
 #end
 #template pre
 # This job runs before we build anything
@@ -698,6 +707,7 @@ workflows:
         - preprep
         - test-smartmet-library-regression
         - test-smartmet-timezones
+        - test-smartmet-utils
     - build-smartmet-library-newbase:
        requires:
         - preprep
@@ -918,6 +928,9 @@ workflows:
         - test-smartmet-library-grid-content
         - test-smartmet-library-grid-files
         - test-smartmet-library-spine
+    - build-smartmet-utils:
+       requires:
+        - preprep
     - test-smartmet-engine-authentication:
        requires:
         - build-smartmet-engine-authentication
@@ -1041,6 +1054,7 @@ workflows:
         - build-smartmet-library-macgyver
         - test-smartmet-library-regression
         - test-smartmet-timezones
+        - test-smartmet-utils
     - test-smartmet-library-newbase:
        requires:
         - build-smartmet-library-newbase
@@ -1278,6 +1292,9 @@ workflows:
         - build-smartmet-tools-grid
         - test-smartmet-library-grid-content
         - test-smartmet-library-grid-files
+    - test-smartmet-utils:
+       requires:
+        - build-smartmet-utils
     - archive:
        requires:
         - build-smartmet-engine-authentication
@@ -1326,6 +1343,7 @@ workflows:
         - build-smartmet-test-db
         - build-smartmet-timezones
         - build-smartmet-tools-grid
+        - build-smartmet-utils
         - test-smartmet-engine-authentication
         - test-smartmet-engine-contour
         - test-smartmet-engine-geonames
@@ -1372,4 +1390,5 @@ workflows:
         - test-smartmet-test-db
         - test-smartmet-timezones
         - test-smartmet-tools-grid
+        - test-smartmet-utils
 #end
