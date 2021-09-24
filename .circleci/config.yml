@@ -1,4 +1,4 @@
-#timestamp Fri Sep 24 11:24:31 EEST 2021
+#timestamp Fri Sep 24 11:29:59 EEST 2021
 version: 2.1
 
 executors:
@@ -477,10 +477,6 @@ jobs:
     executor: fmi-executor
     steps:
      - test-default
-  test-smartmet-utils:
-    executor: fmi-executor
-    steps:
-     - test-default
 #end
 #template pre
 # This job runs before we build anything
@@ -660,7 +656,6 @@ workflows:
         - preprep
         - test-smartmet-library-regression
         - test-smartmet-timezones
-        - test-smartmet-utils
     - build-smartmet-library-newbase:
        requires:
         - preprep
@@ -952,7 +947,6 @@ workflows:
         - build-smartmet-library-macgyver
         - test-smartmet-library-regression
         - test-smartmet-timezones
-        - test-smartmet-utils
     - test-smartmet-library-newbase:
        requires:
         - build-smartmet-library-newbase
@@ -1126,14 +1120,6 @@ workflows:
     - test-smartmet-tools-grid:
        requires:
         - build-smartmet-tools-grid
-<<<<<<< HEAD
-        - test-smartmet-library-grid-content
-        - test-smartmet-library-grid-files
-    - test-smartmet-utils:
-       requires:
-        - build-smartmet-utils
-=======
->>>>>>> 5f7090f... Refactor and exclude jobs for disabled tests
     - archive:
        requires:
         - build-smartmet-engine-authentication
@@ -1218,5 +1204,4 @@ workflows:
         - test-smartmet-test-db
         - test-smartmet-timezones
         - test-smartmet-tools-grid
-        - test-smartmet-utils
 #end
