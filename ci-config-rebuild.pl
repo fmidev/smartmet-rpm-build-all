@@ -4,6 +4,8 @@ use strict;
 use Data::Dumper;
 $::specdir = "/tmp/specs";
 
+# usage: ci-config-rebuild [branch]
+
 # Names to ignore (part of other packages or not being built on Circle-CI for any reason)
 my %ignore = (
     "smartmet-test-data" => 1,
@@ -12,18 +14,36 @@ my %ignore = (
     "smartmet-library-spine-plugin-test" => 1
     );
 
-# usage: ci-config-rebuild [branch]
+$::default_branch = "master";
+
+%::modules = (
+    "smartmet-plugin-admin"                 => { "branch" => "", "spec" => ""},
+    "smartmet-plugin-autocomplete"          => {},
+    "smartmet-plugin-backend"               => {},
+    "smartmet-plugin-cross_section"         => {},
+    "smartmet-plugin-download"              => {},
+    "smartmet-plugin-frontend"              => {},
+    "smartmet-plugin-grid-admin"            => {},
+    "smartmet-plugin-grid-gui"              => {},
+    "smartmet-plugin-meta"                  => {},
+    "smartmet-plugin-textgen"               => {},
+    "smartmet-plugin-timeseries"            => {},
+    "smartmet-plugin-wfs"                   => {},
+    "smartmet-plugin-wms"                   => {},
+    "smartmet-qdcontour"                    => {},
+    "smartmet-qdcontour2"                   => {},
+    "smartmet-qdtools"                      => {},
+    "smartmet-shapetools"                   => {},
+    "smartmet-frontier"                     => {},
+    "smartmet-tools-grid"                   => {},
+    );
 
 # https://raw.githubusercontent.com/fmidev/smartmet-library-grid-files/master/smartmet-library-grid-files.spec
 sub getspec($$$)
 {
-    my $module = shift;
-    my $branch = shift;
-    my $spec   = shift;
-    
-    # Remove .git and parts of URL if they accidentally got into module
-    $module =~ s%[.]git$%%;
-    $module =~ s%^.*/%%;
+    my $module = get_module_name(shift);
+    my $branch = get_branch($module);
+    my $spec   = get_spec_name($module);
     
     my $url = "https://raw.githubusercontent.com/fmidev/$module/$branch/$spec.spec";
     print STDERR "\tFetching $url\n";
@@ -39,11 +59,11 @@ sub getspec($$$)
 %::modulenames = ();
 %::branchnames = ();
 
-sub scan($$$)
+sub scan($)
 {
-    my $module = shift;
-    my $branch = shift;
-    my $spec   = shift;
+    my $module = get_module_name(shift);
+    my $branch = get_branch($module);
+    my $spec   = get_spec_name($module);
 
     # By default the spec is named according to the module
 
@@ -88,7 +108,7 @@ sub scan($$$)
 			{
 			    $buildreq{"$b"} = 1;
 			}
-			else
+			elsif ( require_tests($b) )
 			{
 			    $testreq{"$b"} = 1;
 			}
@@ -121,25 +141,10 @@ mkdir($::specdir);
 
 # Fetch node packages, then scan all their requirements
 
-scan("smartmet-plugin-admin", "master", "smartmet-plugin-admin");
-scan("smartmet-plugin-autocomplete", "master", "smartmet-plugin-autocomplete");
-scan("smartmet-plugin-backend", "master", "smartmet-plugin-backend");
-scan("smartmet-plugin-cross_section", "master", "smartmet-plugin-cross_section");
-scan("smartmet-plugin-download", "master", "smartmet-plugin-download");
-scan("smartmet-plugin-frontend", "master", "smartmet-plugin-frontend");
-scan("smartmet-plugin-grid-admin", "master", "smartmet-plugin-grid-admin");
-scan("smartmet-plugin-grid-gui", "master", "smartmet-plugin-grid-gui");
-scan("smartmet-plugin-meta", "master", "smartmet-plugin-meta");
-scan("smartmet-plugin-textgen", "master", "smartmet-plugin-textgen");
-scan("smartmet-plugin-timeseries", "master", "smartmet-plugin-timeseries");
-scan("smartmet-plugin-wfs", "master", "smartmet-plugin-wfs");
-scan("smartmet-plugin-wms", "master", "smartmet-plugin-wms");
-scan("smartmet-qdcontour", "master", "smartmet-qdcontour");
-scan("smartmet-qdcontour2", "master", "smartmet-qdcontour2");
-scan("smartmet-qdtools", "master", "smartmet-qdtools");
-scan("smartmet-shapetools", "master", "smartmet-shapetools");
-scan("smartmet-frontier", "master", "smartmet-frontier");
-scan("smartmet-tools-grid", "master", "smartmet-tools-grid");
+foreach my $module (keys %::modules)
+{
+    scan($module);
+}
 
 # print STDERR Dumper(\%::testdeps );
 # print STDERR Dumper(\%::builddeps );
@@ -206,9 +211,12 @@ while (<STDIN>)
 	    {
 		foreach my $module ( sort keys %::testdeps )
 		{
-		    my $c = $currenttemplate;
-		    $c =~ s/smartmet-[a-z0-9-]+/$module/sg;
-		    print $c;
+		    if (require_tests($module))
+		    {
+			my $c = $currenttemplate;
+			$c =~ s/smartmet-[a-z0-9-]+/$module/sg;
+			print $c;
+		    }
 		}
 	    }
 	    elsif ( $currenttemplatename eq "pre" || $currenttemplatename eq "post" )
@@ -259,7 +267,10 @@ while (<STDIN>)
 			}
 			foreach my $dep (sort @$value)
 			{
-			    $c .= ( ' ' x ( $currenttemplateindent + 4 ) ) . "- test-$dep\n";
+			    if (require_tests($dep))
+			    {
+				$c .= ( ' ' x ( $currenttemplateindent + 4 ) ) . "- test-$dep\n";
+			    }
 			}
 		    }
 		    else
@@ -279,21 +290,24 @@ while (<STDIN>)
 		}
 		foreach my $module ( sort keys %::testdeps )
 		{
-		    my $value = $::testdeps{$module};
-		    my $c     = ' ' x $currenttemplateindent . "- test-$module";
-		    $c .= ":\n"
-			. ( ' ' x ( $currenttemplateindent + 3 ) )
-			. "requires:\n"
-			. ( ' ' x ( $currenttemplateindent + 4 ) )
-			. "- build-$module\n";
-		    if ( $value && scalar @$value > 0 )
+		    if (require_tests($module))
 		    {
-			foreach my $dep (@$value)
+			my $value = $::testdeps{$module};
+			my $c     = ' ' x $currenttemplateindent . "- test-$module";
+			$c .= ":\n"
+			    . ( ' ' x ( $currenttemplateindent + 3 ) )
+			    . "requires:\n"
+			    . ( ' ' x ( $currenttemplateindent + 4 ) )
+			    . "- build-$module\n";
+			if ( $value && scalar @$value > 0 )
 			{
-			    $c .= ( ' ' x ( $currenttemplateindent + 4 ) ) . "- test-$dep\n";
+			    foreach my $dep (@$value)
+			    {
+				$c .= ( ' ' x ( $currenttemplateindent + 4 ) ) . "- test-$dep\n";
+			    }
 			}
+			print $c;
 		    }
-		    print $c;
 		}
 		if ( scalar @postjobs )
 		{
@@ -308,7 +322,10 @@ while (<STDIN>)
 			}
 			foreach my $dep ( sort keys %::testdeps )
 			{
-			    $c .= ( ' ' x ( $currenttemplateindent + 4 ) ) . "- test-$dep\n";
+			    if (require_tests($dep))
+			    {
+				$c .= ( ' ' x ( $currenttemplateindent + 4 ) ) . "- test-$dep\n";
+			    }
 			}
 			
 			print $c;
@@ -357,4 +374,86 @@ while (<STDIN>)
     
     $ln =~ s/<MODULES>/$allmodules/;
     print $ln;
+}
+
+#print Dumper(\%::test_required_cache);
+
+
+sub get_module_name($)
+{
+    my $module = shift;
+    # Remove .git and parts of URL if they accidentally got into module
+    $module =~ s%[.]git$%%;
+    $module =~ s%^.*/%%;
+    return $module;
+}
+
+sub get_branch($)
+{
+    my $module = get_module_name(shift);
+    my $tmp = $::modules{$module}{"branch"};
+    if (defined($tmp) and ($tmp ne ""))
+    {
+	return $tmp;
+    }
+    else
+    {
+	return $::default_branch;
+    }
+}
+
+sub get_spec_name($)
+{
+    my $module = get_module_name(shift);
+    my $tmp = $::modules{$module}{"spec"};
+    if (defined($tmp) and ($tmp ne ""))
+    {
+	return $tmp;
+    }
+    else
+    {
+	return $module;
+    }
+}
+
+%::tests_required_cache = ();
+
+sub require_tests($)
+{
+    my $module = get_module_name(shift);
+    my $branch = get_branch($module);
+    my $spec   = get_spec_name($module);
+
+    my $cached = $::test_required_cache{$module};
+
+    if (defined $cached)
+    {
+	if ($cached eq 'yes')
+	{
+	    return 1;
+	}
+	elsif ($cached eq 'no')
+	{
+	    return 0;
+	}
+	else
+	{
+	    die "Not supposed to be here";
+	}
+    }
+    else
+    {
+	my $url = "https://raw.githubusercontent.com/fmidev/$module/$branch/.circleci/disable-tests-in-ci";
+	my $result = system( "curl -s -f $url >/dev/null 2>&1" );
+	if ($result == 0)
+	{
+	    $::test_required_cache{$module} = 'no';
+	    return 0;
+	}
+	else
+	{
+	    $::test_required_cache{$module} = 'yes';
+	    return 1;
+	}
+    }
 }
