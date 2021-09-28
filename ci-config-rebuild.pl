@@ -271,6 +271,10 @@ while (<STDIN>)
 			    {
 				$c .= ( ' ' x ( $currenttemplateindent + 4 ) ) . "- test-$dep\n";
 			    }
+			    else
+			    {
+				$c .= ( ' ' x ( $currenttemplateindent + 4 ) ) . "- build-$dep\n";
+			    }
 			}
 		    }
 		    else
