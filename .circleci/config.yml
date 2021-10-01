@@ -1,4 +1,4 @@
-#timestamp Thu Sep 30 04:12:40 EEST 2021
+#timestamp Fri Oct  1 04:13:42 EEST 2021
 version: 2.1
 
 executors:
@@ -469,6 +469,10 @@ jobs:
     executor: fmi-executor
     steps:
      - test-default
+  test-smartmet-utils:
+    executor: fmi-executor
+    steps:
+     - test-default
 #end
 #template pre
 # This job runs before we build anything
@@ -651,7 +655,7 @@ workflows:
         - preprep
         - test-smartmet-library-regression
         - test-smartmet-timezones
-        - build-smartmet-utils
+        - test-smartmet-utils
     - build-smartmet-library-newbase:
        requires:
         - preprep
@@ -881,6 +885,7 @@ workflows:
         - test-smartmet-library-regression
         - test-smartmet-library-spine
         - test-smartmet-server
+        - test-smartmet-utils
     - test-smartmet-engine-contour:
        requires:
         - build-smartmet-engine-contour
@@ -965,6 +970,7 @@ workflows:
         - build-smartmet-library-macgyver
         - test-smartmet-library-regression
         - test-smartmet-timezones
+        - test-smartmet-utils
     - test-smartmet-library-newbase:
        requires:
         - build-smartmet-library-newbase
@@ -1011,6 +1017,7 @@ workflows:
         - test-smartmet-library-spine
         - test-smartmet-server
         - test-smartmet-test-db
+        - test-smartmet-utils
     - test-smartmet-plugin-cross_section:
        requires:
         - build-smartmet-plugin-cross_section
@@ -1020,6 +1027,7 @@ workflows:
         - test-smartmet-library-spine
         - test-smartmet-server
         - test-smartmet-test-db
+        - test-smartmet-utils
     - test-smartmet-plugin-download:
        requires:
         - build-smartmet-plugin-download
@@ -1030,6 +1038,7 @@ workflows:
         - test-smartmet-qdtools
         - test-smartmet-server
         - test-smartmet-test-db
+        - test-smartmet-utils
     - test-smartmet-plugin-meta:
        requires:
         - build-smartmet-plugin-meta
@@ -1039,6 +1048,7 @@ workflows:
         - test-smartmet-library-spine
         - test-smartmet-server
         - test-smartmet-test-db
+        - test-smartmet-utils
     - test-smartmet-plugin-textgen:
        requires:
         - build-smartmet-plugin-textgen
@@ -1051,6 +1061,7 @@ workflows:
         - test-smartmet-library-textgen
         - test-smartmet-server
         - test-smartmet-test-db
+        - test-smartmet-utils
     - test-smartmet-plugin-timeseries:
        requires:
         - build-smartmet-plugin-timeseries
@@ -1064,6 +1075,7 @@ workflows:
         - test-smartmet-library-spine
         - test-smartmet-server
         - test-smartmet-test-db
+        - test-smartmet-utils
     - test-smartmet-plugin-wfs:
        requires:
         - build-smartmet-plugin-wfs
@@ -1078,6 +1090,7 @@ workflows:
         - test-smartmet-library-spine
         - test-smartmet-server
         - test-smartmet-test-db
+        - test-smartmet-utils
     - test-smartmet-plugin-wms:
        requires:
         - build-smartmet-plugin-wms
@@ -1127,6 +1140,9 @@ workflows:
     - test-smartmet-timezones:
        requires:
         - build-smartmet-timezones
+    - test-smartmet-utils:
+       requires:
+        - build-smartmet-utils
     - archive:
        requires:
         - build-smartmet-engine-authentication
@@ -1209,4 +1225,5 @@ workflows:
         - test-smartmet-server
         - test-smartmet-test-db
         - test-smartmet-timezones
+        - test-smartmet-utils
 #end
