@@ -28,6 +28,7 @@ $::default_branch = "master";
     "smartmet-plugin-meta"                  => {},
     "smartmet-plugin-textgen"               => {},
     "smartmet-plugin-timeseries"            => {},
+    "smartmet-plugin-trajectory"            => {},
     "smartmet-plugin-wfs"                   => {},
     "smartmet-plugin-wms"                   => {},
     "smartmet-qdcontour"                    => {},
