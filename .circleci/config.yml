@@ -1,4 +1,4 @@
-#timestamp Wed Oct 13 16:24:54 EEST 2021
+#timestamp Wed Oct 13 17:37:05 EEST 2021
 version: 2.1
 
 executors:
@@ -705,6 +705,10 @@ workflows:
     - build-smartmet-library-trajectory:
        requires:
         - preprep
+        - test-smartmet-library-locus
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-newbase
+        - build-smartmet-library-smarttools
     - build-smartmet-library-tron:
        requires:
         - preprep
@@ -1031,6 +1035,9 @@ workflows:
     - test-smartmet-library-trajectory:
        requires:
         - build-smartmet-library-trajectory
+        - test-smartmet-library-locus
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-newbase
     - test-smartmet-library-tron:
        requires:
         - build-smartmet-library-tron
