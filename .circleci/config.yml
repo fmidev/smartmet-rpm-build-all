@@ -1,4 +1,4 @@
-#timestamp Fri Oct 15 04:12:00 EEST 2021
+#timestamp Sat Oct 16 04:11:48 EEST 2021
 version: 2.1
 
 executors:
@@ -444,10 +444,6 @@ jobs:
     steps:
      - test-default
   test-smartmet-plugin-timeseries:
-    executor: fmi-executor
-    steps:
-     - test-default
-  test-smartmet-plugin-trajectory:
     executor: fmi-executor
     steps:
      - test-default
@@ -1107,13 +1103,6 @@ workflows:
         - test-smartmet-server
         - test-smartmet-test-db
         - test-smartmet-utils
-    - test-smartmet-plugin-trajectory:
-       requires:
-        - build-smartmet-plugin-trajectory
-        - test-smartmet-engine-geonames
-        - test-smartmet-library-macgyver
-        - test-smartmet-library-spine
-        - test-smartmet-server
     - test-smartmet-plugin-wfs:
        requires:
         - build-smartmet-plugin-wfs
@@ -1257,7 +1246,6 @@ workflows:
         - test-smartmet-plugin-meta
         - test-smartmet-plugin-textgen
         - test-smartmet-plugin-timeseries
-        - test-smartmet-plugin-trajectory
         - test-smartmet-plugin-wfs
         - test-smartmet-plugin-wms
         - test-smartmet-qdcontour
