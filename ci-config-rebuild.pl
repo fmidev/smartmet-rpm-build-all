@@ -1,7 +1,11 @@
 #!/usr/bin/perl -w
 
 use strict;
-use Data::Dumper;
+
+# Use only locally, not in CircleCI. Requires RPM perl-Data-Dumper
+# use Data::Dumper;
+
+
 $::specdir = "/tmp/specs";
 
 # usage: ci-config-rebuild [branch]
