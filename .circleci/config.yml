@@ -1,4 +1,4 @@
-#timestamp Mon Oct 25 04:12:01 EEST 2021
+#timestamp Tue Oct 26 04:16:35 EEST 2021
 version: 2.1
 
 executors:
@@ -621,6 +621,7 @@ workflows:
         - test-smartmet-library-gis
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
+        - test-smartmet-library-regression
     - build-smartmet-library-gis:
        requires:
         - preprep
