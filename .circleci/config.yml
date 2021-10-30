@@ -1,4 +1,4 @@
-#timestamp Fri Oct 29 04:11:41 EEST 2021
+#timestamp Sat Oct 30 04:11:59 EEST 2021
 version: 2.1
 
 executors:
@@ -1052,6 +1052,7 @@ workflows:
         - test-smartmet-engine-contour
         - test-smartmet-engine-geonames
         - test-smartmet-library-macgyver
+        - test-smartmet-library-newbase
         - test-smartmet-library-spine
         - test-smartmet-server
         - test-smartmet-test-db
@@ -1085,6 +1086,7 @@ workflows:
         - test-smartmet-library-calculator
         - test-smartmet-library-locus
         - test-smartmet-library-macgyver
+        - test-smartmet-library-newbase
         - test-smartmet-library-spine
         - test-smartmet-library-textgen
         - test-smartmet-server
