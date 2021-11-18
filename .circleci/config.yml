@@ -1,4 +1,4 @@
-#timestamp Thu Nov 18 03:11:51 EET 2021
+#timestamp Thu Nov 18 08:05:27 EET 2021
 version: 2.1
 
 executors:
@@ -18,7 +18,7 @@ commands:
   steps:
    - run:
       name: Disable smartmet packages coming from FMI repo
-      command: sudo yum-config-manager --quiet --setopt="smartmet-open.exclude=smartmet-engine-authentication smartmet-engine-contour smartmet-engine-geonames smartmet-engine-gis smartmet-engine-grid smartmet-engine-observation smartmet-engine-querydata smartmet-engine-sputnik smartmet-frontier smartmet-library-calculator smartmet-library-gis smartmet-library-giza smartmet-library-grid-content smartmet-library-grid-files smartmet-library-imagine smartmet-library-imagine2 smartmet-library-locus smartmet-library-macgyver smartmet-library-newbase smartmet-library-regression smartmet-library-smarttools smartmet-library-spine smartmet-library-textgen smartmet-library-trajectory smartmet-library-tron smartmet-library-woml smartmet-plugin-admin smartmet-plugin-autocomplete smartmet-plugin-backend smartmet-plugin-cross_section smartmet-plugin-download smartmet-plugin-frontend smartmet-plugin-grid-admin smartmet-plugin-grid-gui smartmet-plugin-meta smartmet-plugin-textgen smartmet-plugin-timeseries smartmet-plugin-trajectory smartmet-plugin-wfs smartmet-plugin-wms smartmet-qdcontour smartmet-qdcontour2 smartmet-qdtools smartmet-server smartmet-shapetools smartmet-test-db smartmet-timezones smartmet-tools-grid smartmet-utils" --save
+      command: sudo yum config-manager --quiet --disable smartmet-open --disable smartmet-open-beta
    - checkout
    - attach_workspace:
       at: /dist
@@ -59,8 +59,8 @@ commands:
   description: Test
   steps:
    - run:
-      name: Lower priority of packages coming from FMI repo
-      command: sudo sed -e 's/gpgcheck=0/gpgcheck=0\npriority=99/' -i /etc/yum.repos.d/smartmet-open.repo
+      name: Disable smartmet packages coming from FMI repo
+      command: sudo yum config-manager --quiet --disable smartmet-open --disable smartmet-open-beta
    - checkout
    - attach_workspace:
       at: /dist
@@ -500,6 +500,15 @@ jobs:
           make -v >/dev/null 2>&1 || sudo yum install -y make
           sudo yum install -y perl-Data-Dumper || true
           make check
+     - run:
+        name: Download RPMs not built on Circle-CI to local repo
+        command:
+          yumdownloader smartmet-test-data && sudo mv *.rpm /dist
+     - persist_to_workspace:
+          root: /dist
+          paths:
+            - ./*.rpm
+
 #end
 #template post
 # This job runs after everything is built and tested
@@ -921,6 +930,7 @@ workflows:
     - test-smartmet-engine-contour:
        requires:
         - build-smartmet-engine-contour
+        - build-smartmet-engine-querydata
         - test-smartmet-library-gis
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
@@ -1046,6 +1056,8 @@ workflows:
        requires:
         - build-smartmet-plugin-autocomplete
         - test-smartmet-engine-geonames
+        - build-smartmet-engine-querydata
+        - build-smartmet-engine-sputnik
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
         - test-smartmet-server
@@ -1056,6 +1068,8 @@ workflows:
         - build-smartmet-plugin-cross_section
         - test-smartmet-engine-contour
         - test-smartmet-engine-geonames
+        - build-smartmet-engine-grid
+        - build-smartmet-engine-querydata
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-spine
@@ -1066,6 +1080,8 @@ workflows:
        requires:
         - build-smartmet-plugin-download
         - test-smartmet-engine-geonames
+        - build-smartmet-engine-grid
+        - build-smartmet-engine-querydata
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-spine
@@ -1078,6 +1094,7 @@ workflows:
         - build-smartmet-plugin-meta
         - test-smartmet-engine-geonames
         - test-smartmet-engine-observation
+        - build-smartmet-engine-querydata
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
         - test-smartmet-server
@@ -1088,6 +1105,7 @@ workflows:
         - build-smartmet-plugin-textgen
         - test-smartmet-engine-geonames
         - test-smartmet-engine-gis
+        - build-smartmet-engine-querydata
         - test-smartmet-library-calculator
         - test-smartmet-library-locus
         - test-smartmet-library-macgyver
@@ -1102,7 +1120,9 @@ workflows:
         - build-smartmet-plugin-timeseries
         - test-smartmet-engine-geonames
         - test-smartmet-engine-gis
+        - build-smartmet-engine-grid
         - test-smartmet-engine-observation
+        - build-smartmet-engine-querydata
         - test-smartmet-library-gis
         - test-smartmet-library-locus
         - test-smartmet-library-macgyver
@@ -1117,8 +1137,12 @@ workflows:
         - test-smartmet-engine-contour
         - test-smartmet-engine-geonames
         - test-smartmet-engine-gis
+        - build-smartmet-engine-grid
         - test-smartmet-engine-observation
+        - build-smartmet-engine-querydata
         - test-smartmet-library-gis
+        - build-smartmet-library-grid-content
+        - build-smartmet-library-grid-files
         - test-smartmet-library-locus
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
@@ -1133,9 +1157,13 @@ workflows:
         - test-smartmet-engine-contour
         - test-smartmet-engine-geonames
         - test-smartmet-engine-gis
+        - build-smartmet-engine-grid
         - test-smartmet-engine-observation
+        - build-smartmet-engine-querydata
         - test-smartmet-library-gis
         - test-smartmet-library-giza
+        - build-smartmet-library-grid-content
+        - build-smartmet-library-grid-files
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-spine
@@ -1163,6 +1191,7 @@ workflows:
         - test-smartmet-library-imagine
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
+        - build-smartmet-library-smarttools
         - test-smartmet-timezones
     - test-smartmet-server:
        requires:
