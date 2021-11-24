@@ -1,4 +1,4 @@
-#timestamp Tue Nov 23 03:11:35 EET 2021
+#timestamp Wed Nov 24 03:11:50 EET 2021
 version: 2.1
 
 executors:
@@ -688,6 +688,7 @@ workflows:
     - build-smartmet-library-regression:
        requires:
         - preprep
+        - test-smartmet-utils
     - build-smartmet-library-smarttools:
        requires:
         - preprep
@@ -1023,6 +1024,7 @@ workflows:
     - test-smartmet-library-regression:
        requires:
         - build-smartmet-library-regression
+        - test-smartmet-utils
     - test-smartmet-library-spine:
        requires:
         - build-smartmet-library-spine
