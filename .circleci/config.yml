@@ -1,4 +1,4 @@
-#timestamp Tue Dec  7 03:11:57 EET 2021
+#timestamp Wed Dec  8 03:11:44 EET 2021
 version: 2.1
 
 executors:
@@ -1033,7 +1033,6 @@ workflows:
         - test-smartmet-library-newbase
         - test-smartmet-library-regression
         - test-smartmet-timezones
-        - test-smartmet-utils
     - test-smartmet-library-textgen:
        requires:
         - build-smartmet-library-textgen
@@ -1073,7 +1072,6 @@ workflows:
         - build-smartmet-engine-grid
         - build-smartmet-engine-querydata
         - test-smartmet-library-macgyver
-        - test-smartmet-library-newbase
         - test-smartmet-library-spine
         - test-smartmet-server
         - test-smartmet-test-db
@@ -1111,7 +1109,6 @@ workflows:
         - test-smartmet-library-calculator
         - test-smartmet-library-locus
         - test-smartmet-library-macgyver
-        - test-smartmet-library-newbase
         - test-smartmet-library-spine
         - test-smartmet-library-textgen
         - test-smartmet-server
