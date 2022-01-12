@@ -1,4 +1,4 @@
-#timestamp Tue Jan 11 03:13:04 EET 2022
+#timestamp Wed Jan 12 03:13:06 EET 2022
 version: 2.1
 
 executors:
@@ -418,10 +418,6 @@ jobs:
     executor: fmi-executor
     steps:
      - test-default
-  test-smartmet-library-trajectory:
-    executor: fmi-executor
-    steps:
-     - test-default
   test-smartmet-library-tron:
     executor: fmi-executor
     steps:
@@ -483,10 +479,6 @@ jobs:
     steps:
      - test-default
   test-smartmet-timezones:
-    executor: fmi-executor
-    steps:
-     - test-default
-  test-smartmet-tools-grid:
     executor: fmi-executor
     steps:
      - test-default
@@ -844,7 +836,7 @@ workflows:
         - test-smartmet-library-macgyver
         - build-smartmet-library-smarttools
         - test-smartmet-library-spine
-        - test-smartmet-library-trajectory
+        - build-smartmet-library-trajectory
     - build-smartmet-plugin-wfs:
        requires:
         - preprep
@@ -1050,14 +1042,6 @@ workflows:
         - test-smartmet-library-newbase
         - test-smartmet-library-regression
         - test-smartmet-timezones
-    - test-smartmet-library-trajectory:
-       requires:
-        - build-smartmet-library-trajectory
-        - test-smartmet-library-gis
-        - test-smartmet-library-locus
-        - test-smartmet-library-macgyver
-        - test-smartmet-library-newbase
-        - build-smartmet-library-smarttools
     - test-smartmet-library-tron:
        requires:
         - build-smartmet-library-tron
@@ -1219,12 +1203,6 @@ workflows:
     - test-smartmet-timezones:
        requires:
         - build-smartmet-timezones
-    - test-smartmet-tools-grid:
-       requires:
-        - build-smartmet-tools-grid
-        - build-smartmet-library-grid-content
-        - build-smartmet-library-grid-files
-        - test-smartmet-utils
     - test-smartmet-utils:
        requires:
         - build-smartmet-utils
@@ -1296,7 +1274,6 @@ workflows:
         - test-smartmet-library-regression
         - test-smartmet-library-spine
         - test-smartmet-library-textgen
-        - test-smartmet-library-trajectory
         - test-smartmet-library-tron
         - test-smartmet-library-woml
         - test-smartmet-plugin-autocomplete
@@ -1313,6 +1290,5 @@ workflows:
         - test-smartmet-server
         - test-smartmet-test-db
         - test-smartmet-timezones
-        - test-smartmet-tools-grid
         - test-smartmet-utils
 #end
