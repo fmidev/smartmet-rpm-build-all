@@ -1,4 +1,4 @@
-#timestamp Thu Jan 20 03:11:45 EET 2022
+#timestamp Fri Jan 21 03:11:53 EET 2022
 version: 2.1
 
 executors:
@@ -775,6 +775,7 @@ workflows:
        requires:
         - preprep
         - build-smartmet-engine-sputnik
+        - build-smartmet-library-grid-files
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
     - build-smartmet-plugin-grid-admin:
