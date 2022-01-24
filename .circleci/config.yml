@@ -1,4 +1,4 @@
-#timestamp Sun Jan 23 03:11:46 EET 2022
+#timestamp Mon Jan 24 03:13:50 EET 2022
 version: 2.1
 
 executors:
@@ -637,8 +637,6 @@ workflows:
     - build-smartmet-library-gis:
        requires:
         - preprep
-        - test-smartmet-library-macgyver
-        - test-smartmet-library-regression
     - build-smartmet-library-giza:
        requires:
         - preprep
@@ -682,9 +680,6 @@ workflows:
     - build-smartmet-library-newbase:
        requires:
         - preprep
-        - test-smartmet-library-gis
-        - test-smartmet-library-macgyver
-        - test-smartmet-library-regression
     - build-smartmet-library-regression:
        requires:
         - preprep
@@ -916,9 +911,6 @@ workflows:
     - build-smartmet-tools-grid:
        requires:
         - preprep
-        - build-smartmet-library-grid-content
-        - build-smartmet-library-grid-files
-        - test-smartmet-library-spine
     - build-smartmet-utils:
        requires:
         - preprep
@@ -982,8 +974,6 @@ workflows:
     - test-smartmet-library-gis:
        requires:
         - build-smartmet-library-gis
-        - test-smartmet-library-macgyver
-        - test-smartmet-library-regression
     - test-smartmet-library-giza:
        requires:
         - build-smartmet-library-giza
@@ -1018,10 +1008,6 @@ workflows:
     - test-smartmet-library-newbase:
        requires:
         - build-smartmet-library-newbase
-        - test-smartmet-library-gis
-        - test-smartmet-library-macgyver
-        - test-smartmet-library-regression
-        - test-smartmet-timezones
     - test-smartmet-library-regression:
        requires:
         - build-smartmet-library-regression
