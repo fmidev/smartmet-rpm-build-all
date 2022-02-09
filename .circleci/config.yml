@@ -1,4 +1,4 @@
-#timestamp Tue Feb  8 03:11:55 EET 2022
+#timestamp Wed Feb  9 03:11:38 EET 2022
 version: 2.1
 
 executors:
@@ -593,6 +593,7 @@ workflows:
        requires:
         - preprep
         - test-smartmet-library-gis
+        - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-spine
     - build-smartmet-engine-grid:
@@ -608,6 +609,7 @@ workflows:
         - test-smartmet-library-locus
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
+        - test-smartmet-utils
     - build-smartmet-engine-querydata:
        requires:
         - preprep
@@ -953,6 +955,7 @@ workflows:
        requires:
         - build-smartmet-engine-gis
         - test-smartmet-library-gis
+        - test-smartmet-library-macgyver
         - test-smartmet-library-regression
         - test-smartmet-library-spine
         - test-smartmet-test-db
@@ -964,6 +967,7 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
         - test-smartmet-server
+        - test-smartmet-utils
     - test-smartmet-frontier:
        requires:
         - build-smartmet-frontier
