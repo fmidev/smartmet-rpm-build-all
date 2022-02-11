@@ -1,4 +1,4 @@
-#timestamp Thu Feb 10 03:11:40 EET 2022
+#timestamp Fri Feb 11 03:11:47 EET 2022
 version: 2.1
 
 executors:
@@ -596,6 +596,7 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-spine
+        - test-smartmet-utils
     - build-smartmet-engine-grid:
        requires:
         - preprep
@@ -959,6 +960,7 @@ workflows:
         - test-smartmet-library-regression
         - test-smartmet-library-spine
         - test-smartmet-test-db
+        - test-smartmet-utils
     - test-smartmet-engine-observation:
        requires:
         - build-smartmet-engine-observation
