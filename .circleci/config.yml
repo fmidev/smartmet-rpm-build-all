@@ -1,4 +1,4 @@
-#timestamp Thu Mar 10 03:11:42 EET 2022
+#timestamp Thu Mar 10 18:06:27 EET 2022
 version: 2.1
 
 executors:
@@ -728,7 +728,6 @@ workflows:
        requires:
         - preprep
         - test-smartmet-library-regression
-        - test-smartmet-timezones
         - test-smartmet-utils
     - build-smartmet-library-trajectory:
        requires:
@@ -1081,7 +1080,6 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-regression
-        - test-smartmet-timezones
         - test-smartmet-utils
     - test-smartmet-library-tron:
        requires:
