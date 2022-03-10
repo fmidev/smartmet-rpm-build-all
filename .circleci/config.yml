@@ -1,4 +1,4 @@
-#timestamp Thu Mar 10 19:46:50 EET 2022
+#timestamp Thu Mar 10 20:45:16 EET 2022
 version: 2.1
 
 executors:
@@ -803,6 +803,7 @@ workflows:
         - build-smartmet-library-grid-files
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
+        - test-smartmet-library-timeseries
     - build-smartmet-plugin-grid-admin:
        requires:
         - preprep
@@ -863,6 +864,7 @@ workflows:
         - test-smartmet-library-macgyver
         - build-smartmet-library-smarttools
         - test-smartmet-library-spine
+        - test-smartmet-library-timeseries
         - build-smartmet-library-trajectory
     - build-smartmet-plugin-wfs:
        requires:
