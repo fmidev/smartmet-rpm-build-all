@@ -1,4 +1,4 @@
-#timestamp Thu Mar 10 18:06:27 EET 2022
+#timestamp Thu Mar 10 18:56:17 EET 2022
 version: 2.1
 
 executors:
@@ -727,6 +727,7 @@ workflows:
     - build-smartmet-library-timeseries:
        requires:
         - preprep
+        - test-smartmet-library-macgyver
         - test-smartmet-library-regression
         - test-smartmet-utils
     - build-smartmet-library-trajectory:
