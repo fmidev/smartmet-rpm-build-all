@@ -1,4 +1,4 @@
-#timestamp Wed Mar 16 09:20:56 EET 2022
+#timestamp Wed Mar 16 11:05:43 EET 2022
 version: 2.1
 
 executors:
@@ -759,6 +759,7 @@ workflows:
         - build-smartmet-engine-sputnik
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
+        - test-smartmet-library-timeseries
     - build-smartmet-plugin-autocomplete:
        requires:
         - preprep
@@ -1146,6 +1147,7 @@ workflows:
         - build-smartmet-engine-querydata
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
+        - test-smartmet-library-timeseries
         - test-smartmet-server
         - test-smartmet-test-db
         - test-smartmet-utils
