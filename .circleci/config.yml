@@ -1,4 +1,4 @@
-#timestamp Wed Mar 16 08:22:05 EET 2022
+#timestamp Wed Mar 16 09:20:56 EET 2022
 version: 2.1
 
 executors:
@@ -969,6 +969,7 @@ workflows:
         - test-smartmet-library-newbase
         - test-smartmet-library-regression
         - test-smartmet-library-spine
+        - test-smartmet-library-timeseries
         - test-smartmet-library-tron
     - test-smartmet-engine-geonames:
        requires:
