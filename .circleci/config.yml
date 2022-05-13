@@ -1,4 +1,4 @@
-#timestamp Thu May 12 04:11:33 EEST 2022
+#timestamp Fri May 13 04:11:34 EEST 2022
 version: 2.1
 
 executors:
@@ -678,6 +678,7 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-spine
+        - test-smartmet-library-trax
         - test-smartmet-library-tron
     - build-smartmet-library-imagine:
        requires:
