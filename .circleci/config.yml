@@ -1,4 +1,4 @@
-#timestamp Thu May 19 04:11:40 EEST 2022
+#timestamp Fri May 20 04:11:36 EEST 2022
 version: 2.1
 
 executors:
@@ -1139,6 +1139,7 @@ workflows:
         - build-smartmet-engine-grid
         - build-smartmet-engine-querydata
         - test-smartmet-library-macgyver
+        - test-smartmet-library-newbase
         - test-smartmet-library-spine
         - test-smartmet-library-timeseries
         - test-smartmet-server
