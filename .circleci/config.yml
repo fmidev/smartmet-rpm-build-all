@@ -1,4 +1,4 @@
-#timestamp Wed Aug  3 04:11:41 EEST 2022
+#timestamp Wed Aug  3 13:44:43 EEST 2022
 version: 2.1
 
 executors:
@@ -263,11 +263,6 @@ jobs:
     steps:
      - build-default:
         module: smartmet-plugin-cross_section
-  build-smartmet-plugin-download:
-    executor: fmi-executor
-    steps:
-     - build-default:
-        module: smartmet-plugin-download
   build-smartmet-plugin-frontend:
     executor: fmi-executor
     steps:
@@ -323,11 +318,6 @@ jobs:
     steps:
      - build-default:
         module: smartmet-qdcontour2
-  build-smartmet-qdtools:
-    executor: fmi-executor
-    steps:
-     - build-default:
-        module: smartmet-qdtools
   build-smartmet-server:
     executor: fmi-executor
     steps:
@@ -452,10 +442,6 @@ jobs:
     executor: fmi-executor
     steps:
      - test-default
-  test-smartmet-plugin-download:
-    executor: fmi-executor
-    steps:
-     - test-default
   test-smartmet-plugin-meta:
     executor: fmi-executor
     steps:
@@ -481,10 +467,6 @@ jobs:
     steps:
      - test-default
   test-smartmet-qdcontour2:
-    executor: fmi-executor
-    steps:
-     - test-default
-  test-smartmet-qdtools:
     executor: fmi-executor
     steps:
      - test-default
@@ -799,18 +781,6 @@ workflows:
         - test-smartmet-library-spine
         - test-smartmet-library-timeseries
         - test-smartmet-library-trax
-    - build-smartmet-plugin-download:
-       requires:
-        - preprep
-        - test-smartmet-engine-geonames
-        - build-smartmet-engine-grid
-        - build-smartmet-engine-querydata
-        - build-smartmet-library-grid-content
-        - build-smartmet-library-grid-files
-        - test-smartmet-library-macgyver
-        - test-smartmet-library-newbase
-        - test-smartmet-library-spine
-        - test-smartmet-library-timeseries
     - build-smartmet-plugin-frontend:
        requires:
         - preprep
@@ -933,16 +903,6 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-tron
-    - build-smartmet-qdtools:
-       requires:
-        - preprep
-        - test-smartmet-library-calculator
-        - test-smartmet-library-gis
-        - test-smartmet-library-imagine
-        - test-smartmet-library-macgyver
-        - test-smartmet-library-newbase
-        - build-smartmet-library-smarttools
-        - test-smartmet-timezones
     - build-smartmet-server:
        requires:
         - preprep
@@ -1147,20 +1107,6 @@ workflows:
         - test-smartmet-server
         - test-smartmet-test-db
         - test-smartmet-utils
-    - test-smartmet-plugin-download:
-       requires:
-        - build-smartmet-plugin-download
-        - test-smartmet-engine-geonames
-        - build-smartmet-engine-grid
-        - build-smartmet-engine-querydata
-        - test-smartmet-library-macgyver
-        - test-smartmet-library-newbase
-        - test-smartmet-library-spine
-        - test-smartmet-library-timeseries
-        - test-smartmet-qdtools
-        - test-smartmet-server
-        - test-smartmet-test-db
-        - test-smartmet-utils
     - test-smartmet-plugin-meta:
        requires:
         - build-smartmet-plugin-meta
@@ -1261,16 +1207,6 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-tron
-    - test-smartmet-qdtools:
-       requires:
-        - build-smartmet-qdtools
-        - test-smartmet-library-calculator
-        - test-smartmet-library-gis
-        - test-smartmet-library-imagine
-        - test-smartmet-library-macgyver
-        - test-smartmet-library-newbase
-        - build-smartmet-library-smarttools
-        - test-smartmet-timezones
     - test-smartmet-server:
        requires:
         - build-smartmet-server
@@ -1319,7 +1255,6 @@ workflows:
         - build-smartmet-plugin-autocomplete
         - build-smartmet-plugin-backend
         - build-smartmet-plugin-cross_section
-        - build-smartmet-plugin-download
         - build-smartmet-plugin-frontend
         - build-smartmet-plugin-grid-admin
         - build-smartmet-plugin-grid-gui
@@ -1331,7 +1266,6 @@ workflows:
         - build-smartmet-plugin-wms
         - build-smartmet-qdcontour
         - build-smartmet-qdcontour2
-        - build-smartmet-qdtools
         - build-smartmet-server
         - build-smartmet-shapetools
         - build-smartmet-test-db
@@ -1361,7 +1295,6 @@ workflows:
         - test-smartmet-library-woml
         - test-smartmet-plugin-autocomplete
         - test-smartmet-plugin-cross_section
-        - test-smartmet-plugin-download
         - test-smartmet-plugin-meta
         - test-smartmet-plugin-textgen
         - test-smartmet-plugin-timeseries
@@ -1369,7 +1302,6 @@ workflows:
         - test-smartmet-plugin-wms
         - test-smartmet-qdcontour
         - test-smartmet-qdcontour2
-        - test-smartmet-qdtools
         - test-smartmet-server
         - test-smartmet-test-db
         - test-smartmet-timezones
