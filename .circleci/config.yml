@@ -1,4 +1,4 @@
-#timestamp Thu Aug  4 08:43:03 EEST 2022
+#timestamp Thu Aug  4 08:45:36 EEST 2022
 version: 2.1
 
 executors:
@@ -8,7 +8,7 @@ executors:
   resource_class: xlarge
   environment:
      RPM_BUILD_NCPUS: 8
-     CXX=clang++
+     CXX: clang++
 
 commands:
  build-default:

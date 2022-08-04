@@ -8,7 +8,7 @@ executors:
   resource_class: xlarge
   environment:
      RPM_BUILD_NCPUS: 8
-     CXX=clang++
+     CXX: clang++
 
 commands:
  build-default:
