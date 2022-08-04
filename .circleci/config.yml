@@ -1,13 +1,14 @@
-#timestamp Wed Aug  3 13:44:43 EEST 2022
+#timestamp Thu Aug  4 08:43:03 EEST 2022
 version: 2.1
 
 executors:
  fmi-executor:
   docker:
-   - image: fmidev/smartmet-cibase-7:latest
+   - image: fmidev/smartmet-cibase-9:latest
   resource_class: xlarge
   environment:
      RPM_BUILD_NCPUS: 8
+     CXX=clang++
 
 commands:
  build-default:
@@ -554,7 +555,7 @@ workflows:
   scheduled:
    triggers:
     - schedule:
-       cron: "10 1 * * *"
+       cron: "10 23 * * *"
        filters:
         branches:
          only:
@@ -562,6 +563,7 @@ workflows:
          # You can always add your branch here, if you branch this repository
           - master
           - devel
+          - RHEL9
    jobs:
     - rebuild_config
   on-commit:
