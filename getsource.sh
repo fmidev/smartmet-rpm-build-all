@@ -37,7 +37,17 @@ echo "Checking out $repo"
 # THIS DOES NOT WORK, SINCE 'build' may have been created. Hence we try only the requested branch for now:
 #
 # git clone -b "$CIRCLE_BRANCH" "$repo" build || git clone -b devel "$repo" build || git clone -b master "$repo" build
-git clone -b "$CIRCLE_BRANCH" "$repo" build
+
+case $CIRCLE_BRANCH in
+    RHEL9)
+        smartmet_branch=master;
+        ;;
+    *)
+        smartmet_branch=$CIRCLE_BRANCH;
+        ;;
+esac
+
+git clone -b "$smartmet_branch" "$repo" build
 
 cd build
 echo Checked out branch "`git branch --no-color | cut -f 2 -d ' '`"
