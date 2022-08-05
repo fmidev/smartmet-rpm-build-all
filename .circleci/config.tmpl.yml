@@ -176,7 +176,7 @@ jobs:
           git config --global --get user.email || git config --global user.email "noreply-smartmet-autobuilder@fmi.fi"
           git config --global --get user.name || git config --global user.name "Smartmet server CI config autobuilder"
           git commit -m "Config rebuild on `date`" .circleci/config.yml
-          git push
+          git push origin ${CIRCLE_BRANCH}
 
 workflows:
   version: 2.1
