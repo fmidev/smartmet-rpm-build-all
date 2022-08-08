@@ -1,4 +1,4 @@
-#timestamp Mon Aug  8 02:11:27 EEST 2022
+#timestamp Mon Aug  8 09:44:15 EEST 2022
 version: 2.1
 
 executors:
@@ -8,7 +8,7 @@ executors:
   resource_class: xlarge
   environment:
      RPM_BUILD_NCPUS: 8
-     CXX: clang++
+     _CXX_: clang++
 
 commands:
  build-default:
@@ -534,7 +534,7 @@ jobs:
      - checkout
      - add_ssh_keys:
          fingerprints:
-          - "SHA256:Fi/Kn2XEO65HE+LE4p09TZw3rnWkHtMiRkYovG1O1LA"
+          - "SHA256:kdyRbs108fhHSDlxfUcXv1KZ/ecvQpuDGxBNfYJ0fLI"
      - run:
         name: Rebuild CirleCI configuration
         command: |
