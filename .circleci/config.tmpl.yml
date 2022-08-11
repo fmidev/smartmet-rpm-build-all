@@ -130,13 +130,13 @@ jobs:
           sudo yum install -y perl-Data-Dumper || true
           make check
      - run:
-        name: Download RPMs not built on Circle-CI to local repo
+        name: Create tar archive from built RPM files
         command:
-          yumdownloader smartmet-test-data && sudo mv *.rpm /dist
+          ( cd /dist && tar cf packages.tar *.rpm )
      - persist_to_workspace:
           root: /dist
           paths:
-            - ./*.rpm
+            - ./*.tar
 
 #end
 #template post
