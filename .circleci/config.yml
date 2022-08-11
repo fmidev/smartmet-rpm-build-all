@@ -1,4 +1,4 @@
-#timestamp Thu Aug 11 12:40:29 EEST 2022
+#timestamp Thu Aug 11 14:15:48 EEST 2022
 version: 2.1
 
 executors:
@@ -8,12 +8,11 @@ executors:
   resource_class: xlarge
   environment:
      RPM_BUILD_NCPUS: 8
-     _CXX_: clang++
 
 commands:
  build-default:
   description: Build and save artifacts for other steps
-  parameters: 
+  parameters:
    module:
     type: string
   steps:
