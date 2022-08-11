@@ -4,7 +4,7 @@ version: 2.1
 executors:
  fmi-executor:
   docker:
-   - image: fmidev/smartmet-cibase-9:latest
+   - image: fmidev/smartmet-cibase-8:latest
   resource_class: xlarge
   environment:
      RPM_BUILD_NCPUS: 8
@@ -189,9 +189,7 @@ workflows:
          only:
          # You could leave the branch list empty but building for master and devel for now
          # You can always add your branch here, if you branch this repository
-          - master
-          - devel
-          - RHEL9
+          - RHEL8
    jobs:
     - rebuild_config
   on-commit:
