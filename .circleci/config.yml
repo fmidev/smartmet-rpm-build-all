@@ -1,4 +1,4 @@
-#timestamp Thu Aug 11 12:29:35 EEST 2022
+#timestamp Thu Aug 11 12:40:29 EEST 2022
 version: 2.1
 
 executors:
@@ -502,13 +502,13 @@ jobs:
           sudo yum install -y perl-Data-Dumper || true
           make check
      - run:
-        name: Create tar archive from built RPM files
+        name: Download RPMs not built on Circle-CI to local repo
         command:
-          ( cd /dist && tar cf packages.tar *.rpm )
+          yumdownloader smartmet-test-data && sudo mv *.rpm /dist
      - persist_to_workspace:
           root: /dist
           paths:
-            - ./*.tar
+            - ./*.rpm
 
 #end
 #template post
@@ -524,8 +524,10 @@ jobs:
         command: |
           rm -f /dist/*.lst
           createrepo_c /dist
+          ( cd / && tar cf dist/dist.tar dist dist/*.rpm dist/repodata )
      - store_artifacts:
-        path: /dist
+        path: /dist/dist.tar
+
 #end
 # This is only triggered by the scheduled workflow
   rebuild_config:
