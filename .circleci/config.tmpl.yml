@@ -188,9 +188,10 @@ workflows:
        filters:
         branches:
          only:
-         # You could leave the branch list empty but try to disable autobuild for master branch
+         # You could leave the branch list empty but building for master and devel for now
          # You can always add your branch here, if you branch this repository
-          - __none__
+          - master
+          - devel
    jobs:
     - rebuild_config
   on-commit:
