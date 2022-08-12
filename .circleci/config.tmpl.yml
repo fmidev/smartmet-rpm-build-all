@@ -162,7 +162,7 @@ jobs:
      - checkout
      - add_ssh_keys:
          fingerprints:
-          - "SHA256:kdyRbs108fhHSDlxfUcXv1KZ/ecvQpuDGxBNfYJ0fLI"
+          - "SHA256:bTeRQTZSd3Q70hVjN1aYY3MQHO8VqcfIWBi9x9ojeVY"
      - run:
         name: Rebuild CirleCI configuration
         command: |
