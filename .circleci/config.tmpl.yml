@@ -189,8 +189,6 @@ workflows:
          only:
          # You could leave the branch list empty but building for master and devel for now
          # You can always add your branch here, if you branch this repository
-          - master
-          - devel
           - RHEL9
    jobs:
     - rebuild_config
