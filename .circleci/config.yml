@@ -1,4 +1,4 @@
-#timestamp Mon Aug  8 04:11:31 EEST 2022
+#timestamp Fri Aug 12 09:04:25 EEST 2022
 version: 2.1
 
 executors:
@@ -523,8 +523,10 @@ jobs:
         command: |
           rm -f /dist/*.lst
           createrepo_c /dist
+          ( cd / && tar cf dist/dist.tar dist dist/*.rpm dist/repodata )
      - store_artifacts:
-        path: /dist
+        path: /dist/dist.tar
+
 #end
 # This is only triggered by the scheduled workflow
   rebuild_config:
@@ -533,7 +535,7 @@ jobs:
      - checkout
      - add_ssh_keys:
          fingerprints:
-          - "SHA256:Fi/Kn2XEO65HE+LE4p09TZw3rnWkHtMiRkYovG1O1LA"
+          - "SHA256:bTeRQTZSd3Q70hVjN1aYY3MQHO8VqcfIWBi9x9ojeVY"
      - run:
         name: Rebuild CirleCI configuration
         command: |
@@ -554,14 +556,13 @@ workflows:
   scheduled:
    triggers:
     - schedule:
-       cron: "10 1 * * *"
+       cron: "10 1 * * 2,3,4,5,6"
        filters:
         branches:
          only:
-         # You could leave the branch list empty but building for master and devel for now
+         # You could leave the branch list empty but try to disable autobuild for master branch
          # You can always add your branch here, if you branch this repository
-          - master
-          - devel
+          - RHEL7
    jobs:
     - rebuild_config
   on-commit:
