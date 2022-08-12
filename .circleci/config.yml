@@ -1,4 +1,4 @@
-#timestamp Fri Aug 12 02:11:22 EEST 2022
+#timestamp Fri Aug 12 09:47:15 EEST 2022
 version: 2.1
 
 executors:
@@ -534,7 +534,7 @@ jobs:
      - checkout
      - add_ssh_keys:
          fingerprints:
-          - "SHA256:kdyRbs108fhHSDlxfUcXv1KZ/ecvQpuDGxBNfYJ0fLI"
+          - "SHA256:bTeRQTZSd3Q70hVjN1aYY3MQHO8VqcfIWBi9x9ojeVY"
      - run:
         name: Rebuild CirleCI configuration
         command: |
@@ -555,14 +555,12 @@ workflows:
   scheduled:
    triggers:
     - schedule:
-       cron: "10 23 * * *"
+       cron: "0 7 * * *"
        filters:
         branches:
          only:
          # You could leave the branch list empty but building for master and devel for now
          # You can always add your branch here, if you branch this repository
-          - master
-          - devel
           - RHEL9
    jobs:
     - rebuild_config
