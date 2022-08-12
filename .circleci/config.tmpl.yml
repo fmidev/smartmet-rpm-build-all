@@ -190,7 +190,7 @@ workflows:
          only:
          # You could leave the branch list empty but try to disable autobuild for master branch
          # You can always add your branch here, if you branch this repository
-          - __none__
+          - RHEL7
    jobs:
     - rebuild_config
   on-commit:
