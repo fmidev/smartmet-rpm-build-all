@@ -122,16 +122,11 @@ jobs:
     steps:
      - checkout
      - run:
-        name: Check that config.yml is current
-        command: |
-          circleci version || ( curl -fLSs https://circle.ci/cli | sudo bash )
-          make -v >/dev/null 2>&1 || sudo yum install -y make
-          sudo yum install -y perl-Data-Dumper || true
-          make check
-     - run:
         name: Download RPMs not built on Circle-CI to local repo
-        command:
-          yumdownloader smartmet-test-data && sudo mv *.rpm /dist
+        command: |
+          yumdownloader smartmet-test-data
+          yumdownloader smartmet-qdtools-test-data
+          sudo mv *.rpm /dist
      - persist_to_workspace:
           root: /dist
           paths:
@@ -154,46 +149,11 @@ jobs:
           ( cd / && tar cf dist/dist.tar dist dist/*.rpm dist/repodata )
      - store_artifacts:
         path: /dist/dist.tar
-
 #end
-# This is only triggered by the scheduled workflow
-  rebuild_config:
-    executor: fmi-executor
-    steps:
-     - checkout
-     - add_ssh_keys:
-         fingerprints:
-          - "SHA256:bTeRQTZSd3Q70hVjN1aYY3MQHO8VqcfIWBi9x9ojeVY"
-     - run:
-        name: Rebuild CirleCI configuration
-        command: |
-          circleci version || ( curl -fLSs https://circle.ci/cli | sudo bash )
-          make -v >/dev/null 2>&1 || sudo yum install -y make
-          sudo yum install -y perl-Data-Dumper || true
-          make force
-     - run:
-        name: Commit changed config.yml to trigger full build
-        command: |
-          git config --global --get user.email || git config --global user.email "noreply-smartmet-autobuilder@fmi.fi"
-          git config --global --get user.name || git config --global user.name "Smartmet server CI config autobuilder"
-          git commit -m "Config rebuild on `date`" .circleci/config.yml
-          git push origin ${CIRCLE_BRANCH}
 
 workflows:
   version: 2.1
-  scheduled:
-   triggers:
-    - schedule:
-       cron: "10 0 * * 2,3,4,5,6"
-       filters:
-        branches:
-         only:
-         # You could leave the branch list empty but building for master and devel for now
-         # You can always add your branch here, if you branch this repository
-          - RHEL8
-   jobs:
-    - rebuild_config
-  on-commit:
+  always-run:
    jobs:
 # Dependency tree will be completely rebuilt by config-rebuilder
 # Template still needed for indentation lookup and placement
