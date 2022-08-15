@@ -116,6 +116,24 @@ jobs:
     steps:
      - test-default
 #end
+#template pre
+# This job runs before we build anything
+  preprep:
+    executor: fmi-executor
+    steps:
+     - checkout
+     - run:
+        name: Download RPMs not built on Circle-CI to local repo
+        command: |
+          yumdownloader smartmet-test-data
+          yumdownloader smartmet-qdtools-test-data
+          sudo mv *.rpm /dist
+     - persist_to_workspace:
+          root: /dist
+          paths:
+            - ./*.rpm
+
+#end
 #template post
 # This job runs after everything is built and tested
   archive:
