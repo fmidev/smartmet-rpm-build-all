@@ -116,8 +116,6 @@ jobs:
     steps:
      - test-default
 #end
-#template pre
-#end
 #template post
 # This job runs after everything is built and tested
   archive:
