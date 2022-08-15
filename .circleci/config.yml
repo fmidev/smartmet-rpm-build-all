@@ -19,7 +19,7 @@ jobs:
               perl ci-config-rebuild.pl < .circleci/config.tmpl.yml > .circleci/build-all.yml
 
       - continuation/continue:
-          configuration_path: build-all.yml # use newly generated config to continue
+          configuration_path: .circleci/build-all.yml # use newly generated config to continue
 
 # our single workflow, that triggers the setup job defined above
 workflows:
