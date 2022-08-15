@@ -13,7 +13,7 @@ executors:
 commands:
  build-default:
   description: Build and save artifacts for other steps
-  parameters: 
+  parameters:
    module:
     type: string
   steps:
@@ -117,27 +117,6 @@ jobs:
      - test-default
 #end
 #template pre
-# This job runs before we build anything
-  preprep:
-    executor: fmi-executor
-    steps:
-     - checkout
-     - run:
-        name: Check that config.yml is current
-        command: |
-          circleci version || ( curl -fLSs https://circle.ci/cli | sudo bash )
-          make -v >/dev/null 2>&1 || sudo yum install -y make
-          sudo yum install -y perl-Data-Dumper || true
-          make check
-     - run:
-        name: Download RPMs not built on Circle-CI to local repo
-        command:
-          yumdownloader smartmet-test-data && sudo mv *.rpm /dist
-     - persist_to_workspace:
-          root: /dist
-          paths:
-            - ./*.rpm
-
 #end
 #template post
 # This job runs after everything is built and tested
@@ -156,43 +135,9 @@ jobs:
         path: /dist
 #end
 # This is only triggered by the scheduled workflow
-  rebuild_config:
-    executor: fmi-executor
-    steps:
-     - checkout
-     - add_ssh_keys:
-         fingerprints:
-          - "SHA256:bTeRQTZSd3Q70hVjN1aYY3MQHO8VqcfIWBi9x9ojeVY"
-     - run:
-        name: Rebuild CirleCI configuration
-        command: |
-          circleci version || ( curl -fLSs https://circle.ci/cli | sudo bash )
-          make -v >/dev/null 2>&1 || sudo yum install -y make
-          sudo yum install -y perl-Data-Dumper || true
-          make force
-     - run:
-        name: Commit changed config.yml to trigger full build
-        command: |
-          git config --global --get user.email || git config --global user.email "noreply-smartmet-autobuilder@fmi.fi"
-          git config --global --get user.name || git config --global user.name "Smartmet server CI config autobuilder"
-          git commit -m "Config rebuild on `date`" .circleci/config.yml
-          git push origin ${CIRCLE_BRANCH}
-
 workflows:
   version: 2.1
-  scheduled:
-   triggers:
-    - schedule:
-       cron: "10 23 * * 2,3,4,5,6"
-       filters:
-        branches:
-         only:
-         # You could leave the branch list empty but building for master and devel for now
-         # You can always add your branch here, if you branch this repository
-          - RHEL9
-   jobs:
-    - rebuild_config
-  on-commit:
+  always-run:
    jobs:
 # Dependency tree will be completely rebuilt by config-rebuilder
 # Template still needed for indentation lookup and placement
