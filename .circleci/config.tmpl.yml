@@ -181,21 +181,13 @@ jobs:
 
 workflows:
   version: 2.1
-#  scheduled:
-#   triggers:
-#    - schedule:
-#       cron: "12 7 * * 2,3,4,5,6"
-#       filters:
-#        branches:
-#         only:
-#         # You could leave the branch list empty but building for master and devel for now
-#         # You can always add your branch here, if you branch this repository
-#          - master
-#          - devel
-#   jobs:
-#    - rebuild_config
+  scheduled:
+    when: << pipeline.parameters.perform_build>>
+    jobs:
+      - rebuild_config
   on-commit:
-   jobs:
+    when: << pipeline.parameters.perform_build >>
+    jobs:
 # Dependency tree will be completely rebuilt by config-rebuilder
 # Template still needed for indentation lookup and placement
 #template deptree
