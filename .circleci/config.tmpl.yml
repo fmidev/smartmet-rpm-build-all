@@ -1,6 +1,11 @@
 #timestamp This will be replaced with a date and time this file was regenerated
 version: 2.1
 
+parameters:
+ perform_build:
+  type: boolean
+  default: false
+
 executors:
  fmi-executor:
   docker:

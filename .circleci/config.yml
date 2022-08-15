@@ -1,5 +1,10 @@
-#timestamp Mon Aug 15 08:56:53 EEST 2022
+#timestamp Mon Aug 15 09:11:00 EEST 2022
 version: 2.1
+
+parameters:
+ perform_build:
+  type: boolean
+  default: false
 
 executors:
  fmi-executor:
