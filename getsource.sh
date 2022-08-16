@@ -39,7 +39,7 @@ echo "Checking out $repo"
 # git clone -b "$CIRCLE_BRANCH" "$repo" build || git clone -b devel "$repo" build || git clone -b master "$repo" build
 
 case $CIRCLE_BRANCH in
-    RHEL9)
+    RHEL7|RHEL8|RHEL9)
         smartmet_branch=master;
         ;;
     *)

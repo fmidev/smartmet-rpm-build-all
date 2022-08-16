@@ -147,13 +147,14 @@ jobs:
         command: |
           rm -f /dist/*.lst
           createrepo_c /dist
+          ( cd / && tar cf dist/dist.tar dist dist/*.rpm dist/repodata )
      - store_artifacts:
-        path: /dist
+        path: /dist/dist.tar
 #end
-# This is only triggered by the scheduled workflow
+
 workflows:
   version: 2.1
-  always-run:
+  build-all:
    jobs:
 # Dependency tree will be completely rebuilt by config-rebuilder
 # Template still needed for indentation lookup and placement
