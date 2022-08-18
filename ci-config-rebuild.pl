@@ -13,6 +13,7 @@ $::specdir = "/tmp/specs";
 # Names to ignore (part of other packages or not being built on Circle-CI for any reason)
 my %ignore = (
     "smartmet-test-data" => 1,
+    "smartmet-qdtools-test-data" => 1,
     "smartmet-engine-grid-test" => 1,
     "smartmet-SFCGAL-libs" => 1,
     "smartmet-library-spine-plugin-test" => 1,
