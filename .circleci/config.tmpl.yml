@@ -135,7 +135,7 @@ jobs:
 
 workflows:
   version: 2.1
-  always-run:
+  build-all:
    jobs:
 # Dependency tree will be completely rebuilt by config-rebuilder
 # Template still needed for indentation lookup and placement
