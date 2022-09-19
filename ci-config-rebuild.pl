@@ -30,6 +30,7 @@ $::default_branch = "master";
     "smartmet-plugin-backend"               => {},
     "smartmet-plugin-cross_section"         => {},
     "smartmet-plugin-download"              => {},
+    "smartmet-plugin-edr"                   => {},
     "smartmet-plugin-frontend"              => {},
     "smartmet-plugin-grid-admin"            => {},
     "smartmet-plugin-grid-gui"              => {},
