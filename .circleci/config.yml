@@ -4,6 +4,9 @@ version: 2.1
 setup: true
 
 # the continuation orb is required in order to use dynamic configuration
+#
+# Documentation: https://circleci.com/developer/orbs/orb/circleci/continuation
+#
 orbs:
   continuation: circleci/continuation@0.3.1
 
