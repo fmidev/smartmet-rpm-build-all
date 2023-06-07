@@ -17,8 +17,10 @@ commands:
     type: string
   steps:
    - run:
-      name: Disable smartmet packages coming from FMI repo
-      command: sudo yum-config-manager --quiet --disable smartmet-open --disable smartmet-open-beta
+      name: Disable smartmet packages coming from FMI repo and configure package excludes
+      command: |
+        sudo yum-config-manager --quiet --disable smartmet-open --disable smartmet-open-beta
+        sudo sed -i -e '/^\[epel\]/a exclude eccodes*' /etc/yum.repos.d/epel.repo
    - checkout
    - attach_workspace:
       at: /dist
