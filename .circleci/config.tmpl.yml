@@ -20,8 +20,8 @@ commands:
       name: Disable smartmet packages coming from FMI repo and configure package excludes
       command: |
         sudo yum-config-manager --quiet --disable smartmet-open --disable smartmet-open-beta
-        test -f /etc/yum.repos.d/epel.repo && sudo sed -i -e '/^\[epel\]/a exclude eccodes*' /etc/yum.repos.d/epel.repo
-        test -f /etc/yum.repos.d/epel-modular.repo && sudo sed -i -e '/^\[epel-modular\]/a exclude eccodes*' /etc/yum.repos.d/epel-modular.repo
+        test -f /etc/yum.repos.d/epel.repo && sudo sed -i -e '/^\[epel\]/a exclude=eccodes*' /etc/yum.repos.d/epel.repo
+        test -f /etc/yum.repos.d/epel-modular.repo && sudo sed -i -e '/^\[epel-modular\]/a exclude=eccodes*' /etc/yum.repos.d/epel-modular.repo
    - checkout
    - attach_workspace:
       at: /dist
@@ -65,8 +65,8 @@ commands:
       name: Disable smartmet packages coming from FMI repo and configure package excludes
       command: |
         sudo yum-config-manager --quiet --disable smartmet-open --disable smartmet-open-beta
-        test -f /etc/yum.repos.d/epel.repo && sudo sed -i -e '/^\[epel\]/a exclude eccodes*' /etc/yum.repos.d/epel.repo
-        test -f /etc/yum.repos.d/epel-modular.repo && sudo sed -i -e '/^\[epel-modular\]/a exclude eccodes*' /etc/yum.repos.d/epel-modular.repo
+        test -f /etc/yum.repos.d/epel.repo && sudo sed -i -e '/^\[epel\]/a exclude=eccodes*' /etc/yum.repos.d/epel.repo
+        test -f /etc/yum.repos.d/epel-modular.repo && sudo sed -i -e '/^\[epel-modular\]/a exclude=eccodes*' /etc/yum.repos.d/epel-modular.repo
    - checkout
    - attach_workspace:
       at: /dist
