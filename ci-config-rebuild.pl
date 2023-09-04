@@ -27,10 +27,11 @@ $::default_branch = "master";
 %::modules = (
     "smartmet-plugin-admin"                 => { "branch" => "", "spec" => ""},
     "smartmet-plugin-autocomplete"          => {},
+    "smartmet-plugin-avi"                   => {},
     "smartmet-plugin-backend"               => {},
     "smartmet-plugin-cross_section"         => {},
     "smartmet-plugin-download"              => {},
-#    "smartmet-plugin-edr"                   => {},
+    "smartmet-plugin-edr"                   => {},
     "smartmet-plugin-frontend"              => {},
     "smartmet-plugin-grid-admin"            => {},
     "smartmet-plugin-grid-gui"              => {},
