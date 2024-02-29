@@ -43,6 +43,7 @@ $::default_branch = "master";
     "smartmet-shapetools"                   => {},
     "smartmet-frontier"                     => {},
     "smartmet-tools-grid"                   => {},
+    "smartmet-cropper"                      => {},
     );
 
 # https://raw.githubusercontent.com/fmidev/smartmet-library-grid-files/master/smartmet-library-grid-files.spec
