@@ -9,6 +9,7 @@ executors:
   environment:
      RPM_BUILD_NCPUS: 8
      _CXX_: clang++
+     CXX_STD : c++20
 
 commands:
  build-default:
