@@ -19,7 +19,8 @@ my %ignore = (
     "smartmet-SFCGAL-libs" => 1,
     "smartmet-library-spine-plugin-test" => 1,
     "smartmet-trajectory-formats" => 1,
-    "smartmet-trajectory" => 1
+    "smartmet-trajectory" => 1,
+    "smartmet-library-newbase-python" => 1
     );
 
 $::default_branch = "master";
