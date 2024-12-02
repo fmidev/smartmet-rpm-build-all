@@ -41,6 +41,7 @@ $::default_branch = "master";
     "smartmet-qdcontour2"                   => {},
     "smartmet-qdtools"                      => {},
     "smartmet-shapetools"                   => {},
+    "smartmet-press"                     => {},
     "smartmet-frontier"                     => {},
     "smartmet-tools-grid"                   => {},
     "smartmet-cropper"                      => {},
