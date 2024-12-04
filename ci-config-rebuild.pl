@@ -26,7 +26,6 @@ my %ignore = (
 $::default_branch = "master";
 
 %::modules = (
-    "smartmet-plugin-admin"                 => { "branch" => "", "spec" => ""},
     "smartmet-plugin-autocomplete"          => {},
     "smartmet-plugin-avi"                   => {},
     "smartmet-plugin-backend"               => {},
@@ -47,6 +46,7 @@ $::default_branch = "master";
     "smartmet-qdtools"                      => {},
     "smartmet-shapetools"                   => {},
     "smartmet-frontier"                     => {},
+    "smartmet-press"                        => {},
     "smartmet-tools-grid"                   => {},
     );
 
