@@ -8,9 +8,6 @@ executors:
   resource_class: xlarge
   environment:
      RPM_BUILD_NCPUS: 8
-     # Default -march=x86-64-v3 for RHEL 10 and RockyLinux 10 causes problems with rounding
-     # in some places, so we use -march=x86-64 instead
-     OPTIMIZE: "-O2 -march=x86-64"
 
 commands:
  build-default:
