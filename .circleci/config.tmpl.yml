@@ -98,6 +98,8 @@ commands:
         cd /tmp/build
         lst=`basename *.spec .spec`.lst  # RPM list file
         ( cd /dist ; for i in `cat $lst | fgrep -v .src.rpm` ; do sudo yum install -y $i ; done )
+      max_auto_reruns: 3
+      auto_rerun_delay: 10s
    - run:
       name: Test prepare
       command: cd /tmp/build && ci-build testprep
