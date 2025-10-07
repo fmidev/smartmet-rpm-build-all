@@ -50,6 +50,8 @@ commands:
       command: |
         cd /tmp/build
         ci-build deps
+      max_auto_reruns: 3
+      auto_rerun_delay: 10s
    - run:
       name: Build RPM
       command: |
@@ -99,6 +101,8 @@ commands:
    - run:
       name: Test prepare
       command: cd /tmp/build && ci-build testprep
+      max_auto_reruns: 3
+      auto_rerun_delay: 10s
    - run:
       name: Test
       command: cd /tmp/build && ci-build test
