@@ -14,6 +14,7 @@ $::specdir = "/tmp/specs";
 my %ignore = (
     "smartmet-fonts" => 1,
     "smartmet-test-data" => 1,
+    "smartmet-topography-data" => 1,
     "smartmet-qdtools-test-data" => 1,
     "smartmet-engine-grid-test" => 1,
     "smartmet-SFCGAL-libs" => 1,
