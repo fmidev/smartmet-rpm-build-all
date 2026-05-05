@@ -1,4 +1,4 @@
-#timestamp Sat Apr 18 20:28:31 EEST 2026
+#timestamp Tue May  5 22:04:45 EEST 2026
 version: 2.1
 
 parameters:
@@ -118,6 +118,11 @@ jobs:
     steps:
      - build-default:
         module: smartmet-engine-authentication
+  build-smartmet-engine-avi:
+    executor: fmi-executor
+    steps:
+     - build-default:
+        module: smartmet-engine-avi
   build-smartmet-engine-contour:
     executor: fmi-executor
     steps:
@@ -168,6 +173,11 @@ jobs:
     steps:
      - build-default:
         module: smartmet-library-calculator
+  build-smartmet-library-dynlib:
+    executor: fmi-executor
+    steps:
+     - build-default:
+        module: smartmet-library-dynlib
   build-smartmet-library-gis:
     executor: fmi-executor
     steps:
@@ -398,6 +408,10 @@ jobs:
     executor: fmi-executor
     steps:
      - test-default
+  test-smartmet-engine-avi:
+    executor: fmi-executor
+    steps:
+     - test-default
   test-smartmet-engine-contour:
     executor: fmi-executor
     steps:
@@ -423,6 +437,10 @@ jobs:
     steps:
      - test-default
   test-smartmet-library-calculator:
+    executor: fmi-executor
+    steps:
+     - test-default
+  test-smartmet-library-dynlib:
     executor: fmi-executor
     steps:
      - test-default
@@ -642,12 +660,19 @@ workflows:
        requires:
         - preprep
         - test-smartmet-library-spine
+    - build-smartmet-engine-avi:
+       requires:
+        - preprep
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-spine
+        - test-smartmet-library-timeseries
     - build-smartmet-engine-contour:
        requires:
         - preprep
         - test-smartmet-library-gis
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
+        - test-smartmet-library-timeseries
         - test-smartmet-library-trax
     - build-smartmet-engine-geonames:
        requires:
@@ -712,6 +737,11 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-regression
+    - build-smartmet-library-dynlib:
+       requires:
+        - preprep
+        - test-smartmet-library-macgyver
+        - test-smartmet-utils
     - build-smartmet-library-gis:
        requires:
         - preprep
@@ -961,12 +991,14 @@ workflows:
        requires:
         - preprep
         - test-smartmet-engine-authentication
+        - test-smartmet-engine-avi
         - test-smartmet-engine-contour
         - test-smartmet-engine-geonames
         - test-smartmet-engine-gis
         - build-smartmet-engine-grid
         - test-smartmet-engine-observation
         - build-smartmet-engine-querydata
+        - test-smartmet-library-dynlib
         - test-smartmet-library-gis
         - test-smartmet-library-giza
         - build-smartmet-library-grid-content
@@ -1052,6 +1084,14 @@ workflows:
         - test-smartmet-library-spine
         - test-smartmet-server
         - test-smartmet-utils
+    - test-smartmet-engine-avi:
+       requires:
+        - build-smartmet-engine-avi
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-spine
+        - test-smartmet-library-timeseries
+        - test-smartmet-test-db
+        - test-smartmet-utils
     - test-smartmet-engine-contour:
        requires:
         - build-smartmet-engine-contour
@@ -1111,6 +1151,10 @@ workflows:
         - test-smartmet-library-newbase
         - test-smartmet-library-regression
         - test-smartmet-timezones
+    - test-smartmet-library-dynlib:
+       requires:
+        - build-smartmet-library-dynlib
+        - test-smartmet-library-macgyver
     - test-smartmet-library-gis:
        requires:
         - build-smartmet-library-gis
@@ -1218,6 +1262,7 @@ workflows:
         - test-smartmet-engine-geonames
         - build-smartmet-engine-grid
         - build-smartmet-engine-querydata
+        - build-smartmet-library-grid-files
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
         - test-smartmet-library-spine
@@ -1326,6 +1371,7 @@ workflows:
        requires:
         - build-smartmet-plugin-wms
         - test-smartmet-engine-authentication
+        - test-smartmet-engine-avi
         - test-smartmet-engine-contour
         - test-smartmet-engine-geonames
         - test-smartmet-engine-gis
@@ -1333,6 +1379,7 @@ workflows:
         - test-smartmet-engine-observation
         - build-smartmet-engine-querydata
         - test-smartmet-fonts
+        - test-smartmet-library-dynlib
         - test-smartmet-library-gis
         - test-smartmet-library-giza
         - build-smartmet-library-grid-content
@@ -1398,6 +1445,7 @@ workflows:
        requires:
         - build-smartmet-cropper
         - build-smartmet-engine-authentication
+        - build-smartmet-engine-avi
         - build-smartmet-engine-contour
         - build-smartmet-engine-geonames
         - build-smartmet-engine-gis
@@ -1408,6 +1456,7 @@ workflows:
         - build-smartmet-fonts
         - build-smartmet-frontier
         - build-smartmet-library-calculator
+        - build-smartmet-library-dynlib
         - build-smartmet-library-gis
         - build-smartmet-library-giza
         - build-smartmet-library-grid-content
@@ -1454,6 +1503,7 @@ workflows:
         - build-smartmet-utils
         - test-smartmet-cropper
         - test-smartmet-engine-authentication
+        - test-smartmet-engine-avi
         - test-smartmet-engine-contour
         - test-smartmet-engine-geonames
         - test-smartmet-engine-gis
@@ -1461,6 +1511,7 @@ workflows:
         - test-smartmet-fonts
         - test-smartmet-frontier
         - test-smartmet-library-calculator
+        - test-smartmet-library-dynlib
         - test-smartmet-library-gis
         - test-smartmet-library-giza
         - test-smartmet-library-imagine
