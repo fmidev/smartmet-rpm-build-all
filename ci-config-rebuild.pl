@@ -46,8 +46,8 @@ $::default_branch = "master";
     "smartmet-tools-grid"                   => {},
     "smartmet-cropper"                      => {},
     "smartmet-monitor"                      => {},
-    "smartmet-qdless"                       => {},
-    "gdal-querydata-driver"                 => {}
+    "smartmet-qdless"                       => {}
+    # "gdal-querydata-driver"                 => {}
     );
 
 # https://raw.githubusercontent.com/fmidev/smartmet-library-grid-files/master/smartmet-library-grid-files.spec
