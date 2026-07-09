@@ -1,4 +1,4 @@
-#timestamp Mon May 11 16:14:39 EEST 2026
+#timestamp Thu Jul  9 13:43:13 EEST 2026
 version: 2.1
 
 parameters:
@@ -108,11 +108,6 @@ jobs:
 # post: starts a block for jobs which should be run after everything else(i.e. collect artifacts, setup repository)
 # If you need multiple pre/post processing jobs(unlikely, you could just put in more steps), make several templates
 #template build
-  build-gdal-querydata-driver:
-    executor: fmi-executor
-    steps:
-     - build-default:
-        module: gdal-querydata-driver
   build-smartmet-cropper:
     executor: fmi-executor
     steps:
@@ -328,6 +323,11 @@ jobs:
     steps:
      - build-default:
         module: smartmet-plugin-meta
+  build-smartmet-plugin-q3:
+    executor: fmi-executor
+    steps:
+     - build-default:
+        module: smartmet-plugin-q3
   build-smartmet-plugin-textgen:
     executor: fmi-executor
     steps:
@@ -420,10 +420,6 @@ jobs:
         module: smartmet-utils
 #end
 #template test
-  test-gdal-querydata-driver:
-    executor: fmi-executor
-    steps:
-     - test-default
   test-smartmet-cropper:
     executor: fmi-executor
     steps:
@@ -549,6 +545,10 @@ jobs:
     steps:
      - test-default
   test-smartmet-plugin-meta:
+    executor: fmi-executor
+    steps:
+     - test-default
+  test-smartmet-plugin-q3:
     executor: fmi-executor
     steps:
      - test-default
@@ -686,9 +686,6 @@ workflows:
 # Template still needed for indentation lookup and placement
 #template deptree
     - preprep
-    - build-gdal-querydata-driver:
-       requires:
-        - preprep
     - build-smartmet-cropper:
        requires:
         - preprep
@@ -992,6 +989,12 @@ workflows:
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
         - test-smartmet-library-timeseries
+    - build-smartmet-plugin-q3:
+       requires:
+        - preprep
+        - test-smartmet-library-macgyver
+        - test-smartmet-library-spine
+        - test-smartmet-library-tron
     - build-smartmet-plugin-textgen:
        requires:
         - preprep
@@ -1140,9 +1143,6 @@ workflows:
     - build-smartmet-utils:
        requires:
         - preprep
-    - test-gdal-querydata-driver:
-       requires:
-        - build-gdal-querydata-driver
     - test-smartmet-cropper:
        requires:
         - build-smartmet-cropper
@@ -1409,6 +1409,13 @@ workflows:
         - test-smartmet-server
         - test-smartmet-test-db
         - test-smartmet-utils
+    - test-smartmet-plugin-q3:
+       requires:
+        - build-smartmet-plugin-q3
+        - test-smartmet-library-newbase
+        - test-smartmet-library-spine
+        - test-smartmet-library-tron
+        - test-smartmet-server
     - test-smartmet-plugin-textgen:
        requires:
         - build-smartmet-plugin-textgen
@@ -1481,6 +1488,7 @@ workflows:
         - build-smartmet-library-grid-files
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
+        - test-smartmet-library-regression
         - test-smartmet-library-spine
         - test-smartmet-library-timeseries
         - test-smartmet-library-trax
@@ -1494,6 +1502,7 @@ workflows:
         - test-smartmet-library-imagine
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
+        - test-smartmet-library-regression
         - test-smartmet-library-tron
         - test-smartmet-utils
     - test-smartmet-qdcontour2:
@@ -1548,7 +1557,6 @@ workflows:
         - build-smartmet-utils
     - archive:
        requires:
-        - build-gdal-querydata-driver
         - build-smartmet-cropper
         - build-smartmet-engine-authentication
         - build-smartmet-engine-avi
@@ -1592,6 +1600,7 @@ workflows:
         - build-smartmet-plugin-grid-admin
         - build-smartmet-plugin-grid-gui
         - build-smartmet-plugin-meta
+        - build-smartmet-plugin-q3
         - build-smartmet-plugin-textgen
         - build-smartmet-plugin-timeseries
         - build-smartmet-plugin-trajectory
@@ -1610,7 +1619,6 @@ workflows:
         - build-smartmet-tools-grid
         - build-smartmet-topography-data
         - build-smartmet-utils
-        - test-gdal-querydata-driver
         - test-smartmet-cropper
         - test-smartmet-engine-authentication
         - test-smartmet-engine-avi
@@ -1643,6 +1651,7 @@ workflows:
         - test-smartmet-plugin-edr
         - test-smartmet-plugin-frontend
         - test-smartmet-plugin-meta
+        - test-smartmet-plugin-q3
         - test-smartmet-plugin-textgen
         - test-smartmet-plugin-timeseries
         - test-smartmet-plugin-wfs
