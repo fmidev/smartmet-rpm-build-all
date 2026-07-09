@@ -60,8 +60,8 @@ sub getspec($$$)
     
     my $url = "https://raw.githubusercontent.com/fmidev/$module/$branch/$spec.spec";
     print STDERR "\tFetching $url\n";
-    system( "curl", "-s", "-o", "$::specdir/$module$spec-$branch", "$url" ) == 0
-	or die("Unable to fetch spec file for $module");
+    system( "curl", "-sf", "--retry", "5", "--retry-delay", "2", "-o", "$::specdir/$module$spec-$branch", "$url" ) == 0
+	or die("Unable to fetch spec file for $module from $url");
 }
 
 # Collect dependencies to these variables
