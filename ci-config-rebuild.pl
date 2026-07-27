@@ -42,6 +42,7 @@ $::default_branch = "master";
     "smartmet-plugin-trajectory"            => {},
     "smartmet-plugin-wfs"                   => {},
     "smartmet-plugin-wms"                   => {},
+    "smartmet-plugin-q3"                    => {},
     "smartmet-qdcontour"                    => {},
     "smartmet-qdcontour2"                   => {},
     "smartmet-qdtools"                      => {},
