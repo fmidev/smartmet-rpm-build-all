@@ -27,6 +27,11 @@ my %ignore = (
 
 $::default_branch = "master";
 
+# If true, build-X waits only for build-Y of its build dependencies instead of test-Y.
+# Tests then run in parallel with downstream builds and drop off the critical path.
+# Failing tests still fail the workflow, since the archive job requires all test jobs.
+$::build_after_build = 1;
+
 %::modules = (
     "smartmet-plugin-autocomplete"          => {},
     "smartmet-plugin-avi"                   => {},
@@ -281,7 +286,7 @@ while (<STDIN>)
 			}
 			foreach my $dep (sort @$value)
 			{
-			    if (require_tests($dep))
+			    if (!$::build_after_build && require_tests($dep))
 			    {
 				$c .= ( ' ' x ( $currenttemplateindent + 4 ) ) . "- test-$dep\n";
 			    }
