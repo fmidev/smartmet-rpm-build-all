@@ -4,7 +4,8 @@ version: 2.1
 executors:
  fmi-executor:
   docker:
-   - image: quay.io/fmi/smartmet-cibase-10:latest
+   # cibase-10 with external build/test dependencies preinstalled (docker-smartmet-cibase Dockerfile.10-deps)
+   - image: quay.io/fmi/smartmet-cibase-10-deps:latest
   resource_class: xlarge
   environment:
      RPM_BUILD_NCPUS: 8
@@ -97,7 +98,8 @@ commands:
       command: |
         cd /tmp/build
         lst=`basename *.spec .spec`.lst  # RPM list file
-        ( cd /dist ; for i in `cat $lst | fgrep -v .src.rpm` ; do sudo yum install -y $i ; done )
+        # Try the local repository and preinstalled packages first, fall back to all repositories
+        ( cd /dist ; for i in `cat $lst | fgrep -v .src.rpm` ; do sudo yum install -y --disablerepo="*" --enablerepo=localrepo $i || sudo yum install -y $i ; done )
       max_auto_reruns: 3
       auto_rerun_delay: 10s
    - run:
