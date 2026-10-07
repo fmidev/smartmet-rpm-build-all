@@ -23,7 +23,7 @@ commands:
    - run:
       name: Disable smartmet packages coming from FMI repo and configure package excludes
       command: |
-        sudo yum-config-manager --quiet --disable smartmet-open --disable smartmet-open-beta
+        sudo yum-config-manager --quiet --disable smartmet-open --disable smartmet-open-beta --disable '*debuginfo*'
         if [ -f /etc/yum.repos.d/epel.repo ] ; then sudo sed -i -e '/^\[epel\]/a exclude=eccodes*' /etc/yum.repos.d/epel.repo; else true; fi
         if [ -f /etc/yum.repos.d/epel-modular.repo ] ; then sudo sed -i -e '/^\[epel-modular\]/a exclude=eccodes*' /etc/yum.repos.d/epel-modular.repo; else true; fi;
    - checkout
@@ -70,7 +70,7 @@ commands:
    - run:
       name: Disable smartmet packages coming from FMI repo and configure package excludes
       command: |
-        sudo yum-config-manager --quiet --disable smartmet-open --disable smartmet-open-beta
+        sudo yum-config-manager --quiet --disable smartmet-open --disable smartmet-open-beta --disable '*debuginfo*'
         if [ -f /etc/yum.repos.d/epel.repo ] ; then sudo sed -i -e '/^\[epel\]/a exclude=eccodes*' /etc/yum.repos.d/epel.repo; else true; fi
         if [ -f /etc/yum.repos.d/epel-modular.repo ] ; then sudo sed -i -e '/^\[epel-modular\]/a exclude=eccodes*' /etc/yum.repos.d/epel-modular.repo; else true; fi
    - checkout
