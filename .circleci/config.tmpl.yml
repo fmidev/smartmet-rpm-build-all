@@ -110,6 +110,15 @@ commands:
    - run:
       name: Test
       command: cd /tmp/build && ci-build test
+   - run:
+      name: Collect test failures
+      when: always
+      command: |
+        mkdir -p /tmp/test-failures
+        cd /tmp/build && find . -type d \( -name failures -o -name diffs \) -prune -exec cp -r --parents {} /tmp/test-failures/ \; || true
+   - store_artifacts:
+      path: /tmp/test-failures
+      destination: test-failures
  
 jobs:
 # Ordinarily lines starting with # are comments but config preprocessing recognizes certain directives

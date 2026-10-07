@@ -32,6 +32,10 @@ $::default_branch = "master";
 # Failing tests still fail the workflow, since the archive job requires all test jobs.
 $::build_after_build = 1;
 
+# Likewise test-X waits only for build-Y of the modules its tests need, so that
+# tests no longer form a chain of their own. Set to 0 to restore the old ordering.
+$::test_after_build = 1;
+
 %::modules = (
     "smartmet-plugin-autocomplete"          => {},
     "smartmet-plugin-avi"                   => {},
@@ -327,7 +331,7 @@ while (<STDIN>)
 			{
 			    foreach my $dep (@$value)
 			    {
-				if (require_tests($dep))
+				if (!$::test_after_build && require_tests($dep))
 				{
 				    $c .= ( ' ' x ( $currenttemplateindent + 4 ) ) . "- test-$dep\n";
 				}
