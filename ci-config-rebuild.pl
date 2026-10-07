@@ -34,6 +34,9 @@ $::build_after_build = 1;
 
 # Likewise test-X waits only for build-Y of the modules its tests need, so that
 # tests no longer form a chain of their own. Set to 0 to restore the old ordering.
+# With either flag set, a job also waits for the builds of everything its
+# dependencies require at run time, since installing them needs those RPMs and
+# no chain of test jobs pulls them in any more.
 $::test_after_build = 1;
 
 %::modules = (
@@ -78,6 +81,7 @@ sub getspec($$$)
 # Hash keys are module names, values are arrays with dependants
 %::testdeps  = ();
 %::builddeps = ();
+%::runtimedeps = ();   # From Requires lines only
 
 %::modulenames = ();
 %::branchnames = ();
@@ -97,6 +101,7 @@ sub scan($)
 
     my %buildreq = ();      # Contents from Buildrequires lines, use hashes to void duplicates
     my %testreq  = ();      # Contents from Requires and #TestRequires lines
+    my %runreq   = ();      # Contents from Requires lines
 
     # Only scan modules not already scanned
     if ( !$::builddeps{"$moduleid"} )
@@ -134,6 +139,7 @@ sub scan($)
 			else
 			{
 			    $testreq{"$b"} = 1;
+			    $runreq{"$b"} = 1 if $tag eq "Requires:";
 			}
 		    }
 		}
@@ -144,6 +150,7 @@ sub scan($)
 
 	$::builddeps{"$moduleid"} = [ sort keys %buildreq ];
 	$::testdeps{"$moduleid"}  = [ sort keys %testreq ];
+	$::runtimedeps{"$moduleid"} = [ sort keys %runreq ];
 	$::modulenames{"$moduleid"} = $module;
 	$::branchnames{"$moduleid"} = $branch;
 
@@ -288,7 +295,9 @@ while (<STDIN>)
 			{
 			    $c .= ( ' ' x ( $currenttemplateindent + 4 ) ) . "- $dep\n";
 			}
-			foreach my $dep (sort @$value)
+			my @deps = ($::build_after_build ? grep { $_ ne $module } with_runtime_deps(@$value)
+			                                : sort @$value);
+			foreach my $dep (@deps)
 			{
 			    if (!$::build_after_build && require_tests($dep))
 			    {
@@ -328,7 +337,9 @@ while (<STDIN>)
 			    . "- build-$module\n";
 			if ( $value && scalar @$value > 0 )
 			{
-			    foreach my $dep (@$value)
+			    my @deps = ($::test_after_build ? grep { $_ ne $module } with_runtime_deps(@$value)
+			                                   : @$value);
+			    foreach my $dep (@deps)
 			    {
 				if (!$::test_after_build && require_tests($dep))
 				{
@@ -448,6 +459,22 @@ sub get_spec_name($)
     {
 	return $module;
     }
+}
+
+# The given modules together with everything they require at run time, directly
+# or indirectly. Installing the RPMs of a module needs all of these, and a job sees
+# only the RPMs of the jobs it requires directly or indirectly.
+sub with_runtime_deps
+{
+    my %seen;
+    my @todo = @_;
+    while (@todo)
+    {
+	my $m = shift @todo;
+	next if $seen{$m}++;
+	push(@todo, @{ $::runtimedeps{$m} || [] });
+    }
+    return sort keys %seen;
 }
 
 %::tests_required_cache = ();
