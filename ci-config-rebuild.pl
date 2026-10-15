@@ -63,6 +63,7 @@ $::test_after_build = 1;
     "smartmet-frontier"                     => {},
     "smartmet-press"                        => {},
     "smartmet-tools-grid"                   => {},
+    "smartmet-swagger-ui"                   => {},
     );
 
 # https://raw.githubusercontent.com/fmidev/smartmet-library-grid-files/master/smartmet-library-grid-files.spec
