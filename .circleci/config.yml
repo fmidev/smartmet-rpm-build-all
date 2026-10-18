@@ -1,4 +1,4 @@
-#timestamp Tue Oct  6 14:56:30 EEST 2026
+#timestamp Sun Oct 18 17:22:46 EEST 2026
 version: 2.1
 
 parameters:
@@ -393,6 +393,11 @@ jobs:
     steps:
      - build-default:
         module: smartmet-shapetools
+  build-smartmet-swagger-ui:
+    executor: fmi-executor
+    steps:
+     - build-default:
+        module: smartmet-swagger-ui
   build-smartmet-test-db:
     executor: fmi-executor
     steps:
@@ -408,6 +413,11 @@ jobs:
     steps:
      - build-default:
         module: smartmet-tools-grid
+  build-smartmet-uplot:
+    executor: fmi-executor
+    steps:
+     - build-default:
+        module: smartmet-uplot
   build-smartmet-utils:
     executor: fmi-executor
     steps:
@@ -1128,6 +1138,9 @@ workflows:
         - test-smartmet-library-imagine
         - test-smartmet-library-macgyver
         - test-smartmet-library-newbase
+    - build-smartmet-swagger-ui:
+       requires:
+        - preprep
     - build-smartmet-test-db:
        requires:
         - preprep
@@ -1141,6 +1154,9 @@ workflows:
         - test-smartmet-library-grid-files
         - test-smartmet-library-macgyver
         - test-smartmet-library-spine
+    - build-smartmet-uplot:
+       requires:
+        - preprep
     - build-smartmet-utils:
        requires:
         - preprep
@@ -1315,6 +1331,7 @@ workflows:
         - test-smartmet-library-newbase
         - test-smartmet-library-regression
         - test-smartmet-timezones
+        - build-smartmet-uplot
     - test-smartmet-library-textgen:
        requires:
         - build-smartmet-library-textgen
@@ -1385,6 +1402,7 @@ workflows:
         - test-smartmet-library-timeseries
         - test-smartmet-qdtools
         - test-smartmet-server
+        - build-smartmet-swagger-ui
         - test-smartmet-test-db
         - test-smartmet-utils
     - test-smartmet-plugin-edr:
@@ -1404,6 +1422,7 @@ workflows:
         - test-smartmet-library-spine
         - test-smartmet-library-timeseries
         - test-smartmet-server
+        - build-smartmet-swagger-ui
         - test-smartmet-test-db
         - test-smartmet-utils
     - test-smartmet-plugin-frontend:
@@ -1422,6 +1441,7 @@ workflows:
         - build-smartmet-plugin-backend
         - test-smartmet-plugin-edr
         - test-smartmet-server
+        - build-smartmet-swagger-ui
         - test-smartmet-test-db
     - test-smartmet-plugin-meta:
        requires:
@@ -1522,6 +1542,7 @@ workflows:
         - test-smartmet-library-timeseries
         - test-smartmet-library-trax
         - test-smartmet-server
+        - build-smartmet-swagger-ui
         - test-smartmet-test-db
         - test-smartmet-utils
     - test-smartmet-qdcontour:
@@ -1641,9 +1662,11 @@ workflows:
         - build-smartmet-qdtools-test-data
         - build-smartmet-server
         - build-smartmet-shapetools
+        - build-smartmet-swagger-ui
         - build-smartmet-test-db
         - build-smartmet-timezones
         - build-smartmet-tools-grid
+        - build-smartmet-uplot
         - build-smartmet-utils
         - test-smartmet-cropper
         - test-smartmet-engine-authentication
