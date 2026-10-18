@@ -47,7 +47,8 @@ case $CIRCLE_BRANCH in
         ;;
 esac
 
-git clone -b "$smartmet_branch" "$repo" build
+# Repositories without the branch (e.g. only "main") fall back to their default branch
+git clone -b "$smartmet_branch" "$repo" build || git clone "$repo" build
 
 cd build
 echo Checked out branch "`git branch --no-color | cut -f 2 -d ' '`"
