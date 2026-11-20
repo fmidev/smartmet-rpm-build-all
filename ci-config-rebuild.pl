@@ -61,6 +61,7 @@ $::test_after_build = 1;
     "smartmet-qdtools"                      => {},
     "smartmet-shapetools"                   => {},
     "smartmet-frontier"                     => {},
+    "smartmet-cropper"                      => {},
     "smartmet-press"                        => {},
     "smartmet-tools-grid"                   => {},
     "smartmet-swagger-ui"                   => {},
